@@ -1,0 +1,67 @@
+<title>GST Annual Return Desk</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:wght@600&display=swap">
+<style>
+:root{--bg:#f6f3ec;--panel:#fffdf8;--ink:#1d2a2a;--mute:#66706c;--line:#ddd6c6;--accent:#16504b;--accent-ink:#fff;--stamp:#b3361f;--ok:#2f6b3a;--warn:#9a6a00;--hi:#f1ead8;--chip:#ece6d6;--sans:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;--mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;--serif:'Source Serif 4',Georgia,serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111716;--panel:#182120;--ink:#e6ebe7;--mute:#97a39d;--line:#2c3836;--accent:#5fb7ac;--accent-ink:#0b1413;--stamp:#ff8a70;--ok:#7cc98a;--warn:#e3b341;--hi:#1f2b29;--chip:#223130;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111716;--panel:#182120;--ink:#e6ebe7;--mute:#97a39d;--line:#2c3836;--accent:#5fb7ac;--accent-ink:#0b1413;--stamp:#ff8a70;--ok:#7cc98a;--warn:#e3b341;--hi:#1f2b29;--chip:#223130;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--sans);padding-block:16px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+header{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:10px}
+h1{font:600 22px/1.2 var(--serif);margin:0;letter-spacing:.2px}
+.sub{color:var(--mute);font-size:12px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+select,input,textarea,button{font:inherit;color:inherit}
+select,input[type=text],input[type=number],textarea{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:6px 8px;min-width:0}
+input[type=number]{font-family:var(--mono);text-align:right;width:130px}
+button{background:var(--panel);border:1px solid var(--ink);border-radius:4px;padding:6px 12px;cursor:pointer}
+button.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button:disabled{opacity:.5;cursor:default}
+button.lnk{border:0;background:none;color:var(--accent);text-decoration:underline;padding:2px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px;min-width:0}
+.card h2{font:600 15px var(--sans);margin:0 0 8px;letter-spacing:.3px;text-transform:uppercase;color:var(--mute)}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.kpi{border-left:3px solid var(--accent);padding:2px 10px}.kpi b{display:block;font:500 20px var(--mono)}.kpi span{color:var(--mute);font-size:12px}
+.row{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line)}.row input{margin-top:4px}
+.stamp{border-left:4px solid var(--stamp)}.gate{max-width:640px}.card ul{margin:4px 0 10px 18px;padding:0}.card h3{font-size:14px;margin:12px 0 2px}
+.kpi.bad{border-color:var(--stamp)}.kpi.bad b{color:var(--stamp)}
+.tabs{display:flex;flex-wrap:wrap;gap:2px;border-bottom:1px solid var(--line)}
+.tabs button{border:0;border-bottom:3px solid transparent;border-radius:0;background:none;padding:8px 12px;color:var(--mute)}
+.tabs button.on{color:var(--ink);border-color:var(--accent);font-weight:600}
+.scroll{overflow-x:auto;max-width:100%}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:5px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--mute);white-space:nowrap;position:sticky;top:0;background:var(--panel)}
+td.n,th.n{text-align:right;font-family:var(--mono);white-space:nowrap}
+tr.sub td{background:var(--hi);font-weight:600}
+tr.bad td.n{color:var(--stamp)}
+.chip{display:inline-block;font-size:11px;padding:1px 7px;border-radius:10px;background:var(--chip);white-space:nowrap}
+.chip.auto{color:var(--ok)}.chip.derived,.chip.input{color:var(--warn)}.chip.missing{background:var(--stamp);color:#fff}
+.sev{font:500 11px var(--mono);text-transform:uppercase;padding:1px 6px;border:1px solid currentColor;border-radius:3px}
+.sev.high{color:var(--stamp)}.sev.medium{color:var(--warn)}.sev.low{color:var(--mute)}.sev.info{color:var(--accent)}
+.ex{display:grid;grid-template-columns:70px 1fr;gap:4px 12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.ex .t{font-weight:600}.ex .d{color:var(--mute)}.ex .a{color:var(--accent)}
+.ex .ctl{grid-column:2;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.ex.done{opacity:.55}
+.drop{border:2px dashed var(--line);border-radius:6px;padding:18px;text-align:center;color:var(--mute)}
+.drop.over{border-color:var(--accent);background:var(--hi)}
+.mono{font-family:var(--mono)}
+.note{color:var(--mute);font-size:12px}
+.msg{padding:8px 12px;border-left:3px solid var(--warn);background:var(--hi)}
+.msg.err{border-color:var(--stamp)}
+.two{display:grid;gap:14px;grid-template-columns:minmax(0,260px) minmax(0,1fr)}
+@media (max-width:760px){.two{grid-template-columns:minmax(0,1fr)}input[type=number]{width:100%}}
+.cl{display:flex;flex-direction:column;gap:2px}
+.cl button{text-align:left;border:0;border-left:3px solid transparent;border-radius:0;background:none;padding:6px 8px}
+.cl button.on{border-color:var(--accent);background:var(--hi);font-weight:600}
+form.inp{display:grid;gap:8px 14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+form.inp label{display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--mute)}
+</style>
+<div class="wrap" id="app"><header><div><h1>GST Annual Return Desk</h1><div class="sub">S S Dimri &amp; Associates · GSTR-9 / 9C working</div></div><div class="sub" id="who">loading…</div></header><div id="root"></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>/*__PARSERS__*/</script>
+<script>/*__ANALYZE__*/</script>
+<script>
+/*__UI__*/
+</script>

@@ -1,0 +1,17 @@
+const {load}=require('./load.js');const A=require('../engine/analyze.js');
+const D=load();
+D.fy='2025-26';D.client={gstin:'07XXXXX0000X1ZX'};
+D.inputs={fsTurnover:1000000};
+const t0=Date.now();const R=A.run(D);console.log('run ms',Date.now()-t0);
+const f=x=>Math.round(x*100)/100;
+console.log('monthly flags',R.monthly.map(m=>m.label+':'+m.flags.join(',')).join('\n'));
+console.log('ITC totals',JSON.stringify(R.itc.totals),JSON.stringify(R.itc.listSizes));
+console.log('sales',R.sales.gstinBad.length,R.sales.taxType.length,R.sales.rate.length,R.sales.dup.length,JSON.stringify(R.sales.series.map(s=>[s.prefix,s.min,s.max,s.missingCount])),JSON.stringify(R.sales.r1Docs));
+console.log('ledgers',JSON.stringify(R.ledgers).slice(0,1500));
+const T=R.gstr9;
+['4','5','6','7','8'].forEach(k=>{console.log('Table',k);T[k].rows.forEach(r=>console.log(' ',r.id,JSON.stringify(r.v),r.status))});
+console.log('T9',JSON.stringify(T['9'].rows9));
+console.log('9C turnover');T.c.turnover.forEach(r=>console.log(' ',r.id,r.v,r.status));T.c.itc.forEach(r=>console.log(' ',r.id,r.v));
+console.log('rate',JSON.stringify(T.c.rate));
+console.log('EXC',R.exceptions.length);R.exceptions.slice(0,40).forEach(e=>console.log(e.sev,e.area,'|',e.title,'|',e.amount));
+console.log('json size',JSON.stringify(R).length);
