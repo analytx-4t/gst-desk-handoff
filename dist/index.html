@@ -1,0 +1,1668 @@
+<title>GST Annual Return Desk</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:wght@600&display=swap">
+<style>
+:root{--bg:#f6f3ec;--panel:#fffdf8;--ink:#1d2a2a;--mute:#66706c;--line:#ddd6c6;--accent:#16504b;--accent-ink:#fff;--stamp:#b3361f;--ok:#2f6b3a;--warn:#9a6a00;--hi:#f1ead8;--chip:#ece6d6;--sans:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;--mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;--serif:'Source Serif 4',Georgia,serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#111716;--panel:#182120;--ink:#e6ebe7;--mute:#97a39d;--line:#2c3836;--accent:#5fb7ac;--accent-ink:#0b1413;--stamp:#ff8a70;--ok:#7cc98a;--warn:#e3b341;--hi:#1f2b29;--chip:#223130;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111716;--panel:#182120;--ink:#e6ebe7;--mute:#97a39d;--line:#2c3836;--accent:#5fb7ac;--accent-ink:#0b1413;--stamp:#ff8a70;--ok:#7cc98a;--warn:#e3b341;--hi:#1f2b29;--chip:#223130;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:14px/1.5 var(--sans);padding-block:16px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+header{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:baseline;justify-content:space-between;border-bottom:2px solid var(--ink);padding-bottom:10px}
+h1{font:600 22px/1.2 var(--serif);margin:0;letter-spacing:.2px}
+.sub{color:var(--mute);font-size:12px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+select,input,textarea,button{font:inherit;color:inherit}
+select,input[type=text],input[type=number],textarea{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:6px 8px;min-width:0}
+input[type=number]{font-family:var(--mono);text-align:right;width:130px}
+button{background:var(--panel);border:1px solid var(--ink);border-radius:4px;padding:6px 12px;cursor:pointer}
+button.pri{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+button:disabled{opacity:.5;cursor:default}
+button.lnk{border:0;background:none;color:var(--accent);text-decoration:underline;padding:2px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:14px;min-width:0}
+.card h2{font:600 15px var(--sans);margin:0 0 8px;letter-spacing:.3px;text-transform:uppercase;color:var(--mute)}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.kpi{border-left:3px solid var(--accent);padding:2px 10px}.kpi b{display:block;font:500 20px var(--mono)}.kpi span{color:var(--mute);font-size:12px}
+.row{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line)}.row input{margin-top:4px}
+.stamp{border-left:4px solid var(--stamp)}.gate{max-width:640px}.card ul{margin:4px 0 10px 18px;padding:0}.card h3{font-size:14px;margin:12px 0 2px}
+.kpi.bad{border-color:var(--stamp)}.kpi.bad b{color:var(--stamp)}
+.tabs{display:flex;flex-wrap:wrap;gap:2px;border-bottom:1px solid var(--line)}
+.tabs button{border:0;border-bottom:3px solid transparent;border-radius:0;background:none;padding:8px 12px;color:var(--mute)}
+.tabs button.on{color:var(--ink);border-color:var(--accent);font-weight:600}
+.scroll{overflow-x:auto;max-width:100%}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{padding:5px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--mute);white-space:nowrap;position:sticky;top:0;background:var(--panel)}
+td.n,th.n{text-align:right;font-family:var(--mono);white-space:nowrap}
+tr.sub td{background:var(--hi);font-weight:600}
+tr.bad td.n{color:var(--stamp)}
+.chip{display:inline-block;font-size:11px;padding:1px 7px;border-radius:10px;background:var(--chip);white-space:nowrap}
+.chip.auto{color:var(--ok)}.chip.derived,.chip.input{color:var(--warn)}.chip.missing{background:var(--stamp);color:#fff}
+.sev{font:500 11px var(--mono);text-transform:uppercase;padding:1px 6px;border:1px solid currentColor;border-radius:3px}
+.sev.high{color:var(--stamp)}.sev.medium{color:var(--warn)}.sev.low{color:var(--mute)}.sev.info{color:var(--accent)}
+.ex{display:grid;grid-template-columns:70px 1fr;gap:4px 12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.ex .t{font-weight:600}.ex .d{color:var(--mute)}.ex .a{color:var(--accent)}
+.ex .ctl{grid-column:2;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.ex.done{opacity:.55}
+.drop{border:2px dashed var(--line);border-radius:6px;padding:18px;text-align:center;color:var(--mute)}
+.drop.over{border-color:var(--accent);background:var(--hi)}
+.mono{font-family:var(--mono)}
+.note{color:var(--mute);font-size:12px}
+.msg{padding:8px 12px;border-left:3px solid var(--warn);background:var(--hi)}
+.msg.err{border-color:var(--stamp)}
+.two{display:grid;gap:14px;grid-template-columns:minmax(0,260px) minmax(0,1fr)}
+@media (max-width:760px){.two{grid-template-columns:minmax(0,1fr)}input[type=number]{width:100%}}
+.cl{display:flex;flex-direction:column;gap:2px}
+.cl button{text-align:left;border:0;border-left:3px solid transparent;border-radius:0;background:none;padding:6px 8px}
+.cl button.on{border-color:var(--accent);background:var(--hi);font-weight:600}
+form.inp{display:grid;gap:8px 14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+form.inp label{display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--mute)}
+</style>
+<div class="wrap" id="app"><header><div><h1>GST Annual Return Desk</h1><div class="sub">S S Dimri &amp; Associates · GSTR-9 / 9C working</div></div><div class="sub" id="who">loading…</div></header><div id="root"></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>/* GST Annual Return Tool - file parsers. Pure functions: they take arrays of rows
+   (from SheetJS sheet_to_json header:1) or parsed JSON/text, and return plain objects.
+   Works in the browser (global GSTP) and in Node (module.exports). */
+(function (root) {
+  'use strict';
+  var P = {};
+
+  /* ---------- helpers ---------- */
+  function num(x) {
+    if (x === null || x === undefined || x === '') return 0;
+    if (typeof x === 'number') return isFinite(x) ? x : 0;
+    var s = String(x).replace(/[,\s₹]/g, '');
+    if (s === '' || s === '-' || s === '--') return 0;
+    var n = parseFloat(s);
+    return isFinite(n) ? n : 0;
+  }
+  function r2(x) { return Math.round((x + (x < 0 ? -1e-9 : 1e-9)) * 100) / 100; }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  /* returns 'YYYY-MM-DD' or '' */
+  function isoDate(v) {
+    if (v === null || v === undefined || v === '') return '';
+    if (v instanceof Date) {
+      if (isNaN(v.getTime())) return '';
+      // SheetJS builds dates in local time at midnight (+ small offset); use UTC parts after correcting
+      var d = new Date(v.getTime() + 12 * 3600 * 1000);
+      return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate());
+    }
+    var s = String(v).trim();
+    var m = s.match(/^(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4})/);
+    if (m) return m[3] + '-' + pad(+m[2]) + '-' + pad(+m[1]);
+    m = s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (m) return m[1] + '-' + m[2] + '-' + m[3];
+    return '';
+  }
+  function ym(iso) { return iso ? iso.slice(0, 7) : ''; }
+  /* normalise invoice number for matching: upper-case alphanumerics, leading zeros dropped from digit runs */
+  function normInv(s) {
+    if (s === null || s === undefined) return '';
+    return String(s).toUpperCase().replace(/[^A-Z0-9]/g, '').replace(/(^|[A-Z])0+(?=\d)/g, '$1');
+  }
+  function cell(row, i) { return row && i >= 0 && i < row.length ? row[i] : null; }
+  function isBlank(x) { return x === null || x === undefined || String(x).trim() === ''; }
+  function lc(x) { return String(x === null || x === undefined ? '' : x).trim().toLowerCase(); }
+  /* "042025" -> "2025-04" */
+  function fpToYm(fp) { return fp && fp.length === 6 ? fp.slice(2) + '-' + fp.slice(0, 2) : ''; }
+
+  P.util = { num: num, r2: r2, isoDate: isoDate, ym: ym, normInv: normInv, fpToYm: fpToYm, lc: lc };
+
+  /* ---------- GSTR-1 JSON ---------- */
+  function z() { return { n: 0, txval: 0, iamt: 0, camt: 0, samt: 0, csamt: 0 }; }
+  function addItm(t, x, sg) { sg = sg || 1; t.txval += sg * num(x.txval); t.iamt += sg * num(x.iamt); t.camt += sg * num(x.camt); t.samt += sg * num(x.samt); t.csamt += sg * num(x.csamt); }
+  function fin(t) { ['txval', 'iamt', 'camt', 'samt', 'csamt'].forEach(function (k) { t[k] = r2(t[k]); }); return t; }
+
+  P.parseR1 = function (d) {
+    var out = { gstin: d.gstin || '', fp: d.fp || '', ym: fpToYm(d.fp || ''), filDt: d.fil_dt || '', draft: false,
+      b2b: z(), b2cl: z(), b2cs: z(), exp: z(), cdnr: z(), cdnur: z(), nil: { exempt: 0, nil: 0, nongst: 0 }, at: z(), atadj: z(), hsn: z(),
+      hsnRows: [], docs: [], b2bInvoices: [], b2bRcm: z(), sezWP: z(), sezWOP: z(), deemed: z(), expWP: z(), expWOP: z(), cdnrCr: z(), cdnrDr: z(), cdnrNotes: [], hasB2B: false, hasCDN: false, sectionsPresent: [] };
+    ['b2b', 'b2cl', 'b2cs', 'exp', 'cdnr', 'cdnur', 'nil', 'at', 'atadj', 'txpd', 'hsn', 'doc_issue'].forEach(function (k) { if (d[k] && (Array.isArray(d[k]) ? d[k].length : Object.keys(d[k]).length)) out.sectionsPresent.push(k); });
+    (d.b2b || []).forEach(function (p) {
+      (p.inv || []).forEach(function (inv) {
+        var t = { txval: 0, iamt: 0, camt: 0, samt: 0, csamt: 0 }; var rt = 0;
+        (inv.itms || []).forEach(function (it) { var x = it.itm_det || it; addItm(t, x); rt = num(x.rt); });
+        addItm(out.b2b, t); out.b2b.n++; out.hasB2B = true;
+        var bk = inv.rchrg === 'Y' ? out.b2bRcm : inv.inv_typ === 'SEWP' ? out.sezWP : inv.inv_typ === 'SEWOP' ? out.sezWOP : inv.inv_typ === 'DE' ? out.deemed : null; if (bk) { addItm(bk, t); bk.n++; }
+        out.b2bInvoices.push({ ctin: p.ctin, inum: inv.inum, idt: isoDate(inv.idt), val: num(inv.val), txval: r2(t.txval), iamt: r2(t.iamt), camt: r2(t.camt), samt: r2(t.samt), rt: rt, rchrg: inv.rchrg, typ: inv.inv_typ, pos: inv.pos });
+      });
+    });
+    (d.b2cl || []).forEach(function (p) { (p.inv || []).forEach(function (inv) { (inv.itms || []).forEach(function (it) { addItm(out.b2cl, it.itm_det || it); }); out.b2cl.n++; }); });
+    (d.b2cs || []).forEach(function (s) { addItm(out.b2cs, s); out.b2cs.n++; });
+    (d.exp || []).forEach(function (p) { (p.inv || []).forEach(function (inv) { var ek = (p.exp_typ === 'WOPAY') ? out.expWOP : out.expWP; (inv.itms || []).forEach(function (it) { addItm(out.exp, it); addItm(ek, it); }); out.exp.n++; ek.n++; }); });
+    (d.cdnr || []).forEach(function (p) {
+      (p.nt || []).forEach(function (nt) {
+        var sg = nt.ntty === 'C' ? -1 : 1; var t = { txval: 0, iamt: 0, camt: 0, samt: 0, csamt: 0 };
+        (nt.itms || []).forEach(function (it) { addItm(t, it.itm_det || it); });
+        addItm(out.cdnr, t, sg); out.cdnr.n++; out.hasCDN = true; addItm(nt.ntty === 'C' ? out.cdnrCr : out.cdnrDr, t, 1);
+        out.cdnrNotes.push({ ctin: p.ctin, num: nt.nt_num, dt: isoDate(nt.nt_dt), ty: nt.ntty, val: num(nt.val), txval: r2(t.txval), iamt: r2(t.iamt), camt: r2(t.camt), samt: r2(t.samt) });
+      });
+    });
+    (d.cdnur || []).forEach(function (nt) { var sg = nt.ntty === 'C' ? -1 : 1; (nt.itms || []).forEach(function (it) { addItm(out.cdnur, it.itm_det || it, sg); }); out.cdnur.n++; });
+    if (d.nil && d.nil.inv) d.nil.inv.forEach(function (x) { out.nil.exempt += num(x.expt_amt); out.nil.nil += num(x.nil_amt); out.nil.nongst += num(x.ngsup_amt); });
+    (d.at || []).forEach(function (p) { (p.itms || []).forEach(function (it) { addItm(out.at, { txval: it.ad_amt, iamt: it.iamt, camt: it.camt, samt: it.samt, csamt: it.csamt }); }); });
+    (d.atadj || []).forEach(function (p) { (p.itms || []).forEach(function (it) { addItm(out.atadj, { txval: it.ad_amt, iamt: it.iamt, camt: it.camt, samt: it.samt, csamt: it.csamt }); }); });
+    var h = d.hsn || {};
+    var rows = h.data || [].concat(h.hsn_b2b || [], h.hsn_b2c || []);
+    rows.forEach(function (x) {
+      addItm(out.hsn, x); out.hsn.n++;
+      out.hsnRows.push({ hsn: String(x.hsn_sc), desc: x.desc || '', uqc: x.uqc || '', qty: num(x.qty), rt: num(x.rt), txval: r2(num(x.txval)), iamt: r2(num(x.iamt)), camt: r2(num(x.camt)), samt: r2(num(x.samt)), csamt: r2(num(x.csamt)) });
+    });
+    if (h.flag === 'D' && !rows.length) out.draft = true;
+    if (d.doc_issue && d.doc_issue.doc_det) d.doc_issue.doc_det.forEach(function (dd) {
+      (dd.docs || []).forEach(function (x) { out.docs.push({ type: dd.doc_num, from: String(x.from), to: String(x.to), total: num(x.totnum), cancel: num(x.cancel), net: num(x.net_issue) }); });
+    });
+    ['b2b', 'b2cl', 'b2cs', 'exp', 'cdnr', 'cdnur', 'at', 'atadj', 'hsn', 'b2bRcm', 'sezWP', 'sezWOP', 'deemed', 'expWP', 'expWOP', 'cdnrCr', 'cdnrDr'].forEach(function (k) { fin(out[k]); });
+    out.nil.exempt = r2(out.nil.exempt); out.nil.nil = r2(out.nil.nil); out.nil.nongst = r2(out.nil.nongst);
+    return out;
+  };
+
+  /* ---------- GSTR-3B (Excel converted from the portal PDF) ---------- */
+  function vals(row, startIdx) {
+    // values after the label cell, keeping '-' placeholders as 0, ignoring empty cells
+    var out = [];
+    for (var i = startIdx; i < row.length; i++) { var c = row[i]; if (c === null || c === undefined || c === '') continue; out.push(num(c)); }
+    return out;
+  }
+  P.parse3B = function (rows) {
+    var r = { period: '', year: '', arn: '', arnDate: '', filed: '', out: {}, itc: {}, exempt: {}, interest: {}, pay: { A: {}, B: {} }, ok: false };
+    var section = ''; var paySec = '';
+    var mon = { april: '04', may: '05', june: '06', july: '07', august: '08', september: '09', october: '10', november: '11', december: '12', january: '01', february: '02', march: '03' };
+    rows.forEach(function (row) {
+      if (!row) return;
+      var first = -1; for (var i = 0; i < row.length; i++) { if (!isBlank(row[i])) { first = i; break; } }
+      if (first < 0) return;
+      var lab = String(row[first]).trim(); var L = lab.toLowerCase();
+      if (L === 'year') { r.year = String(cell(row, first + 1) || '').trim(); return; }
+      if (L === 'period') { if (!r.period) r.period = String(cell(row, first + 1) || '').trim(); return; }
+      if (L.indexOf('2(c) arn') === 0) { r.arn = String(cell(row, first + 1) || ''); return; }
+      if (L.indexOf('2(d) date of arn') === 0) { r.arnDate = String(cell(row, first + 1) || ''); return; }
+      if (/^3\.1 details/.test(L)) { section = '3.1'; return; }
+      if (/^3\.1\.1/.test(L)) { section = '3.1.1'; return; }
+      if (/^3\.2 /.test(L)) { section = '3.2'; return; }
+      if (/^4\. eligible itc/.test(L)) { section = '4'; return; }
+      if (/^5\. values of exempt/.test(L)) { section = '5'; return; }
+      if (/^5\.1 interest/.test(L)) { section = '5.1'; return; }
+      if (/^6\.1 payment/.test(L)) { section = '6.1'; return; }
+      if (/^breakup of tax liability/.test(L)) { section = 'break'; return; }
+      var v = vals(row, first + 1);
+      if (section === '3.1') {
+        var m = lab.match(/^\(([a-e])\)/);
+        if (m) r.out[m[1]] = { txval: v[0] || 0, igst: v[1] || 0, cgst: v[2] || 0, sgst: v[3] || 0, cess: v[4] || 0 };
+      } else if (section === '4') {
+        var m4 = lab.match(/^\((\d)\)/);
+        if (/^a\. itc available/i.test(lab)) { paySec = 'A'; return; }
+        if (/^b\. itc reversed/i.test(lab)) { paySec = 'B'; return; }
+        if (/^c\. net itc/i.test(lab)) { r.itc.net = { igst: v[0] || 0, cgst: v[1] || 0, sgst: v[2] || 0, cess: v[3] || 0 }; return; }
+        if (/^\(d\) other details/i.test(lab)) { paySec = 'D'; return; }
+        if (m4) { var key = paySec + m4[1]; r.itc[key] = { igst: v[0] || 0, cgst: v[1] || 0, sgst: v[2] || 0, cess: v[3] || 0 }; }
+      } else if (section === '5') {
+        if (/composition|exempt|nil/i.test(lab)) r.exempt.nil = { inter: v[0] || 0, intra: v[1] || 0 };
+        if (/^non gst/i.test(lab)) r.exempt.nongst = { inter: v[0] || 0, intra: v[1] || 0 };
+      } else if (section === '5.1') {
+        if (/^interest paid/i.test(lab)) r.interest.paid = { igst: v[0] || 0, cgst: v[1] || 0, sgst: v[2] || 0, cess: v[3] || 0 };
+        if (/^late fee/i.test(lab)) r.interest.late = { igst: v[0] || 0, cgst: v[1] || 0, sgst: v[2] || 0, cess: v[3] || 0 };
+      } else if (section === '6.1') {
+        if (/^\(a\) other than reverse/i.test(lab)) { paySec = 'pA'; return; }
+        if (/^\(b\) reverse charge/i.test(lab)) { paySec = 'pB'; return; }
+        var head = /^integrated tax/i.test(lab) ? 'igst' : /^central tax/i.test(lab) ? 'cgst' : /^state/i.test(lab) ? 'sgst' : /^cess/i.test(lab) ? 'cess' : '';
+        if (head && (paySec === 'pA' || paySec === 'pB')) {
+          // payable, adj neg, net payable, ITC I, C, S, Cess, cash, interest cash, late fee cash
+          var tgt = paySec === 'pA' ? r.pay.A : r.pay.B;
+          tgt[head] = { payable: v[0] || 0, adj: v[1] || 0, net: v[2] || 0, itcI: v[3] || 0, itcC: v[4] || 0, itcS: v[5] || 0, itcCess: v[6] || 0, cash: v[7] || 0, intCash: v[8] || 0, lateCash: v[9] || 0 };
+        }
+      }
+    });
+    var pm = (r.period || '').toLowerCase();
+    var yr = r.year.match(/(\d{4})-(\d{2})/);
+    if (yr && mon[pm]) { var y1 = +yr[1]; var mm = mon[pm]; r.ym = (+mm >= 4 ? y1 : y1 + 1) + '-' + mm; }
+    r.ok = !!(r.out.a && r.itc.net);
+    return r;
+  };
+
+  /* ---------- GSTR-2B (Excel from portal) ---------- */
+  function headerMap(rows, startRow) {
+    // find the header row containing "GSTIN of supplier"; merge with a sub-header row when present
+    var hi = -1;
+    for (var i = startRow; i < Math.min(rows.length, startRow + 15); i++) {
+      if (rows[i] && rows[i].some(function (c) { return lc(c) === 'gstin of supplier'; })) { hi = i; break; }
+    }
+    if (hi < 0) return null;
+    var h1 = rows[hi], h2 = rows[hi + 1] || [];
+    var hasSub = isBlank(cell(h2, 0)) && h2.some(function (c) { return !isBlank(c); });
+    var map = {};
+    for (var j = 0; j < h1.length; j++) {
+      var label = lc(hasSub && !isBlank(h2[j]) ? h2[j] : h1[j]);
+      if (label && map[label] === undefined) map[label] = j;
+    }
+    return { map: map, dataFrom: hi + (hasSub ? 2 : 1) };
+  }
+  function pick(map, names) { for (var i = 0; i < names.length; i++) { if (map[names[i]] !== undefined) return map[names[i]]; } return -1; }
+
+  P.parse2B = function (sheets) {
+    // sheets: { 'ITC Available': rows, 'B2B': rows, 'B2B-CDNR': rows, 'ITC not available': rows, ... }
+    var r = { avail: {}, notAvail: {}, b2b: [], cdn: [], rejected: 0, ok: false };
+    function summary(rows, target, partBName) {
+      if (!rows) return;
+      var part = 'A';
+      rows.forEach(function (row) {
+        if (!row) return;
+        var c0 = String(cell(row, 0) || '').trim(), c1 = String(cell(row, 1) || '').trim();
+        if (/^part a/i.test(c0)) { part = 'A'; return; }
+        if (/^part b/i.test(c0)) { part = 'B'; return; }
+        var v = [num(cell(row, 3)), num(cell(row, 4)), num(cell(row, 5)), num(cell(row, 6))];
+        var o = { igst: v[0], cgst: v[1], sgst: v[2], cess: v[3] };
+        if (part === 'A') {
+          if (/^all other itc/i.test(c1)) target.other = o;
+          else if (/^inward supplies from isd/i.test(c1)) target.isd = o;
+          else if (/reverse charge/i.test(c1)) target.rcm = o;
+          else if (/^import of goods/i.test(c1)) target.imp = o;
+        } else if (part === 'B') {
+          if (/^others/i.test(c1)) target.cn = o;
+        }
+      });
+    }
+    summary(sheets['ITC Available'], r.avail);
+    summary(sheets['ITC not available'], r.notAvail);
+    var z4 = { igst: 0, cgst: 0, sgst: 0, cess: 0 };
+    ['other', 'isd', 'rcm', 'imp', 'cn'].forEach(function (k) { r.avail[k] = r.avail[k] || z4; r.notAvail[k] = r.notAvail[k] || z4; });
+    // B2B invoices
+    var rows = sheets['B2B'];
+    if (rows) {
+      var hm = headerMap(rows, 0);
+      if (hm) {
+        var m = hm.map;
+        var cG = pick(m, ['gstin of supplier']), cN = pick(m, ['trade/legal name']), cI = pick(m, ['invoice number']), cD = pick(m, ['invoice date']), cV = pick(m, ['invoice value(₹)', 'invoice value (₹)']),
+          cT = pick(m, ['taxable value (₹)']), cIg = pick(m, ['integrated tax(₹)']), cC = pick(m, ['central tax(₹)']), cS = pick(m, ['state/ut tax(₹)']), cCe = pick(m, ['cess(₹)']),
+          cAv = pick(m, ['itc availability']), cRe = pick(m, ['reason']), cTy = pick(m, ['invoice type']), cPer = pick(m, ['gstr-1/1a/iff/gstr-5 period']), cRc = pick(m, ['supply attract reverse charge']);
+        for (var i = hm.dataFrom; i < rows.length; i++) {
+          var row = rows[i]; var g = String(cell(row, cG) || '').trim();
+          if (g.length !== 15) continue;
+          var reason = String(cell(row, cRe) || '').trim();
+          var av = cAv >= 0 ? lc(cell(row, cAv)) : '';
+          var elig = av ? av === 'yes' : (reason === '' || lc(reason) === 'ok');
+          r.b2b.push({ g: g, name: String(cell(row, cN) || ''), inv: String(cell(row, cI) || ''), idt: isoDate(cell(row, cD)), val: num(cell(row, cV)), tx: num(cell(row, cT)), i: num(cell(row, cIg)), c: num(cell(row, cC)), s: num(cell(row, cS)), cess: num(cell(row, cCe)), elig: elig, reason: reason, rcm: lc(cell(row, cRc)) === 'yes', ty: String(cell(row, cTy) || '') });
+        }
+      }
+    }
+    // credit / debit notes
+    rows = sheets['B2B-CDNR'];
+    if (rows) {
+      var hm2 = headerMap(rows, 0);
+      if (hm2) {
+        var m2 = hm2.map;
+        var nG = pick(m2, ['gstin of supplier']), nNo = pick(m2, ['note number']), nTy = pick(m2, ['note type']), nDt = pick(m2, ['note date']), nV = pick(m2, ['note value (₹)']),
+          nT = pick(m2, ['taxable value (₹)']), nI = pick(m2, ['integrated tax(₹)']), nC = pick(m2, ['central tax(₹)']), nS = pick(m2, ['state/ut tax(₹)']), nAv = pick(m2, ['itc availability']), nRc = pick(m2, ['supply attract reverse charge']);
+        for (var k = hm2.dataFrom; k < rows.length; k++) {
+          var rr = rows[k]; var gg = String(cell(rr, nG) || '').trim();
+          if (gg.length !== 15) continue;
+          var isC = lc(cell(rr, nTy)).indexOf('credit') === 0; var sg = isC ? -1 : 1;
+          r.cdn.push({ g: gg, no: String(cell(rr, nNo) || ''), ty: isC ? 'C' : 'D', dt: isoDate(cell(rr, nDt)), tx: sg * num(cell(rr, nT)), i: sg * num(cell(rr, nI)), c: sg * num(cell(rr, nC)), s: sg * num(cell(rr, nS)), elig: nAv < 0 ? true : lc(cell(rr, nAv)) === 'yes', rcm: lc(cell(rr, nRc)) === 'yes' });
+        }
+      }
+    }
+    r.ok = !!(sheets['ITC Available']);
+    return r;
+  };
+
+  /* ---------- GST portal ledgers (CSV with broken quoting) ---------- */
+  function tokenize(text) {
+    // returns array of records; each a list of fields. Tolerates ""text and embedded newlines inside quotes.
+    var recs = [], rec = [], i = 0, n = text.length;
+    function endRec() { recs.push(rec); rec = []; }
+    while (i < n) {
+      var ch = text[i], f = '';
+      if (ch === '"') {
+        if (text[i + 1] === '"' && text[i + 2] !== ',' && text[i + 2] !== '\n' && text[i + 2] !== '\r' && i + 2 < n) {
+          i += 2; // empty quoted token glued to following text
+          while (i < n && text[i] !== ',' && text[i] !== '\n' && text[i] !== '\r') f += text[i++];
+        } else if (text[i + 1] === '"') { i += 2; }
+        else {
+          i++;
+          while (i < n) {
+            if (text[i] === '"') {
+              if (text[i + 1] === '"') { f += '"'; i += 2; continue; }
+              i++; break;
+            }
+            f += text[i++];
+          }
+          while (i < n && text[i] !== ',' && text[i] !== '\n' && text[i] !== '\r') i++;
+        }
+      } else {
+        while (i < n && text[i] !== ',' && text[i] !== '\n' && text[i] !== '\r') f += text[i++];
+      }
+      rec.push(f.replace(/\s+/g, ' ').trim());
+      if (text[i] === ',') { i++; if (i >= n || text[i] === '\n' || text[i] === '\r') { rec.push(''); } continue; }
+      if (text[i] === '\r') i++;
+      if (text[i] === '\n') { i++; endRec(); continue; }
+    }
+    if (rec.length) endRec();
+    return recs;
+  }
+  P.tokenizeCSV = tokenize;
+
+  P.parseCreditLedger = function (text) {
+    var recs = tokenize(text); var entries = [], closing = null, opening = null;
+    recs.forEach(function (f) {
+      if (f.length < 14) return;
+      var sr = f[0];
+      if (/^\d+$/.test(sr) || sr === '-') {
+        var desc = f[4] || ''; var type = f[5] || '';
+        if (/closing balance/i.test(desc)) { closing = { igst: num(f[11]), cgst: num(f[12]), sgst: num(f[13]), cess: num(f[14]), total: num(f[15]) }; return; }
+        if (/opening balance/i.test(desc)) { opening = { igst: num(f[11]), cgst: num(f[12]), sgst: num(f[13]), cess: num(f[14]), total: num(f[15]) }; return; }
+        if (!/^(credit|debit)/i.test(type)) return;
+        entries.push({ sr: sr, date: isoDate(f[1]), ref: f[2], period: f[3], desc: desc, type: /^credit/i.test(type) ? 'CR' : 'DR', igst: num(f[6]), cgst: num(f[7]), sgst: num(f[8]), cess: num(f[9]), total: num(f[10]) });
+      }
+    });
+    return { entries: entries, opening: opening, closing: closing, ok: entries.length > 0 };
+  };
+
+  P.parseCashLedger = function (text) {
+    var recs = tokenize(text); var entries = [], closing = null, opening = null;
+    function sixHeads(f, off) {
+      // 4 heads x 6 columns (tax, interest, penalty, fee, others, total)
+      var heads = ['igst', 'cgst', 'sgst', 'cess'], o = {};
+      for (var h = 0; h < 4; h++) { var b = off + h * 6; o[heads[h]] = { tax: num(f[b]), int: num(f[b + 1]), pen: num(f[b + 2]), fee: num(f[b + 3]), oth: num(f[b + 4]), tot: num(f[b + 5]) }; }
+      return o;
+    }
+    recs.forEach(function (f) {
+      if (f.length < 40) return;
+      var sr = f[0]; if (!(/^\d+$/.test(sr) || sr === '-')) return;
+      var desc = f[6] || ''; var type = f[7] || '';
+      if (/closing balance/i.test(desc)) { closing = sixHeads(f, 32); return; }
+      if (/opening balance/i.test(desc)) { opening = sixHeads(f, 32); return; }
+      entries.push({ sr: sr, date: isoDate(f[1]), ref: f[4], period: f[5], desc: desc, type: /^credit/i.test(type) ? 'CR' : 'DR', amt: sixHeads(f, 8), bal: sixHeads(f, 32) });
+    });
+    return { entries: entries, opening: opening, closing: closing, ok: entries.length > 0 };
+  };
+
+  /* ---------- books: outward / ITC register (Excel) ---------- */
+  function regHeader(rows, need) {
+    for (var i = 0; i < Math.min(rows.length, 15); i++) {
+      var r = rows[i]; if (!r) continue; var labels = r.map(lc);
+      if (need.every(function (n) { return labels.indexOf(n) >= 0; })) { var m = {}; labels.forEach(function (l, j) { if (l && m[l] === undefined) m[l] = j; }); return { map: m, from: i + 1 }; }
+    }
+    return null;
+  }
+  P.parseOutward = function (rows) {
+    var h = regHeader(rows, ['gstin', 'invoice no', 'taxable']); if (!h) return { rows: [], ok: false, err: 'Header row (Gstin / Invoice no / Taxable) not found' };
+    var m = h.map, out = [], totalRow = null;
+    for (var i = h.from; i < rows.length; i++) {
+      var r = rows[i]; if (!r) continue;
+      var d = isoDate(r[m['date']]);
+      if (!d) { if (lc(r[m['invoice no']]) === 'total' || r.some(function (c) { return lc(c) === 'total'; })) totalRow = r.map(function (c) { return typeof c === 'number' ? c : null; }); continue; }
+      out.push({ g: String(r[m['gstin']] || '').trim(), p: String(r[m['party name']] || ''), inv: String(r[m['invoice no']] || ''), d: d, rt: num(r[m['rate']]), tx: num(r[m['taxable']]), i: num(r[m['igst']]), c: num(r[m['cgst']]), s: num(r[m['sgst']]) });
+    }
+    return { rows: out, ok: out.length > 0, totalRow: totalRow };
+  };
+  P.parseItcRegister = function (rows) {
+    var h = regHeader(rows, ['gstin', 'invoice no', 'taxable']); if (!h) return { rows: [], ok: false, err: 'Header row not found' };
+    var m = h.map, out = [];
+    for (var i = h.from; i < rows.length; i++) {
+      var r = rows[i]; if (!r) continue; var d = isoDate(r[m['date']]); if (!d) continue;
+      var reason = String(r[m['reason']] || '');
+      out.push({ g: String(r[m['gstin']] || '').trim(), p: String(r[m['party name']] || ''), inv: String(r[m['invoice no']] || ''), d: d, val: num(r[m['invoice value']]), rt: num(r[m['rate']]), tx: num(r[m['taxable']]), i: num(r[m['igst']]), c: num(r[m['cgst']]), s: num(r[m['sgst']]), reason: reason, cap: /capital/i.test(reason) });
+    }
+    return { rows: out, ok: out.length > 0 };
+  };
+
+  /* ---------- Tally duties and taxes ledger (Excel export) ---------- */
+  P.parseTallyLedger = function (rows) {
+    var name = String(cell(rows[0], 0) || '').trim(); var from = -1;
+    for (var i = 0; i < Math.min(rows.length, 25); i++) { var r = rows[i]; if (r && lc(r[0]) === 'date' && r.some(function (c) { return lc(c) === 'vch type'; })) { from = i + 1; break; } }
+    if (from < 0) return { name: name, entries: [], ok: false };
+    var ent = [], opening = 0;
+    for (var j = from; j < rows.length; j++) {
+      var q = rows[j]; if (!q) continue; var d = isoDate(q[0]); if (!d) continue;
+      var vt = String(q[3] || '').trim(); var part = String(q[2] || '').replace(/\s+/g, ' ').trim();
+      if (!vt && /opening balance/i.test(part)) { opening = num(q[5]) - num(q[6]); continue; }
+      ent.push({ d: d, part: part, vt: vt, no: String(q[4] || ''), dr: num(q[5]), cr: num(q[6]) });
+    }
+    return { name: name, entries: ent, opening: opening, ok: ent.length > 0 };
+  };
+
+  if (typeof module !== 'undefined' && module.exports) module.exports = P; else root.GSTP = P;
+})(typeof window !== 'undefined' ? window : this);
+</script>
+<script>/* GST Annual Return Tool - analysis engine.
+   Input: parsed files (see parsers.js). Output: monthly reconciliation, invoice-level matches,
+   GSTR-9 draft, GSTR-9C bridge, and an exception list. No network, no storage. */
+(function (root) {
+  'use strict';
+  var U = (typeof module !== 'undefined' && module.exports) ? require('./parsers.js').util : root.GSTP.util;
+  var num = U.num, r2 = U.r2, normInv = U.normInv;
+  var A = {};
+
+  var MONTH_NAMES = { '01': 'Jan', '02': 'Feb', '03': 'Mar', '04': 'Apr', '05': 'May', '06': 'Jun', '07': 'Jul', '08': 'Aug', '09': 'Sep', '10': 'Oct', '11': 'Nov', '12': 'Dec' };
+  A.fyMonths = function (fy) {
+    var y = +fy.slice(0, 4), out = [];
+    for (var m = 4; m <= 15; m++) { var mm = m > 12 ? m - 12 : m; var yy = m > 12 ? y + 1 : y; out.push(yy + '-' + (mm < 10 ? '0' : '') + mm); }
+    return out;
+  };
+  A.monthLabel = function (ym) { return MONTH_NAMES[ym.slice(5)] + '-' + ym.slice(2, 4); };
+  var GSTIN_RE = /^\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/;
+  var SLABS = [0, 0.1, 0.25, 1, 1.5, 3, 5, 6, 7.5, 12, 14, 18, 28, 40];
+  function nearSlab(rate) { var best = null, bd = 1e9; SLABS.forEach(function (s) { var d = Math.abs(s - rate); if (d < bd) { bd = d; best = s; } }); return { slab: best, d: bd }; }
+  function z5() { return { tx: 0, i: 0, c: 0, s: 0, cess: 0 }; }
+  function addTo(a, b, sg) { sg = sg || 1; a.tx += sg * (b.tx || 0); a.i += sg * (b.i || 0); a.c += sg * (b.c || 0); a.s += sg * (b.s || 0); a.cess += sg * (b.cess || 0); return a; }
+  function rd(o) { var k; for (k in o) if (typeof o[k] === 'number') o[k] = r2(o[k]); return o; }
+  function tot(o) { return (o.i || 0) + (o.c || 0) + (o.s || 0); }
+
+  /* ============ monthly reconciliation ============ */
+  A.monthly = function (ctx) {
+    var months = A.fyMonths(ctx.fy), tol = ctx.tol;
+    var reg = {}, itcr = {}, tl = {};
+    months.forEach(function (m) { reg[m] = { tx: 0, i: 0, c: 0, s: 0, n: 0, neg: 0, b2bTx: 0, b2cTx: 0, cnTx: 0, noGstin: 0 }; itcr[m] = { tx: 0, i: 0, c: 0, s: 0, n: 0, cap: { i: 0, c: 0, s: 0 } }; tl[m] = { outC: 0, outI: 0, inC: 0, inI: 0, unclC: 0, unclI: 0 }; });
+    ((ctx.outward && ctx.outward.rows) || []).forEach(function (r) {
+      var m = r.d.slice(0, 7), a = reg[m]; if (!a) return;
+      a.tx += r.tx; a.i += r.i; a.c += r.c; a.s += r.s; a.n++;
+      var hasG = r.g && r.g.length === 15;
+      if (r.tx < 0) { a.neg++; a.cnTx += r.tx; } else if (hasG) a.b2bTx += r.tx; else { a.b2cTx += r.tx; a.noGstin++; }
+    });
+    ((ctx.itc && ctx.itc.rows) || []).forEach(function (r) {
+      var m = r.d.slice(0, 7), a = itcr[m]; if (!a) return;
+      a.tx += r.tx; a.i += r.i; a.c += r.c; a.s += r.s; a.n++;
+      if (r.cap) { a.cap.i += r.i; a.cap.c += r.c; a.cap.s += r.s; }
+    });
+    var t = ctx.tally || {};
+    function tallyAdd(led, field, signCr) {
+      if (!led || !led.entries) return;
+      led.entries.forEach(function (e) {
+        var m = e.d.slice(0, 7); if (!tl[m]) return;
+        if (e.vt === 'Sales' || e.vt === 'Credit Note') tl[m][field] += (e.cr - e.dr);
+      });
+    }
+    tallyAdd(t['OUTPUT CGST'], 'outC'); tallyAdd(t['OUTPUT IGST'], 'outI');
+    function inputAdd(led, field, unclField) {
+      if (!led || !led.entries) return;
+      led.entries.forEach(function (e) {
+        var m = e.d.slice(0, 7); if (!tl[m]) return;
+        if (e.vt === 'Purchase' || e.vt === 'Debit Note') tl[m][field] += (e.dr - e.cr);
+        if (/unclaimed itc/i.test(e.part)) tl[m][unclField] += (e.cr - e.dr);
+      });
+    }
+    inputAdd(t['INPUT CGST'], 'inC', 'unclC'); inputAdd(t['INPUT IGST'], 'inI', 'unclI');
+
+    var rows = months.map(function (m) {
+      var r1 = (ctx.r1 || {})[m], tb = (ctx.tb || {})[m], b2 = (ctx.b2 || {})[m];
+      var row = { ym: m, label: A.monthLabel(m), flags: [], missing: [] };
+      if (r1) {
+        var haveH = r1.hsn.n > 0;
+        row.r1 = { have: true, draft: r1.draft, hsn: { tx: r1.hsn.txval, i: r1.hsn.iamt, c: r1.hsn.camt, s: r1.hsn.samt }, b2cs: { tx: r1.b2cs.txval, i: r1.b2cs.iamt, c: r1.b2cs.camt, s: r1.b2cs.samt }, b2cl: { tx: r1.b2cl.txval }, b2bN: r1.b2b.n, hasB2B: r1.hasB2B, hasCDN: r1.hasCDN, filDt: r1.filDt };
+        row.r1.declared = haveH ? row.r1.hsn : { tx: r1.b2b.txval + r1.b2cs.txval + r1.b2cl.txval + r1.exp.txval + r1.cdnr.txval + r1.cdnur.txval, i: r1.b2b.iamt + r1.b2cs.iamt + r1.cdnr.iamt, c: r1.b2b.camt + r1.b2cs.camt + r1.cdnr.camt, s: r1.b2b.samt + r1.b2cs.samt + r1.cdnr.samt };
+        row.r1.source = haveH ? 'HSN summary' : 'sections';
+        if (r1.hasB2B) {
+          var inv = { tx: r1.b2b.txval + r1.b2cs.txval + r1.b2cl.txval + r1.exp.txval + r1.cdnr.txval + r1.cdnur.txval };
+          row.r1.invoiceSum = inv.tx; row.r1.invVsHsn = r2(inv.tx - row.r1.hsn.tx);
+          if (Math.abs(row.r1.invVsHsn) > tol) row.flags.push('R1_INV_VS_HSN');
+        }
+        if (r1.draft) row.flags.push('R1_DRAFT');
+      } else { row.r1 = { have: false }; row.missing.push('GSTR-1 JSON'); row.flags.push('R1_MISSING'); }
+      if (tb && tb.ok) {
+        var o = tb.out.a || {}, rc = tb.out.d || {};
+        var a5 = tb.itc.A5 || {}, net = tb.itc.net || {};
+        var sumA = { i: 0, c: 0, s: 0 };
+        ['A1', 'A2', 'A3', 'A4', 'A5'].forEach(function (k) { var x = tb.itc[k]; if (x) { sumA.i += x.igst; sumA.c += x.cgst; sumA.s += x.sgst; } });
+        row.tb = { have: true, a: { tx: o.txval, i: o.igst, c: o.cgst, s: o.sgst }, zero: tb.out.b ? tb.out.b.txval : 0, nil: tb.out.c ? tb.out.c.txval : 0, nongst: tb.out.e ? tb.out.e.txval : 0, rcm: { tx: rc.txval || 0, c: rc.cgst || 0, s: rc.sgst || 0, i: rc.igst || 0 }, a5: { i: a5.igst, c: a5.cgst, s: a5.sgst }, A: { i: sumA.i, c: sumA.c, s: sumA.s }, rev1: tb.itc.B1 || {}, rev2: tb.itc.B2 || {}, net: { i: net.igst, c: net.cgst, s: net.sgst }, arn: tb.arn, arnDate: tb.arnDate };
+        // RCM sanity: tax paid should be about 5-18% of value. Flag when implied rate < 3% or > 30%
+        if (rc.txval > 0) { var imp = (rc.cgst * 2 + (rc.igst || 0)) / rc.txval * 100; row.tb.rcmRate = r2(imp); if (imp < 3 || imp > 30) row.flags.push('RCM_VALUE'); }
+      } else { row.tb = { have: false }; row.missing.push('GSTR-3B'); row.flags.push('TB_MISSING'); }
+      var rg = reg[m]; row.reg = rd({ tx: rg.tx, i: rg.i, c: rg.c, s: rg.s, n: rg.n, neg: rg.neg, b2bTx: rg.b2bTx, b2cTx: rg.b2cTx, cnTx: rg.cnTx, noGstin: rg.noGstin });
+      var ir = itcr[m]; row.itcreg = rd({ tx: ir.tx, i: ir.i, c: ir.c, s: ir.s, n: ir.n, capI: ir.cap.i, capC: ir.cap.c, capS: ir.cap.s });
+      row.tally = rd({ outC: tl[m].outC, outI: tl[m].outI, inC: tl[m].inC, inI: tl[m].inI, unclC: tl[m].unclC, unclI: tl[m].unclI });
+      if (b2 && b2.ok) {
+        var net2 = { i: b2.avail.other.igst - b2.avail.cn.igst, c: b2.avail.other.cgst - b2.avail.cn.cgst, s: b2.avail.other.sgst - b2.avail.cn.sgst };
+        row.b2 = rd({ gI: b2.avail.other.igst, gC: b2.avail.other.cgst, gS: b2.avail.other.sgst, cnI: b2.avail.cn.igst, cnC: b2.avail.cn.cgst, cnS: b2.avail.cn.sgst, i: net2.i, c: net2.c, s: net2.s, rcmC: b2.avail.rcm.cgst, rcmI: b2.avail.rcm.igst, naC: b2.notAvail.other.cgst, naI: b2.notAvail.other.igst, have: true, nB2B: b2.b2b.length });
+      } else { row.b2 = { have: false }; row.missing.push('GSTR-2B'); row.flags.push('B2_MISSING'); }
+      // diffs
+      if (row.tb.have && row.r1.have && !row.r1.draft) {
+        row.d = { r1_tb: rd({ tx: row.tb.a.tx - row.r1.declared.tx, i: row.tb.a.i - row.r1.declared.i, c: row.tb.a.c - row.r1.declared.c, s: row.tb.a.s - row.r1.declared.s }) };
+        if (Math.abs(row.d.r1_tb.tx) > tol || Math.abs(row.d.r1_tb.c) > tol || Math.abs(row.d.r1_tb.i) > tol) row.flags.push('R1_VS_3B');
+      }
+      if (row.r1.have && !row.r1.draft) {
+        row.d = row.d || {};
+        row.d.r1_reg = rd({ tx: row.r1.declared.tx - row.reg.tx, i: row.r1.declared.i - row.reg.i, c: row.r1.declared.c - row.reg.c, s: row.r1.declared.s - row.reg.s });
+        if (Math.abs(row.d.r1_reg.tx) > tol || Math.abs(row.d.r1_reg.c) > tol || Math.abs(row.d.r1_reg.i) > tol) row.flags.push('R1_VS_BOOKS');
+      }
+      if (row.tb.have) {
+        row.d = row.d || {};
+        row.d.tb_reg = rd({ tx: row.tb.a.tx - row.reg.tx, i: row.tb.a.i - row.reg.i, c: row.tb.a.c - row.reg.c, s: row.tb.a.s - row.reg.s });
+        if (Math.abs(row.d.tb_reg.tx) > tol || Math.abs(row.d.tb_reg.c) > tol || Math.abs(row.d.tb_reg.i) > tol) row.flags.push('TB_VS_BOOKS');
+        row.d.tally_out = rd({ c: row.tally.outC - row.reg.c, i: row.tally.outI - row.reg.i });
+        if (Math.abs(row.d.tally_out.c) > tol || Math.abs(row.d.tally_out.i) > tol) row.flags.push('TALLY_VS_REGISTER');
+      }
+      if (row.tb.have && row.b2.have) {
+        row.d = row.d || {};
+        row.d.itc_tb_b2 = rd({ i: row.tb.a5.i - row.b2.i, c: row.tb.a5.c - row.b2.c, s: row.tb.a5.s - row.b2.s });
+        if (Math.abs(row.d.itc_tb_b2.c) > tol || Math.abs(row.d.itc_tb_b2.i) > tol) row.flags.push('ITC_3B_VS_2B');
+        row.d.itc_books_tb = rd({ i: row.itcreg.i - row.tb.a5.i, c: row.itcreg.c - row.tb.a5.c, s: row.itcreg.s - row.tb.a5.s });
+        if (row.itcreg.n && (Math.abs(row.d.itc_books_tb.c) > tol || Math.abs(row.d.itc_books_tb.i) > tol)) row.flags.push('ITC_BOOKS_VS_3B');
+      }
+      return row;
+    });
+    return rows;
+  };
+
+  /* ============ ITC: 2B vs books register ============ */
+  function keyOf(g, inv) { return (g || '').toUpperCase() + '|' + normInv(inv); }
+  A.itcMatch = function (ctx) {
+    var tol = ctx.itcTol == null ? 2 : ctx.itcTol;
+    var books = {}, b2 = {};
+    ((ctx.itc && ctx.itc.rows) || []).forEach(function (r) {
+      var k = keyOf(r.g, r.inv); var o = books[k] || (books[k] = { g: r.g, inv: r.inv, p: r.p, d: r.d, tx: 0, i: 0, c: 0, s: 0, n: 0, cap: false });
+      o.tx += r.tx; o.i += r.i; o.c += r.c; o.s += r.s; o.n++; if (r.cap) o.cap = true; if (r.d < o.d) o.d = r.d;
+    });
+    var inelig = [];
+    var months = A.fyMonths(ctx.fy);
+    months.forEach(function (m) {
+      var f = (ctx.b2 || {})[m]; if (!f) return;
+      f.b2b.forEach(function (r) {
+        if (!r.elig) { inelig.push({ g: r.g, name: r.name, inv: r.inv, d: r.idt, per: m, i: r.i, c: r.c, s: r.s, reason: r.reason || 'ITC not available' }); return; }
+        if (r.rcm) return;
+        var k = keyOf(r.g, r.inv); var o = b2[k] || (b2[k] = { g: r.g, name: r.name, inv: r.inv, d: r.idt, per: m, tx: 0, i: 0, c: 0, s: 0, n: 0, isCn: false });
+        o.tx += r.tx; o.i += r.i; o.c += r.c; o.s += r.s; o.n++;
+      });
+      f.cdn.forEach(function (r) {
+        if (!r.elig || r.rcm) return;
+        var k = keyOf(r.g, r.no); var o = b2[k] || (b2[k] = { g: r.g, name: '', inv: r.no, d: r.dt, per: m, tx: 0, i: 0, c: 0, s: 0, n: 0, isCn: true });
+        o.tx += r.tx; o.i += r.i; o.c += r.c; o.s += r.s; o.n++; o.isCn = true;
+      });
+    });
+    var matched = [], mism = [], onlyBooks = [], only2b = [];
+    Object.keys(books).forEach(function (k) {
+      var a = books[k], b = b2[k];
+      if (b) {
+        var di = a.i - b.i, dc = a.c - b.c, ds = a.s - b.s;
+        if (Math.abs(di) <= tol && Math.abs(dc) <= tol && Math.abs(ds) <= tol) matched.push({ k: k, a: a, b: b });
+        else mism.push({ k: k, g: a.g, inv: a.inv, p: a.p, d: a.d, per: b.per, booksTax: rd({ i: a.i, c: a.c, s: a.s }), b2Tax: rd({ i: b.i, c: b.c, s: b.s }), diff: rd({ i: di, c: dc, s: ds }), cap: a.cap });
+        b._m = true;
+      } else onlyBooks.push({ k: k, g: a.g, inv: a.inv, p: a.p, d: a.d, i: a.i, c: a.c, s: a.s, cap: a.cap });
+    });
+    Object.keys(b2).forEach(function (k) { var b = b2[k]; if (!b._m) only2b.push({ k: k, g: b.g, inv: b.inv, p: b.name, d: b.d, per: b.per, i: b.i, c: b.c, s: b.s, isCn: b.isCn }); });
+    // second pass: same supplier + same total tax => invoice number differs
+    var byG = {}; only2b.forEach(function (x, ix) { (byG[x.g] = byG[x.g] || []).push(ix); });
+    var numMis = [], usedB = {}, usedBooks = {};
+    onlyBooks.forEach(function (a, ai) {
+      var cand = byG[a.g]; if (!cand) return;
+      for (var q = 0; q < cand.length; q++) {
+        var bi = cand[q]; if (usedB[bi]) continue; var b = only2b[bi];
+        if (Math.abs(b.i - a.i) <= tol && Math.abs(b.c - a.c) <= tol && Math.abs(b.s - a.s) <= tol) {
+          usedB[bi] = true; usedBooks[ai] = true;
+          numMis.push({ g: a.g, p: a.p, booksInv: a.inv, b2Inv: b.inv, d: a.d, per: b.per, i: a.i, c: a.c, s: a.s }); break;
+        }
+      }
+    });
+    var onlyBooks2 = onlyBooks.filter(function (x, ix) { return !usedBooks[ix]; });
+    var only2b2 = only2b.filter(function (x, ix) { return !usedB[ix]; });
+    function sum(list) { var o = { n: list.length, i: 0, c: 0, s: 0 }; list.forEach(function (x) { o.i += x.i; o.c += x.c; o.s += x.s; }); return rd(o); }
+    function byPer(list, f) { var o = {}; list.forEach(function (x) { var p = f(x); var q = o[p] || (o[p] = { n: 0, i: 0, c: 0, s: 0 }); q.n++; q.i += x.i; q.c += x.c; q.s += x.s; }); Object.keys(o).forEach(function (k) { rd(o[k]); }); return o; }
+    var sortDesc = function (a, b) { return Math.abs(tot(b)) - Math.abs(tot(a)); };
+    onlyBooks2.sort(sortDesc); only2b2.sort(sortDesc); inelig.sort(sortDesc);
+    mism.sort(function (a, b) { return Math.abs(tot(b.diff)) - Math.abs(tot(a.diff)); });
+    var matchedSum = { n: matched.length, i: 0, c: 0, s: 0 }; matched.forEach(function (m) { matchedSum.i += m.a.i; matchedSum.c += m.a.c; matchedSum.s += m.a.s; }); rd(matchedSum);
+    var mismSum = { n: mism.length, booksI: 0, booksC: 0, b2I: 0, b2C: 0, dI: 0, dC: 0, dS: 0 }; mism.forEach(function (m) { mismSum.booksI += m.booksTax.i; mismSum.booksC += m.booksTax.c; mismSum.b2I += m.b2Tax.i; mismSum.b2C += m.b2Tax.c; mismSum.dI += m.diff.i; mismSum.dC += m.diff.c; mismSum.dS += m.diff.s; }); rd(mismSum);
+    return {
+      tol: tol,
+      totals: { matched: matchedSum, mismatch: mismSum, onlyBooks: sum(onlyBooks2), only2b: sum(only2b2), numberMismatch: sum(numMis), ineligible: sum(inelig) },
+      onlyBooksByMonth: byPer(onlyBooks2, function (x) { return x.d.slice(0, 7); }),
+      only2bByPeriod: byPer(only2b2, function (x) { return x.per; }),
+      lists: { onlyBooks: onlyBooks2.slice(0, 400), only2b: only2b2.slice(0, 400), mismatch: mism.slice(0, 400), numberMismatch: numMis.slice(0, 400), ineligible: inelig.slice(0, 200) },
+      listSizes: { onlyBooks: onlyBooks2.length, only2b: only2b2.length, mismatch: mism.length, numberMismatch: numMis.length, ineligible: inelig.length }
+    };
+  };
+
+  /* ============ prior-year invoices claimed (indicative 6A1) ============ */
+  A.priorYear = function (ctx) {
+    var start = ctx.fy.slice(0, 4) + '-04-01'; var o = { n: 0, i: 0, c: 0, s: 0 };
+    A.fyMonths(ctx.fy).forEach(function (m) { var f = (ctx.b2 || {})[m]; if (!f) return; f.b2b.forEach(function (r) { if (r.elig && !r.rcm && r.idt && r.idt < start) { o.n++; o.i += r.i; o.c += r.c; o.s += r.s; } }); f.cdn.forEach(function (r) { if (r.elig && !r.rcm && r.dt && r.dt < start) { o.n++; o.i += r.i; o.c += r.c; o.s += r.s; } }); });
+    return rd(o);
+  };
+  /* 2B ITC by invoice date inside the FY (8A(a) basis) */
+  A.b2InFy = function (ctx) {
+    var start = ctx.fy.slice(0, 4) + '-04-01', end = (+ctx.fy.slice(0, 4) + 1) + '-03-31'; var o = { i: 0, c: 0, s: 0, n: 0 };
+    A.fyMonths(ctx.fy).forEach(function (m) { var f = (ctx.b2 || {})[m]; if (!f) return; f.b2b.forEach(function (r) { if (r.elig && !r.rcm && r.idt >= start && r.idt <= end) { o.i += r.i; o.c += r.c; o.s += r.s; o.n++; } }); f.cdn.forEach(function (r) { if (r.elig && !r.rcm && r.dt >= start && r.dt <= end) { o.i += r.i; o.c += r.c; o.s += r.s; o.n++; } }); });
+    return rd(o);
+  };
+
+  /* ============ sales: invoice-level checks ============ */
+  A.salesChecks = function (ctx) {
+    var tol = ctx.tol, rows = (ctx.outward && ctx.outward.rows) || [];
+    var res = { gstinBad: [], taxType: [], rate: [], dup: [], gaps: [], series: [], invoiceMatch: {}, rateWise: {} };
+    var myState = (ctx.client && ctx.client.gstin ? ctx.client.gstin.slice(0, 2) : '');
+    var seen = {}; var seqs = {};
+    rows.forEach(function (r) {
+      var hasG = r.g && r.g.length > 0;
+      if (hasG && !GSTIN_RE.test(r.g)) res.gstinBad.push({ inv: r.inv, d: r.d, g: r.g, p: r.p, tx: r.tx, tax: r.i + r.c + r.s });
+      if (r.g && r.g.length === 15 && myState && r.tx > 0) {
+        var st = r.g.slice(0, 2);
+        if (st !== myState && (r.c > 0 || r.s > 0)) res.taxType.push({ inv: r.inv, d: r.d, g: r.g, p: r.p, tx: r.tx, i: r.i, c: r.c, s: r.s, why: 'Buyer GSTIN state ' + st + ' differs from supplier state ' + myState + ' but CGST/SGST charged' });
+        else if (st === myState && r.i > 0) res.taxType.push({ inv: r.inv, d: r.d, g: r.g, p: r.p, tx: r.tx, i: r.i, c: r.c, s: r.s, why: 'Buyer GSTIN state same as supplier but IGST charged (check place of supply)' });
+      }
+      if (r.tx > 0) {
+        var eff = (r.i + r.c + r.s) / r.tx * 100; var ns = nearSlab(eff);
+        if (ns.d > 0.2 && r.tx > 100) res.rate.push({ inv: r.inv, d: r.d, p: r.p, tx: r.tx, eff: r2(eff), why: 'Effective rate ' + r2(eff) + '% is not a GST slab' });
+        else if ((ns.slab === 12 || ns.slab === 28) && r.d >= '2025-09-22') res.rate.push({ inv: r.inv, d: r.d, p: r.p, tx: r.tx, eff: ns.slab, why: ns.slab + '% charged on or after 22-Sep-2025 (rate rationalisation). Confirm the item still attracts this rate' });
+      }
+      if (r.tx !== 0) { var ef2 = r.rt > 0 ? r.rt : Math.abs((r.i + r.c + r.s) / r.tx * 100), ns2 = nearSlab(ef2); var rb = res.rateWise[ns2.slab] || (res.rateWise[ns2.slab] = { tx: 0, i: 0, c: 0, s: 0 }); rb.tx += r.tx; rb.i += r.i; rb.c += r.c; rb.s += r.s; }
+      var k = normInv(r.inv) + '|' + r.d;
+      var kk = normInv(r.inv);
+      if (r.tx > 0) { if (seen[kk]) res.dup.push({ inv: r.inv, d: r.d, d2: seen[kk].d, tx: r.tx, tx2: seen[kk].tx, p: r.p }); else seen[kk] = r; }
+      var mm = String(r.inv).match(/^(.*?)(\d+)$/);
+      if (mm && r.tx > 0) { var pre = mm[1]; var q = seqs[pre] || (seqs[pre] = { min: 1e12, max: -1, set: {}, n: 0 }); var nn = +mm[2]; q.min = Math.min(q.min, nn); q.max = Math.max(q.max, nn); q.set[nn] = 1; q.n++; }
+    });
+    Object.keys(res.rateWise).forEach(function (k) { rd(res.rateWise[k]); });
+    Object.keys(seqs).forEach(function (pre) {
+      var q = seqs[pre]; if (q.n < 50) return; var missing = [];
+      for (var x = q.min; x <= q.max; x++) if (!q.set[x]) missing.push(x);
+      res.series.push({ prefix: pre, min: q.min, max: q.max, issuedInBooks: q.n, missingCount: missing.length, missing: missing.slice(0, 100) });
+    });
+    // R1 documents issued vs books
+    var r1docs = 0, r1cancel = 0, r1net = 0;
+    Object.keys(ctx.r1 || {}).forEach(function (m) { (ctx.r1[m].docs || []).forEach(function (d) { if (d.type === 1) { r1docs += d.total; r1cancel += d.cancel; r1net += d.net; } }); });
+    res.r1Docs = { issued: r1docs, cancelled: r1cancel, net: r1net };
+    // invoice-level R1 vs register, only months with invoice-level JSON
+    Object.keys(ctx.r1 || {}).forEach(function (m) {
+      var r1 = ctx.r1[m]; if (!r1.hasB2B) return;
+      var reg = {}; rows.forEach(function (r) { if (r.d.slice(0, 7) !== m || !(r.g && r.g.length === 15) || r.tx <= 0) return; var k = normInv(r.inv); var o = reg[k] || (reg[k] = { inv: r.inv, g: r.g, d: r.d, tx: 0, i: 0, c: 0, s: 0 }); o.tx += r.tx; o.i += r.i; o.c += r.c; o.s += r.s; });
+      var jr = {}; r1.b2bInvoices.forEach(function (v) { var k = normInv(v.inum); var o = jr[k] || (jr[k] = { inv: v.inum, g: v.ctin, d: v.idt, tx: 0, i: 0, c: 0, s: 0 }); o.tx += v.txval; o.i += v.iamt; o.c += v.camt; o.s += v.samt; });
+      var out = { matched: 0, onlyR1: [], onlyBooks: [], mismatch: [], gstinDiff: [] };
+      Object.keys(jr).forEach(function (k) {
+        var a = jr[k], b = reg[k];
+        if (!b) { out.onlyR1.push(a); return; }
+        if (a.g !== b.g) out.gstinDiff.push({ inv: a.inv, r1: a.g, books: b.g });
+        if (Math.abs(a.tx - b.tx) > tol || Math.abs(a.i - b.i) > tol || Math.abs(a.c - b.c) > tol) out.mismatch.push({ inv: a.inv, g: a.g, r1: rd({ tx: a.tx, i: a.i, c: a.c }), books: rd({ tx: b.tx, i: b.i, c: b.c }), dTx: r2(a.tx - b.tx) }); else out.matched++;
+      });
+      Object.keys(reg).forEach(function (k) { if (!jr[k]) out.onlyBooks.push(reg[k]); });
+      out.counts = { r1: Object.keys(jr).length, books: Object.keys(reg).length };
+      res.invoiceMatch[m] = out;
+    });
+    res.gstinBad = res.gstinBad.slice(0, 200);
+    return res;
+  };
+
+  /* ============ ledgers ============ */
+  A.ledgerChecks = function (ctx) {
+    var months = A.fyMonths(ctx.fy), out = { credit: null, cash: null };
+    var tb = ctx.tb || {};
+    var cr = ctx.credit;
+    if (cr && cr.ok) {
+      var credited = { igst: 0, cgst: 0, sgst: 0, cess: 0 }, debited = { igst: 0, cgst: 0, sgst: 0, cess: 0 }, byDesc = {};
+      cr.entries.forEach(function (e) { var t = e.type === 'CR' ? credited : debited; t.igst += e.igst; t.cgst += e.cgst; t.sgst += e.sgst; t.cess += e.cess; var d = byDesc[e.type + ' ' + e.desc] || (byDesc[e.type + ' ' + e.desc] = { n: 0, igst: 0, cgst: 0, sgst: 0 }); d.n++; d.igst += e.igst; d.cgst += e.cgst; d.sgst += e.sgst; });
+      var tbNet = { igst: 0, cgst: 0, sgst: 0 }, tbUsed = { igst: 0, cgst: 0, sgst: 0 };
+      months.forEach(function (m) { var t = tb[m]; if (!t || !t.ok) return; tbNet.igst += t.itc.net.igst; tbNet.cgst += t.itc.net.cgst; tbNet.sgst += t.itc.net.sgst;
+        ['igst', 'cgst', 'sgst'].forEach(function (h) { ['A', 'B'].forEach(function (sec) { var p = t.pay[sec][h]; if (p) tbUsed[h] += p.itcI + p.itcC + p.itcS + p.itcCess; }); }); });
+      out.credit = { closing: cr.closing, credited: rd(credited), debited: rd(debited), tb3Net: rd(tbNet), tb3Used: rd(tbUsed), byDesc: byDesc, diffCredited: rd({ igst: credited.igst - tbNet.igst, cgst: credited.cgst - tbNet.cgst, sgst: credited.sgst - tbNet.sgst }), n: cr.entries.length,
+        opening: cr.opening };
+    }
+    var ca = ctx.cash;
+    if (ca && ca.ok) {
+      var dep = { igst: 0, cgst: 0, sgst: 0, cess: 0 }, deb = { igst: 0, cgst: 0, sgst: 0, cess: 0 };
+      ca.entries.forEach(function (e) { var t = e.type === 'CR' ? dep : deb; ['igst', 'cgst', 'sgst', 'cess'].forEach(function (h) { t[h] += e.amt[h].tot; }); });
+      var tbCash = { igst: 0, cgst: 0, sgst: 0, cess: 0 };
+      months.forEach(function (m) { var t = tb[m]; if (!t || !t.ok) return; ['igst', 'cgst', 'sgst', 'cess'].forEach(function (h) { ['A', 'B'].forEach(function (sec) { var p = t.pay[sec][h]; if (p) tbCash[h] += p.cash + p.intCash + p.lateCash; }); }); });
+      var cl = ca.closing, cltot = { igst: cl ? cl.igst.tot : 0, cgst: cl ? cl.cgst.tot : 0, sgst: cl ? cl.sgst.tot : 0, cess: cl ? cl.cess.tot : 0 };
+      out.cash = { deposited: rd(dep), debited: rd(deb), tb3Cash: rd(tbCash), closing: cltot, diffDebited: rd({ igst: deb.igst - tbCash.igst, cgst: deb.cgst - tbCash.cgst, sgst: deb.sgst - tbCash.sgst, cess: deb.cess - tbCash.cess }), n: ca.entries.length };
+    }
+    // unclaimed ITC journals in Tally
+    var t = ctx.tally || {}; var ucl = { c: 0, i: 0 };
+    ['INPUT CGST'].forEach(function (k) { if (t[k]) t[k].entries.forEach(function (e) { if (/unclaimed itc/i.test(e.part)) ucl.c += e.cr - e.dr; }); });
+    ['INPUT IGST'].forEach(function (k) { if (t[k]) t[k].entries.forEach(function (e) { if (/unclaimed itc/i.test(e.part)) ucl.i += e.cr - e.dr; }); });
+    out.unclaimedJournals = rd(ucl);
+    out.tallyOpening = { inputC: t['INPUT CGST'] ? t['INPUT CGST'].opening : null, inputI: t['INPUT IGST'] ? t['INPUT IGST'].opening : null };
+    return out;
+  };
+
+  /* ============ GSTR-9 draft ============ */
+  A.gstr9 = function (ctx, monthly, itcm, sales, ledgers) {
+    var inp = ctx.inputs || {}; var T = {}; var notes = [];
+    function line(id, label, v, src, status, note) { return { id: id, label: label, v: v, src: src, status: status, note: note || '' }; }
+    function V(tx, i, c, s, cess) { return { tx: r2(tx || 0), i: r2(i || 0), c: r2(c || 0), s: r2(s || 0), cess: r2(cess || 0) }; }
+    var sum = { b2cs: z5(), b2cl: z5(), exp: z5(), hsn: z5(), b2b: z5(), cdnr: z5(), at: z5(), rcm: z5(), cdnur: z5(), b2bRcm: z5(), sezWP: z5(), sezWOP: z5(), deemed: z5(), expWP: z5(), expWOP: z5(), cdnrCr: z5(), cdnrDr: z5(), nil: { exempt: 0, nil: 0, nongst: 0 } };
+    var man = (inp.manual || {});
+    function M(id) { var m = man[id] || {}; return { tx: num(m.tx), i: num(m.i), c: num(m.c), s: num(m.s) }; }
+    function Mv(id) { var m = M(id); return V(m.tx, m.i, m.c, m.s); }
+    function mAny(id) { var m = M(id); return !!(m.tx || m.i || m.c || m.s); }
+    var fullInv = 0, months = monthly.length, missingR1 = [];
+    function ad(k, o) { return { tx: o.txval, i: o.iamt, c: o.camt, s: o.samt }; }
+    monthly.forEach(function (m) {
+      var r1 = (ctx.r1 || {})[m.ym];
+      if (!r1) { missingR1.push(m.label); return; }
+      addTo(sum.b2cs, ad(0, r1.b2cs)); addTo(sum.b2cl, ad(0, r1.b2cl)); addTo(sum.exp, ad(0, r1.exp)); addTo(sum.at, ad(0, r1.at)); addTo(sum.cdnur, ad(0, r1.cdnur));
+      sum.nil.exempt += r1.nil.exempt; sum.nil.nil += r1.nil.nil; sum.nil.nongst += r1.nil.nongst;
+      if (r1.draft) { missingR1.push(m.label + ' (draft/empty)'); return; }
+      addTo(sum.hsn, ad(0, r1.hsn));
+      if (r1.hasB2B) {
+        fullInv++;
+        addTo(sum.b2b, ad(0, r1.b2b)); addTo(sum.cdnr, ad(0, r1.cdnr)); addTo(sum.cdnrCr, ad(0, r1.cdnrCr)); addTo(sum.cdnrDr, ad(0, r1.cdnrDr));
+        addTo(sum.b2bRcm, ad(0, r1.b2bRcm)); addTo(sum.sezWP, ad(0, r1.sezWP)); addTo(sum.sezWOP, ad(0, r1.sezWOP)); addTo(sum.deemed, ad(0, r1.deemed));
+        addTo(sum.expWP, ad(0, r1.expWP)); addTo(sum.expWOP, ad(0, r1.expWOP));
+      } else {
+        /* B2B = HSN net total less B2C, exports, B2C credit notes and nil/exempt. Credit notes stay netted inside it. */
+        addTo(sum.b2b, { tx: r1.hsn.txval - r1.b2cs.txval - r1.b2cl.txval - r1.exp.txval - r1.cdnur.txval - r1.nil.exempt - r1.nil.nil, i: r1.hsn.iamt - r1.b2cs.iamt - r1.b2cl.iamt - r1.exp.iamt - r1.cdnur.iamt, c: r1.hsn.camt - r1.b2cs.camt - r1.b2cl.camt - r1.cdnur.camt, s: r1.hsn.samt - r1.b2cs.samt - r1.b2cl.samt - r1.cdnur.samt });
+        addTo(sum.expWP, ad(0, r1.exp));
+      }
+    });
+    monthly.forEach(function (m) { if (m.tb && m.tb.have) addTo(sum.rcm, { tx: m.tb.rcm.tx, i: m.tb.rcm.i, c: m.tb.rcm.c, s: m.tb.rcm.s }); });
+    var invMonths = fullInv;
+    // ---------- Part II : Table 4 and 5
+    var t4 = [];
+    function sub(a, b) { return { tx: a.tx - b.tx, i: a.i - b.i, c: a.c - b.c, s: a.s - b.s }; }
+    function plus() { var o = { tx: 0, i: 0, c: 0, s: 0 }; for (var q = 0; q < arguments.length; q++) { var x = arguments[q]; o.tx += x.tx; o.i += x.i; o.c += x.c; o.s += x.s; } return o; }
+    var vA = plus({ tx: sum.b2cs.tx + sum.b2cl.tx + sum.cdnur.tx, i: sum.b2cs.i + sum.b2cl.i + sum.cdnur.i, c: sum.b2cs.c + sum.b2cl.c + sum.cdnur.c, s: sum.b2cs.s + sum.b2cl.s + sum.cdnur.s });
+    var b2bRegular = sub(sum.b2b, plus(sum.b2bRcm, sum.sezWP, sum.sezWOP, sum.deemed));
+    var rowA = V(vA.tx, vA.i, vA.c, vA.s);
+    var rowB = V(b2bRegular.tx, b2bRegular.i, b2bRegular.c, b2bRegular.s);
+    var rowC = plus(sum.expWP, { tx: 0, i: 0, c: 0, s: 0 }); rowC = V(rowC.tx, rowC.i, 0, 0);
+    var rowD = plus(sum.sezWP, M('4D')); rowD = V(rowD.tx, rowD.i, rowD.c, rowD.s);
+    var rowE = plus(sum.deemed, M('4E')); rowE = V(rowE.tx, rowE.i, rowE.c, rowE.s);
+    var rowF = V(sum.at.tx, sum.at.i, sum.at.c, sum.at.s);
+    var rowG = V(sum.rcm.tx, sum.rcm.i, sum.rcm.c, sum.rcm.s);
+    var rowG1 = Mv('4G1');
+    var rowH = plus(rowA, rowB, rowC, rowD, rowE, rowF, rowG, rowG1); rowH = V(rowH.tx, rowH.i, rowH.c, rowH.s);
+    var cnReg = invMonths ? { tx: -sum.cdnrCr.tx, i: -sum.cdnrCr.i, c: -sum.cdnrCr.c, s: -sum.cdnrCr.s } : { tx: 0, i: 0, c: 0, s: 0 };
+    var dnReg = invMonths ? sum.cdnrDr : { tx: 0, i: 0, c: 0, s: 0 };
+    var rowI = plus(cnReg, M('4I')), rowJ = plus(dnReg, M('4J')), rowK = M('4K'), rowL = { tx: -M('4L').tx, i: -M('4L').i, c: -M('4L').c, s: -M('4L').s };
+    rowI = V(rowI.tx, rowI.i, rowI.c, rowI.s); rowJ = V(rowJ.tx, rowJ.i, rowJ.c, rowJ.s); rowK = V(rowK.tx, rowK.i, rowK.c, rowK.s); rowL = V(rowL.tx, rowL.i, rowL.c, rowL.s);
+    var rowM = plus(rowI, rowJ, rowK, rowL); rowM = V(rowM.tx, rowM.i, rowM.c, rowM.s);
+    var rowN = V(rowH.tx + rowM.tx, rowH.i + rowM.i, rowH.c + rowM.c, rowH.s + rowM.s);
+    var gross = 'Rule: 4B is shown gross and credit notes go in 4I; netting is not allowed. ';
+    var splitNote = gross + (invMonths === 0 ? 'GSTR-1 JSON has no B2B invoice or credit-note data for any month, so credit notes are netted inside 4B (taken as HSN net total less B2C, exports and nil). Upload the full GSTR-1 JSON for the exact 4B / 4I split.' : (invMonths < monthly.length ? 'Invoice-level B2B and credit-note data exists for ' + invMonths + ' of ' + monthly.length + ' months. In the other months credit notes are netted inside 4B and RCM / SEZ / deemed-export invoices cannot be separated. Totals in 4N are not affected.' : ''));
+    var fillNote = 'Not read from the JSON. Key it in under "Manual GSTR-9 entries".';
+    t4.push(line('4A', 'Supplies made to unregistered persons (B2C), net of B2C credit notes', rowA, 'GSTR-1 JSON (B2CS, B2CL, CDNUR)', 'auto'));
+    t4.push(line('4B', 'Supplies made to registered persons (B2B), gross, excluding RCM', rowB, invMonths ? 'GSTR-1 JSON / HSN net' : 'GSTR-1 HSN net less B2C', invMonths === monthly.length ? 'auto' : 'derived', splitNote));
+    t4.push(line('4C', 'Zero rated supply (export) on payment of tax (excl. SEZ)', rowC, 'GSTR-1 JSON (export type with payment)', 'auto', invMonths < monthly.length ? 'In months without invoice-level data all exports are taken as with payment of tax.' : ''));
+    t4.push(line('4D', 'Supply to SEZs on payment of tax', rowD, 'GSTR-1 JSON (B2B type SEWP) + manual', invMonths === monthly.length ? 'auto' : 'derived', invMonths === monthly.length ? '' : 'SEZ invoices can only be separated in months with invoice-level data. Add the rest manually.'));
+    t4.push(line('4E', 'Deemed exports', rowE, 'GSTR-1 JSON (B2B type DE) + manual', invMonths === monthly.length ? 'auto' : 'derived'));
+    t4.push(line('4F', 'Advances on which tax is paid but invoice not issued', rowF, 'GSTR-1 JSON (table 11)', 'auto', 'Advance adjustments (GSTR-1 11B) are not netted yet. Enter a negative amount under 4F manual if an advance was adjusted by an invoice in the year.'));
+    t4.push(line('4G', 'Inward supplies on which tax is payable on reverse charge', rowG, 'GSTR-3B 3.1(d)', 'auto'));
+    t4.push(line('4G1', 'Supplies on which the e-commerce operator pays tax, section 9(5)', rowG1, 'Manual', mAny('4G1') ? 'input' : 'input', fillNote));
+    t4.push(line('4H', 'Sub-total (A to G1)', rowH, 'Computed', 'computed'));
+    t4.push(line('4I', 'Credit notes issued in respect of 4B to 4E (negative)', rowI, invMonths ? 'GSTR-1 JSON CDNR' : 'Netted in 4B', invMonths ? 'auto' : 'derived'));
+    t4.push(line('4J', 'Debit notes issued in respect of 4B to 4E', rowJ, invMonths ? 'GSTR-1 JSON CDNR' : 'Netted in 4B', invMonths ? 'auto' : 'derived'));
+    t4.push(line('4K', 'Supplies / tax declared through amendments (+)', rowK, 'Manual', 'input', 'Amendment sections (B2BA, CDNRA) are not read. ' + fillNote));
+    t4.push(line('4L', 'Supplies / tax reduced through amendments (-)', rowL, 'Manual', 'input', 'Enter as a positive amount; it is deducted.'));
+    t4.push(line('4M', 'Sub-total (I to L)', rowM, 'Computed', 'computed'));
+    t4.push(line('4N', 'Supplies and advances on which tax is payable (H + M)', rowN, 'Computed', 'computed'));
+    T['4'] = { title: 'Table 4: Outward and inward supplies on which tax is payable', rows: t4 };
+    var nilTotal = sum.nil.exempt + sum.nil.nil + sum.nil.nongst;
+    var t5 = [];
+    var r5A = plus(sum.expWOP, M('5A')), r5B = plus(sum.sezWOP, M('5B')), r5C = plus(sum.b2bRcm, M('5C'));
+    r5A = V(r5A.tx, r5A.i, r5A.c, r5A.s); r5B = V(r5B.tx, r5B.i, r5B.c, r5B.s); r5C = V(r5C.tx, r5C.i, r5C.c, r5C.s);
+    var r5D = V(sum.nil.exempt, 0, 0, 0), r5E = V(sum.nil.nil, 0, 0, 0), r5F = V(sum.nil.nongst, 0, 0, 0);
+    var r5G = V(r5A.tx + r5B.tx + r5C.tx + r5D.tx + r5E.tx + r5F.tx, 0, 0, 0);
+    var r5H = M('5H'), r5I = M('5I'), r5J = M('5J'), r5K = M('5K');
+    var r5L = V(-r5H.tx + r5I.tx + r5J.tx - r5K.tx, 0, 0, 0);
+    var r5M = V(r5G.tx + r5L.tx, 0, 0, 0);
+    t5.push(line('5A', 'Zero rated supply (export) without payment of tax', r5A, 'GSTR-1 JSON (export type without payment) + manual', invMonths === monthly.length ? 'auto' : 'derived', invMonths < monthly.length ? 'Months without invoice-level data count all exports as with payment of tax (4C).' : ''));
+    t5.push(line('5B', 'Supply to SEZs without payment of tax', r5B, 'GSTR-1 JSON (B2B type SEWOP) + manual', invMonths === monthly.length ? 'auto' : 'derived'));
+    t5.push(line('5C', 'Supplies on which tax is to be paid by the recipient (RCM)', r5C, 'GSTR-1 JSON (B2B with reverse charge) + manual', invMonths === monthly.length ? 'auto' : 'derived'));
+    t5.push(line('5D', 'Exempted', r5D, 'GSTR-1 JSON (table 8)', 'auto'));
+    t5.push(line('5E', 'Nil rated', r5E, 'GSTR-1 JSON (table 8)', 'auto'));
+    t5.push(line('5F', 'Non-GST supply (includes no supply)', r5F, 'GSTR-1 JSON (table 8)', 'auto'));
+    t5.push(line('5G', 'Sub-total (A to F)', r5G, 'Computed', 'computed'));
+    t5.push(line('5H', 'Credit notes issued for 5A to 5F (-)', V(-r5H.tx, 0, 0, 0), 'Manual', 'input', fillNote + ' Enter as a positive amount.'));
+    t5.push(line('5I', 'Debit notes issued for 5A to 5F (+)', V(r5I.tx, 0, 0, 0), 'Manual', 'input', fillNote));
+    t5.push(line('5J', 'Amendments increasing 5A to 5F (+)', V(r5J.tx, 0, 0, 0), 'Manual', 'input', fillNote));
+    t5.push(line('5K', 'Amendments reducing 5A to 5F (-)', V(-r5K.tx, 0, 0, 0), 'Manual', 'input', fillNote + ' Enter as a positive amount.'));
+    t5.push(line('5L', 'Sub-total (H to K)', r5L, 'Computed', 'computed'));
+    t5.push(line('5M', 'Supplies on which tax is not payable (G + L)', r5M, 'Computed', 'computed'));
+    var n5 = rowN.tx + r5M.tx - rowG.tx - rowG1.tx;
+    t5.push(line('5N', 'Total turnover including advances (4N + 5M - 4G - 4G1)', V(n5, 0, 0, 0), 'Computed', 'computed'));
+    T['5'] = { title: 'Table 5: Outward supplies on which tax is not payable', rows: t5 };
+
+    // ---------- Part III : ITC
+    var sumA = { i: 0, c: 0, s: 0 }, sA = {}, sB1 = { i: 0, c: 0, s: 0 }, sB2 = { i: 0, c: 0, s: 0 }, sD1 = { i: 0, c: 0, s: 0 };
+    ['A1', 'A2', 'A3', 'A4', 'A5'].forEach(function (k) { sA[k] = { i: 0, c: 0, s: 0 }; });
+    monthly.forEach(function (m) {
+      var t = (ctx.tb || {})[m.ym]; if (!t || !t.ok) return;
+      ['A1', 'A2', 'A3', 'A4', 'A5'].forEach(function (k) { var x = t.itc[k]; if (x) { sA[k].i += x.igst; sA[k].c += x.cgst; sA[k].s += x.sgst; } });
+      var b1 = t.itc.B1, b2 = t.itc.B2, d1 = t.itc.D1; if (b1) { sB1.i += b1.igst; sB1.c += b1.cgst; sB1.s += b1.sgst; } if (b2) { sB2.i += b2.igst; sB2.c += b2.cgst; sB2.s += b2.sgst; } if (d1) { sD1.i += d1.igst; sD1.c += d1.cgst; sD1.s += d1.sgst; }
+    });
+    var A6 = { i: 0, c: 0, s: 0 }; ['A1', 'A2', 'A3', 'A4', 'A5'].forEach(function (k) { A6.i += sA[k].i; A6.c += sA[k].c; A6.s += sA[k].s; });
+    var prior = A.priorYear(ctx);
+    var capI = 0, capC = 0, capS = 0; monthly.forEach(function (m) { capI += m.itcreg.capI; capC += m.itcreg.capC; capS += m.itcreg.capS; });
+    var h6 = { i: sD1.i, c: sD1.c, s: sD1.s };
+    var b6 = { i: sA.A5.i - prior.i - h6.i - capI, c: sA.A5.c - prior.c - h6.c - capC, s: sA.A5.s - prior.s - h6.s - capS };
+    var a2 = { i: A6.i - prior.i, c: A6.c - prior.c, s: A6.s - prior.s };
+    var t6 = [];
+    t6.push(line('6A', 'Total ITC availed through GSTR-3B (Table 4A 1 to 5)', V(0, A6.i, A6.c, A6.s), 'GSTR-3B 4A', 'auto'));
+    t6.push(line('6A1', 'ITC of the preceding FY claimed in this FY (other than rule 37/37A reclaims)', V(0, prior.i, prior.c, prior.s), 'GSTR-2B invoices dated before FY start (' + prior.n + ' docs)', 'derived', 'Indicative: eligible 2B invoices dated before 1-Apr. The portal pre-fills this row. Take the portal figure.'));
+    t6.push(line('6A2', 'ITC pertaining to the current FY (6A - 6A1), split in 6B to 6H', V(0, a2.i, a2.c, a2.s), 'Computed', 'computed'));
+    t6.push(line('6B-inp', '6B(a)+(c) Inputs and input services from registered persons (incl. SEZ services)', V(0, b6.i, b6.c, b6.s), 'GSTR-3B 4A(5) less 6A1, 6H and capital goods', 'derived', 'Split of inputs and input services is optional. Excludes imports and RCM.'));
+    t6.push(line('6B-cap', '6B(b) Capital goods from registered persons', V(0, capI, capC, capS), 'ITC register rows marked "capital goods"', 'derived', 'Only rows marked capital goods in the register are counted. Audited additions to fixed assets are the cross-check.'));
+    t6.push(line('6C-6D', 'ITC on reverse charge (registered and unregistered suppliers)', V(0, sA.A3.i, sA.A3.c, sA.A3.s), 'GSTR-3B 4A(3)', 'auto'));
+    t6.push(line('6E', 'Import of goods (including SEZ)', V(0, sA.A1.i, sA.A1.c, sA.A1.s), 'GSTR-3B 4A(1)', 'auto'));
+    t6.push(line('6F', 'Import of services', V(0, sA.A2.i, sA.A2.c, sA.A2.s), 'GSTR-3B 4A(2)', 'auto'));
+    t6.push(line('6G', 'ITC received from ISD', V(0, sA.A4.i, sA.A4.c, sA.A4.s), 'GSTR-3B 4A(4)', 'auto'));
+    t6.push(line('6H', 'ITC reclaimed under the Act (rule 37/37A reclaims, in the year reclaimed)', V(0, h6.i, h6.c, h6.s), 'GSTR-3B 4D(1)', 'derived', 'Taken out of 3B 4A(5), as the reclaim is already inside 6A.'));
+    t6.push(line('6I', 'Sub-total (6B to 6H)', V(0, a2.i, a2.c, a2.s), 'Computed', 'computed'));
+    t6.push(line('6J', 'Difference (6I - 6A2)', V(0, 0, 0, 0), 'Computed', 'computed', 'Kept at nil. 6A1 is carved out of 6A so no difference arises.'));
+    var k6 = plus(M('6K'), M('6L'), M('6M'), M('6N')); k6 = V(0, k6.i, k6.c, k6.s);
+    t6.push(line('6K-6N', 'Transition credit (TRAN-I / II), ITC-01, ITC-02 and ITC-02A credit (6M label changed), others', k6, 'Manual', 'input', 'Not read from any file. Key it in under "Manual GSTR-9 entries" (6K to 6N, enter the total in 6K if you do not split).'));
+    t6.push(line('6O', 'Total ITC availed (6I + 6K to 6N)', V(0, a2.i + k6.i, a2.c + k6.c, a2.s + k6.s), 'Computed', 'computed'));
+    T['6'] = { title: 'Table 6: ITC availed during the FY', rows: t6 };
+    var t7 = [];
+    var r7ids = [['7A', 'Rule 37 reversals (180 days non-payment)'], ['7A1', 'Rule 37A reversals (supplier has not paid tax)'], ['7A2', 'Rule 38 reversals'], ['7B', 'Rule 39 reversals (ISD)'], ['7C', 'Rule 42 reversals'], ['7D', 'Rule 43 reversals'], ['7E', 'Section 17(5) ineligible credit'], ['7F', 'Reversal of TRAN-I credit'], ['7G', 'Reversal of TRAN-II credit'], ['7H', 'Other reversals (incl. ITC-03, section 18(4))']];
+    var allocated = { i: 0, c: 0, s: 0 };
+    r7ids.forEach(function (x) { var mm = M(x[0]); allocated.i += mm.i; allocated.c += mm.c; allocated.s += mm.s; t7.push(line(x[0], x[1], V(0, mm.i, mm.c, mm.s), 'Manual (split of GSTR-3B 4B)', 'input', x[0] === '7A' ? 'GSTR-3B shows 4B(1) = ' + r2(sB1.c) + ' CGST and 4B(2) = ' + r2(sB2.c) + ' CGST in two lumps. Split them into the rows below under "Manual GSTR-9 entries". 7H cannot absorb rules 37 / 37A from FY 2024-25.' : '')); });
+    var unalloc = { i: sB1.i + sB2.i - allocated.i, c: sB1.c + sB2.c - allocated.c, s: sB1.s + sB2.s - allocated.s };
+    t7.push(line('7X', 'Not yet split: GSTR-3B 4B(1) + 4B(2) less rows above', V(0, unalloc.i, unalloc.c, unalloc.s), 'GSTR-3B 4B', 'missing', 'Reversals in the 3B that are not yet placed in a named row. Not a form row: it exists so that 7I never understates the 3B. Must reach nil before filing.'));
+    var rev = { i: allocated.i + unalloc.i, c: allocated.c + unalloc.c, s: allocated.s + unalloc.s };
+    t7.push(line('7I', 'Total ITC reversed', V(0, rev.i, rev.c, rev.s), 'Computed', 'computed', 'Only current-year ITC reversals belong here. 3B reversals of earlier-year ITC cannot be told apart from the file.'));
+    t7.push(line('7J', 'Net ITC available for utilisation (6O - 7I)', V(0, a2.i + k6.i - rev.i, a2.c + k6.c - rev.c, a2.s + k6.s - rev.s), 'Computed', 'computed'));
+    T['7'] = { title: 'Table 7: ITC reversed and ineligible ITC', rows: t7 };
+    // Table 8
+    var b2fy = A.b2InFy(ctx); var claimedB = { i: b6.i + capI, c: b6.c + capC, s: b6.s + capS };
+    var need8 = !!inp.b2Later;
+    var b2Later = inp.b2Later || { i: 0, c: 0, s: 0 }, claimedLater = inp.claimedLater || { i: 0, c: 0, s: 0 };
+    var t8 = [];
+    t8.push(line('8A(a)', 'ITC per GSTR-2B for invoices dated in this FY (2B of ' + A.monthLabel(monthly[0].ym) + ' to ' + A.monthLabel(monthly[monthly.length - 1].ym) + ')', V(0, b2fy.i, b2fy.c, b2fy.s), 'GSTR-2B Excel files (eligible, net of credit notes)', 'derived', b2fy.n + ' documents.'));
+    t8.push(line('8A(b)', 'ITC per GSTR-2B of the next FY (April to October) for invoices dated in this FY', V(0, b2Later.i, b2Later.c, b2Later.s), 'GSTR-2B of the next April to October', need8 ? 'input' : 'missing', need8 ? '' : 'Not provided. The portal counts 2B up to October of the next FY. Upload those 2B files or enter the amount.'));
+    t8.push(line('8B', 'ITC availed as per 6B (current-FY invoices; 6H excluded)', V(0, claimedB.i, claimedB.c, claimedB.s), 'GSTR-3B 4A(5) less 6A1 and 6H', 'derived', 'From FY 2024-25 8B comes from 6B only.'));
+    t8.push(line('8C', 'ITC of this FY first availed in the next FY (3B 4A5, up to 30 Nov)', V(0, claimedLater.i, claimedLater.c, claimedLater.s), 'GSTR-3B of the next FY', inp.claimedLater ? 'input' : 'missing', inp.claimedLater ? '' : 'Needs the 3B of Apr to Nov of the next FY. Do not include ITC reversed and reclaimed (that goes to the next GSTR-9 Table 6H / 13).'));
+    var d8 = { i: b2fy.i + b2Later.i - claimedB.i - claimedLater.i, c: b2fy.c + b2Later.c - claimedB.c - claimedLater.c, s: b2fy.s + b2Later.s - claimedB.s - claimedLater.s };
+    t8.push(line('8D', 'ITC not availed (8A - (8B + 8C))', V(0, d8.i, d8.c, d8.s), 'Computed', 'computed', 'Indicative until 8A(b) and 8C are filled. A negative value needs an explanation.'));
+    T['8'] = { title: 'Table 8: ITC as per GSTR-2B and as availed', rows: t8 };
+    // Table 9
+    var pay = { igst: { pay: 0, cash: 0, i: 0, c: 0, s: 0, cess: 0 }, cgst: { pay: 0, cash: 0, i: 0, c: 0, s: 0, cess: 0 }, sgst: { pay: 0, cash: 0, i: 0, c: 0, s: 0, cess: 0 }, cess: { pay: 0, cash: 0, i: 0, c: 0, s: 0, cess: 0 } };
+    var intr = { igst: 0, cgst: 0, sgst: 0, cess: 0 }, late = { cgst: 0, sgst: 0 };
+    monthly.forEach(function (m) {
+      var t = (ctx.tb || {})[m.ym]; if (!t || !t.ok) return;
+      ['igst', 'cgst', 'sgst', 'cess'].forEach(function (h) { ['A', 'B'].forEach(function (sec) { var p = t.pay[sec][h]; if (!p) return; pay[h].pay += p.payable; pay[h].cash += p.cash; pay[h].i += p.itcI; pay[h].c += p.itcC; pay[h].s += p.itcS; pay[h].cess += p.itcCess; }); });
+      if (t.interest && t.interest.paid) { ['igst', 'cgst', 'sgst', 'cess'].forEach(function (h) { intr[h] += t.interest.paid[h] || 0; }); }
+      if (t.interest && t.interest.late) { late.cgst += t.interest.late.cgst || 0; late.sgst += t.interest.late.sgst || 0; }
+    });
+    var t9 = [];
+    [['igst', 'Integrated tax'], ['cgst', 'Central tax'], ['sgst', 'State/UT tax'], ['cess', 'Cess']].forEach(function (h) { var p = pay[h[0]]; t9.push({ id: '9-' + h[0], label: h[1], payable: r2(p.pay), cash: r2(p.cash), itcI: r2(p.i), itcC: r2(p.c), itcS: r2(p.s), itcCess: r2(p.cess), src: 'GSTR-3B 6.1', status: 'auto' }); });
+    t9.push({ id: '9-int', label: 'Interest', payable: 0, cash: r2(intr.igst + intr.cgst + intr.sgst + intr.cess), src: 'GSTR-3B 5.1', status: 'auto' });
+    t9.push({ id: '9-late', label: 'Late fee', payable: 0, cash: r2(late.cgst + late.sgst), src: 'GSTR-3B 5.1', status: 'auto' });
+    T['9'] = { title: 'Table 9: Tax paid as declared in returns', rows9: t9 };
+    // Table 17 HSN
+    var hs = {};
+    Object.keys(ctx.r1 || {}).forEach(function (m) { var r = ctx.r1[m]; if (r.draft) return; r.hsnRows.forEach(function (h) { var k = h.hsn + '|' + h.rt + '|' + h.uqc; var o = hs[k] || (hs[k] = { hsn: h.hsn, rt: h.rt, uqc: h.uqc, desc: h.desc, qty: 0, tx: 0, i: 0, c: 0, s: 0 }); o.qty += h.qty; o.tx += h.txval; o.i += h.iamt; o.c += h.camt; o.s += h.samt; }); });
+    var hsList = Object.keys(hs).map(function (k) { return rd(hs[k]); }).sort(function (a, b) { return b.tx - a.tx; });
+    T['17'] = { title: 'Table 17: HSN-wise summary of outward supplies', hsn: hsList };
+    T._meta = { missingR1: missingR1, fullInvoiceMonths: invMonths, n5: n5, n4: rowN };
+    // ---------- 9C bridge
+    T.c = A.gstr9c(ctx, T, monthly, sales, ledgers, itcm, { rowN: rowN, n5: n5, A6: A6, prior: prior, capI: capI, capC: capC, capS: capS });
+    return T;
+  };
+
+  /* ============ GSTR-9C bridge (form structure per notified GSTR-9C: Tables 5, 7, 9, 12) ============ */
+  A.gstr9c = function (ctx, T, monthly, sales, ledgers, itcm, k) {
+    var inp = ctx.inputs || {}; var out = { turnover: [], taxable: [], rate: [], pay: [], itc: [] };
+    function g(key) { return inp[key] != null && inp[key] !== '' ? num(inp[key]) : 0; }
+    function ln(id, label, val, src, status, note) { return { id: id, label: label, v: r2(val), src: src, status: status, note: note || '' }; }
+    var fs = g('fsTurnover'), tcol = [];
+    function add(id, label, sign, val, src, status, note) { tcol.push(ln(id, label + ' (' + sign + ')', sign === '-' ? -val : val, src, status, note)); }
+    tcol.push(ln('5A', 'Turnover per audited financial statements (State/UT)', fs, 'Audited P&L, revenue from operations', fs ? 'input' : 'missing', fs ? 'For several GSTINs under one PAN, enter this GSTIN\'s share.' : 'Enter the audited turnover.'));
+    add('5B', 'Unbilled revenue at the beginning of the FY', '+', g('unbilledBeg'), 'Input', 'input');
+    add('5C', 'Unadjusted advances at the end of the FY', '+', g('advEnd'), 'Input (audited note: advance from customers)', 'input', 'Include only advances on which GST is payable (services). Advances for goods are generally not taxable.');
+    add('5D', 'Deemed supply under Schedule I', '+', g('deemed'), 'Input', 'input');
+    add('5E', 'Credit notes issued after the end of the FY but reflected in the annual return', '-', g('cnAfterYE'), 'Input', 'input');
+    add('5F', 'Trade discounts accounted in the FS but not permissible under section 15', '+', g('tradeDisc'), 'Input', 'input');
+    add('5G', 'Turnover for April to June 2017', '-', 0, 'Not applicable', 'computed');
+    add('5H', 'Unbilled revenue at the end of the FY', '-', g('unbilledEnd'), 'Input', 'input');
+    add('5I', 'Unadjusted advances at the beginning of the FY', '-', g('advBeg'), 'Input (audited note: advance from customers)', 'input', 'Include only advances on which GST was paid earlier.');
+    add('5J', 'Credit notes accounted in the FS but not permissible under GST', '+', g('cnNotIn9'), 'Input', 'input');
+    add('5K', 'Adjustments for supplies by SEZ units to DTA units', '-', g('sezDta'), 'Input', 'input');
+    add('5L', 'Turnover for the period under the composition scheme', '-', 0, 'Not applicable', 'computed');
+    tcol.push(ln('5M', 'Adjustments in turnover under section 15 and the rules (+/-)', g('sec15'), 'Input', 'input', 'Enter with its sign.'));
+    tcol.push(ln('5N', 'Adjustments due to foreign exchange fluctuations (+/-)', g('forex'), 'Input', 'input', 'Enter with its sign.'));
+    tcol.push(ln('5O', 'Other adjustments, reasons not listed above (+/-)', g('otherAdj'), 'Input', 'input', 'Enter with its sign. Taxable other income, freight recharge and similar items go here with a note.'));
+    var p5 = tcol.reduce(function (a, r) { return a + r.v; }, 0);
+    var q5 = k.n5 + g('prevYearAdd');
+    tcol.push(ln('5P', 'Annual turnover after adjustments (5A to 5O)', p5, 'Computed', 'computed'));
+    tcol.push(ln('5Q', 'Turnover as declared in the annual return (GSTR-9 Table 5N, with Tables 10 and 11)', q5, 'GSTR-9 draft', 'computed', 'Part V amounts (Tables 10 and 11 of GSTR-9) go in "previous year additions". None by default.'));
+    tcol.push(ln('5R', 'Un-reconciled turnover (5Q - 5P)', q5 - p5, 'Computed', 'computed', 'Any non-zero value is explained in Table 6 of 9C.'));
+    out.turnover = tcol; out.p5 = r2(p5); out.q5 = r2(q5); out.unrecTurnover = r2(q5 - p5);
+    // Table 7 taxable turnover
+    function t5v(id) { return T['5'].rows.filter(function (r) { return r.id === id; })[0].v.tx; }
+    var nil = t5v('5D') + t5v('5E') + t5v('5F'), rcmOut = t5v('5C'), zero = t5v('5A') + t5v('5B'), d1 = g('sec95Ecom');
+    var e7 = p5 - nil - zero - rcmOut - d1;
+    var f7 = k.rowN.tx - T['4'].rows.filter(function (r) { return r.id === '4G'; })[0].v.tx - T['4'].rows.filter(function (r) { return r.id === '4G1'; })[0].v.tx;
+    out.taxable = [ln('7A', 'Annual turnover after adjustments (from 5P)', p5, 'Computed', 'computed'), ln('7B', 'Exempt, nil-rated, non-GST and no-supply turnover', nil, 'GSTR-9 Table 5D to 5F', 'computed'), ln('7C', 'Zero rated supplies without payment of tax', zero, 'GSTR-9 Table 5A and 5B', 'computed'), ln('7D', 'Supplies on which tax is paid by the recipient on reverse charge', rcmOut, 'GSTR-9 Table 5C', 'computed'), ln('7D1', 'Supplies on which the e-commerce operator pays tax, section 9(5)', d1, 'Input', 'input', 'Added by Notification 13/2025-CT. Enter if you made such supplies through an e-commerce operator.'), ln('7E', 'Taxable turnover (7A - 7B - 7C - 7D - 7D1)', e7, 'Computed', 'computed'), ln('7F', 'Taxable turnover per liability declared in GSTR-9 (4N less 4G and 4G1)', f7, 'GSTR-9 draft', 'computed'), ln('7G', 'Un-reconciled taxable turnover (7F - 7E)', f7 - e7, 'Computed', 'computed', 'Explained in Table 8 of 9C.')];
+    out.unrecTaxable = r2(f7 - e7);
+    out.hints = [];
+    // Table 9 rate-wise
+    var rw = sales.rateWise || {}, r1rate = {};
+    Object.keys(ctx.r1 || {}).forEach(function (m) { var r = ctx.r1[m]; if (r.draft) return; r.hsnRows.forEach(function (h) { var s = nearSlab(h.rt).slab; var o = r1rate[s] || (r1rate[s] = { tx: 0, i: 0, c: 0, s: 0 }); o.tx += h.txval; o.i += h.iamt; o.c += h.camt; o.s += h.samt; }); });
+    var slabs = {}; Object.keys(rw).forEach(function (s) { slabs[s] = 1; }); Object.keys(r1rate).forEach(function (s) { slabs[s] = 1; });
+    var booksTax = 0;
+    Object.keys(slabs).map(Number).sort(function (a, b) { return a - b; }).forEach(function (s) {
+      var a = r1rate[s] || { tx: 0, i: 0, c: 0, s: 0 }, b = rw[s] || { tx: 0, i: 0, c: 0, s: 0 }; booksTax += b.i + b.c + b.s;
+      out.rate.push({ rate: s, r1: rd({ tx: a.tx, tax: a.i + a.c + a.s }), books: rd({ tx: b.tx, tax: b.i + b.c + b.s }), dTx: r2(a.tx - b.tx), dTax: r2(a.i + a.c + a.s - b.i - b.c - b.s) });
+    });
+    var rcmTax = 0; monthly.forEach(function (m) { if (m.tb && m.tb.have) rcmTax += m.tb.rcm.i + m.tb.rcm.c + m.tb.rcm.s; });
+    var paid9 = 0; (T['9'].rows9 || []).forEach(function (r) { if (/^9-(igst|cgst|sgst|cess)$/.test(r.id)) paid9 += r.payable; });
+    var p9 = booksTax + rcmTax;
+    out.pay = [ln('9P', 'Tax payable per books: outward tax by rate (sales register) plus reverse charge (3B 3.1(d))', p9, 'Sales register, GSTR-3B', 'derived', 'Rate is read from tax divided by taxable value, rounded to the nearest slab. Interest, late fee and penalty are not included.'), ln('9Q', 'Tax paid per GSTR-9 Table 9 (payable column)', paid9, 'GSTR-9 draft', 'computed'), ln('9R', 'Un-reconciled payment (9Q - 9P)', paid9 - p9, 'Computed', 'computed', 'Sign convention follows 5R (annual return minus books). Check against the utility.')];
+    out.unrecPay = r2(paid9 - p9);
+    // Table 12 ITC
+    var t = ctx.tally || {}; function sumLed(name, f) { var x = t[name]; if (!x) return 0; return x.entries.reduce(function (a, e) { return a + f(e); }, 0); }
+    var inDr = function (e) { return e.vt === 'Credit Note' ? 0 : e.dr - ((e.vt === 'Debit Note') ? e.cr : 0); };
+    var booksIn = { c: sumLed('INPUT CGST', inDr), i: sumLed('INPUT IGST', inDr) };
+    var openIn = { c: t['INPUT CGST'] ? t['INPUT CGST'].opening : 0, i: t['INPUT IGST'] ? t['INPUT IGST'].opening : 0 };
+    var rcmIn = sumLed('CGST Input RCM', function (e) { return e.dr - e.cr; });
+    var gross12 = booksIn.i + 2 * booksIn.c + rcmIn * 2;
+    var unc = ledgers.unclaimedJournals || { c: 0, i: 0 }; var openTot = (openIn.i || 0) + 2 * (openIn.c || 0);
+    var revBooks = g('itcRevBooks'), a12 = gross12 - revBooks, c12 = unc.i + 2 * unc.c, b12 = g('itcPrevBooked');
+    var d12 = a12 + b12 - c12;
+    var j7 = T['7'].rows.filter(function (r) { return r.id === '7J'; })[0].v, e12 = j7.i + j7.c + j7.s;
+    out.itc = [ln('12A', 'ITC availed as per audited FS or books, after reversals', a12, 'Tally input ledgers (debits less debit notes, plus RCM input) less reversals entered', 'derived', 'Gross booked ITC is ' + r2(gross12) + '. This row must be net of reversals: enter the reversals booked in "ITC reversed in books" below. Unclaimed-ITC journal credits are not netted here; they appear in 12C.'),
+      ln('12B', 'ITC booked in an earlier FY and claimed in this FY (+)', b12, 'Input', 'input', 'Opening balance of the Tally input ledgers is ' + r2(openTot) + '. Enter it if it was claimed in this FY. It should tie with GSTR-9 Table 6A1.'),
+      ln('12C', 'ITC booked in this FY and to be claimed in a later FY (-)', -c12, 'Tally "Unclaimed ITC" journals', 'derived', 'Confirm these journals really stand for ITC to be claimed later. It should tie with GSTR-9 Table 8C / 13.'),
+      ln('12D', 'ITC per books (12A + 12B - 12C)', d12, 'Computed', 'computed'),
+      ln('12E', 'Net ITC per GSTR-9 Table 7J', e12, 'GSTR-9 draft', 'computed', 'Table 7J is 6O less 7I. It excludes 6A1 (earlier-year ITC).'),
+      ln('12F', 'Un-reconciled ITC (12D - 12E)', d12 - e12, 'Computed', 'computed', 'Sign and formula as the utility shows them take priority; check there.')];
+    out.unrecItc = r2(d12 - e12);
+    return out;
+  };
+
+  /* ============ exceptions ============ */
+  A.exceptions = function (ctx, monthly, itcm, sales, ledgers, T) {
+    var ex = [], n = 0, tol = ctx.tol;
+    function add(sev, area, title, detail, amount, action, tbl, ref) { ex.push({ id: 'E' + (++n), sev: sev, area: area, title: title, detail: detail, amount: amount == null ? null : r2(amount), action: action || '', table: tbl || '', ref: ref || '' }); }
+    function inr(x) { var v = Math.abs(x); return (x < 0 ? '-' : '') + 'Rs ' + v.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+    monthly.forEach(function (m) {
+      if (m.flags.indexOf('R1_MISSING') >= 0) add('high', 'GSTR-1', 'GSTR-1 JSON missing for ' + m.label, 'No GSTR-1 file was uploaded for this month, so GSTR-9 Tables 4 and 5 cannot be built for it.', null, 'Download the filed GSTR-1 JSON from the portal and upload it.', '4,5', m.ym);
+      if (m.flags.indexOf('R1_DRAFT') >= 0) add('high', 'GSTR-1', 'GSTR-1 JSON for ' + m.label + ' is empty (draft flag only)', 'The file has no sales data. The filed return has ' + (m.tb && m.tb.have ? inr(m.tb.a.tx) + ' taxable value in 3B' : 'data') + '.', m.tb && m.tb.have ? m.tb.a.tx : null, 'Download the filed GSTR-1 again (not the draft) and upload.', '4,5', m.ym);
+      if (m.flags.indexOf('TB_MISSING') >= 0) add('high', 'GSTR-3B', 'GSTR-3B missing for ' + m.label, 'Table 6, 7 and 9 cannot be built.', null, 'Upload the filed GSTR-3B.', '6,7,9', m.ym);
+      if (m.flags.indexOf('R1_VS_3B') >= 0 && m.d && m.d.r1_tb) add(Math.abs(m.d.r1_tb.tx) > 10000 ? 'high' : 'medium', 'GSTR-1 vs 3B', 'GSTR-1 and GSTR-3B differ in ' + m.label, 'GSTR-3B minus GSTR-1: taxable ' + inr(m.d.r1_tb.tx) + ' (IGST ' + inr(m.d.r1_tb.i) + ', CGST ' + inr(m.d.r1_tb.c) + ').', m.d.r1_tb.tx, 'GSTR-9 Table 4 takes GSTR-1 figures while Table 9 takes 3B. Explain this in 9C row 5Q or the tax reconciliation, or adjust through the next period if it is an error.', '4,9', m.ym);
+      if (m.flags.indexOf('R1_VS_BOOKS') >= 0 && m.d && m.d.r1_reg) add('medium', 'GSTR-1 vs books', 'GSTR-1 differs from the sales register in ' + m.label, 'Register taxable value is ' + inr(-m.d.r1_reg.tx) + ' different (CGST ' + inr(m.d.r1_reg.c) + ', IGST ' + inr(m.d.r1_reg.i) + ').', m.d.r1_reg.tx, 'Find the invoices behind the gap using the invoice-level list, then fix in books or declare in the next GSTR-1 amendment.', '4', m.ym);
+      if (m.flags.indexOf('RCM_VALUE') >= 0) add('medium', 'GSTR-3B', 'Reverse charge value looks wrong in ' + m.label, '3.1(d) shows taxable value ' + inr(m.tb.rcm.tx) + ' but the tax paid works out to only ' + m.tb.rcmRate + '% of it.', m.tb.rcm.tx, 'Check the RCM working. If the value is an entry error it flows into GSTR-9 Table 4G and 5N.', '4G', m.ym);
+      if (m.flags.indexOf('TALLY_VS_REGISTER') >= 0 && m.d && m.d.tally_out) add('low', 'Books', 'Tally output tax ledger differs from the sales register in ' + m.label, 'CGST ' + inr(m.d.tally_out.c) + ', IGST ' + inr(m.d.tally_out.i) + '.', m.d.tally_out.c, 'Check cut-off or vouchers posted to the wrong month.', '', m.ym);
+    });
+    // sales checks
+    var s = sales;
+    if (s.gstinBad.length) add('medium', 'Sales register', s.gstinBad.length + ' invoices have a GSTIN that is not in valid format', 'First: ' + s.gstinBad.slice(0, 3).map(function (x) { return x.inv + ' (' + x.g + ')'; }).join(', ') + '.', s.gstinBad.reduce(function (a, x) { return a + x.tax; }, 0), 'Correct the party GSTIN in books. Invalid GSTINs fall out of B2B in GSTR-1.', '4B');
+    if (s.taxType.length) add('medium', 'Sales register', s.taxType.length + ' invoices where the tax type may not match the buyer state', 'Example: ' + s.taxType[0].inv + ' (' + s.taxType[0].why + ').', s.taxType.reduce(function (a, x) { return a + x.c + x.s + x.i; }, 0), 'Check place of supply on these invoices (bill-to and ship-to). Fix with a credit note and a new invoice if the tax type is wrong.', '4B');
+    if (s.rate.length) add('low', 'Sales register', s.rate.length + ' invoices with a rate that needs a look', s.rate.slice(0, 2).map(function (x) { return x.inv + ': ' + x.why; }).join('; ') + '.', null, 'Review HSN and rate on these. Rates changed from 22-Sep-2025.', '17');
+    if (s.dup.length) add('high', 'Sales register', s.dup.length + ' invoice numbers appear more than once', 'First: ' + s.dup.slice(0, 3).map(function (x) { return x.inv; }).join(', ') + '.', s.dup.reduce(function (a, x) { return a + x.tx; }, 0), 'Check for double posting. A duplicate invoice inflates GSTR-1 turnover.', '4');
+    s.series.forEach(function (q) { if (q.missingCount) add('low', 'Invoice series', 'Invoice series ' + q.prefix + ' has ' + q.missingCount + ' numbers missing', 'Range ' + q.min + ' to ' + q.max + ', ' + q.issuedInBooks + ' invoices in books. GSTR-1 shows ' + s.r1Docs.cancelled + ' cancelled documents in total.', null, 'Match the missing numbers to cancelled invoices. GSTR-1 table 13 must show them as cancelled.', '');
+    });
+    Object.keys(s.invoiceMatch).forEach(function (m) { var im = s.invoiceMatch[m]; if (im.onlyR1.length || im.onlyBooks.length || im.mismatch.length) add('medium', 'GSTR-1 vs books', 'Invoice-level differences in ' + A.monthLabel(m), im.onlyR1.length + ' invoices only in GSTR-1, ' + im.onlyBooks.length + ' only in books, ' + im.mismatch.length + ' with different values (' + im.matched + ' match).', null, 'Open the invoice list for this month and fix or amend.', '4B', m); });
+    // ITC
+    var it = itcm.totals;
+    if (it.onlyBooks.n) add('high', 'ITC', it.onlyBooks.n + ' invoices booked but not in GSTR-2B', 'ITC on them: IGST ' + inr(it.onlyBooks.i) + ', CGST ' + inr(it.onlyBooks.c) + ', SGST ' + inr(it.onlyBooks.s) + '. If these were claimed in 3B the credit is at risk.', it.onlyBooks.i + it.onlyBooks.c + it.onlyBooks.s, 'Follow up with the suppliers to file or correct. If ITC was claimed, expect to reverse it or disclose it in Table 7 / 9C row 12.', '6,7,8', '');
+    if (it.only2b.n) add('medium', 'ITC', it.only2b.n + ' invoices in GSTR-2B but not in the books register', 'ITC available: IGST ' + inr(it.only2b.i) + ', CGST ' + inr(it.only2b.c) + ', SGST ' + inr(it.only2b.s) + '.', it.only2b.i + it.only2b.c + it.only2b.s, 'Book the eligible ones before the claim date and claim them. They explain 8D and the gap in 9C row 12.', '8');
+    if (it.mismatch.n) add('medium', 'ITC', it.mismatch.n + ' invoices booked at a different tax amount than GSTR-2B', 'Net difference: IGST ' + inr(it.mismatch.dI) + ', CGST ' + inr(it.mismatch.dC) + '.', it.mismatch.dI + 2 * it.mismatch.dC, 'Correct the books or ask the supplier to amend.', '8');
+    if (it.numberMismatch.n) add('low', 'ITC', it.numberMismatch.n + ' invoices matched only on supplier and tax amount (invoice number differs)', 'Likely the same document with a different number format.', null, 'Correct the invoice number in books so the next reconciliation matches.', '');
+    if (it.ineligible.n) add('low', 'ITC', it.ineligible.n + ' invoices shown by GSTR-2B as ITC not available', 'Tax: IGST ' + inr(it.ineligible.i) + ', CGST ' + inr(it.ineligible.c) + '.', it.ineligible.i + it.ineligible.c + it.ineligible.s, 'Confirm none were claimed in 3B.', '6,7');
+    monthly.forEach(function (m) { if (m.flags.indexOf('ITC_3B_VS_2B') >= 0 && m.d.itc_tb_b2) add('low', 'ITC', '3B ITC differs from 2B (net of credit notes) in ' + m.label, '3B 4A(5) minus 2B: IGST ' + inr(m.d.itc_tb_b2.i) + ', CGST ' + inr(m.d.itc_tb_b2.c) + '.', m.d.itc_tb_b2.c, 'Record the reason (blocked credit, IMS rejection, late booking). Table 8D will show the total.', '8', m.ym); });
+    if (T['8'].rows.some(function (r) { return r.status === 'missing'; })) add('medium', 'GSTR-9', 'Table 8 is incomplete', '8A(b) and 8C need the GSTR-2B and GSTR-3B of April to October of the next FY.', null, 'Upload those files or enter the totals.', '8');
+    var p = T['6'].rows[1].v; if (p.c || p.i) add('info', 'GSTR-9', 'ITC of earlier-year invoices appears in this year (6A1)', 'About IGST ' + inr(p.i) + ', CGST ' + inr(p.c) + ' from 2B invoices dated before 1 April.', p.i + 2 * p.c, 'Confirm these were claimed in this FY and enter 6A1.', '6A1');
+    // 9C
+    var c9 = T.c;
+    if (Math.abs(c9.unrecTurnover) > tol) add(Math.abs(c9.unrecTurnover) > 100000 ? 'high' : 'medium', 'GSTR-9C', 'Turnover per accounts and per GSTR-9 differ by ' + inr(c9.unrecTurnover) + ' (9C row 5R)', 'Turnover after adjustments (5P) is ' + inr(c9.p5) + ' and GSTR-9 (5Q) is ' + inr(c9.q5) + '. Difference is annual return minus accounts.', c9.unrecTurnover, 'Find the reason (taxable other income, freight recharge, discounts, advances, timing). Edit GSTR-9 Table 4 if it is an error, otherwise explain it in 9C Table 6.', '4,5,9C 5R');
+    if (Math.abs(c9.unrecTaxable) > tol && Math.abs(c9.unrecTaxable - c9.unrecTurnover) > tol) add('medium', 'GSTR-9C', 'Taxable turnover differs by ' + inr(c9.unrecTaxable) + ' (9C row 7G)', 'Differs from the 5R gap, so exempt, nil, zero-rated or RCM values differ between the two tables.', c9.unrecTaxable, 'Check Table 5 of GSTR-9 against the exempt / nil figures.', '5,9C 7G');
+    if (Math.abs(c9.unrecPay) > tol) add('medium', 'GSTR-9C', 'Tax paid per GSTR-9 differs from tax payable per books by ' + inr(c9.unrecPay) + ' (9C row 9R)', 'Books tax is rebuilt from the sales register by rate plus RCM. Small gaps come from rate rounding.', c9.unrecPay, 'Review rate-wise differences in the 9C bridge. Interest and late fee are outside this check.', '9,9C 9R');
+    if (Math.abs(c9.unrecItc) > tol) add('medium', 'GSTR-9C', 'ITC per books and per GSTR-9 Table 7J differ by ' + inr(c9.unrecItc) + ' (9C row 12F)', 'See the ITC rows in the 9C bridge. Enter reversals booked and ITC booked earlier to close known gaps.', c9.unrecItc, 'Find the reasons. Explain in 9C Table 13 or correct GSTR-9 Table 6.', '6,7,9C 12F');
+    // form-rule checks
+    if (T._meta.fullInvoiceMonths < monthly.length) add('high', 'GSTR-9', 'Table 4B is derived net of credit notes for ' + (monthly.length - T._meta.fullInvoiceMonths) + ' months', 'GSTR-9 needs 4B gross and credit notes separately in 4I; netting is not allowed. The 4N total is right but 4B and 4I are not.', null, 'Download the full GSTR-1 JSON for those months so 4B and 4I can be split.', '4B,4I');
+    var hs = (T['17'] && T['17'].hsn) || [], bigT = T._meta.n5 > 50000000;
+    var shortHsn = hs.filter(function (x) { return String(x.hsn).replace(/\D/g, '').length < (bigT ? 6 : 4); });
+    if (shortHsn.length) add('medium', 'GSTR-9', shortHsn.length + ' HSN lines have fewer digits than required', (bigT ? 'Turnover above Rs 5 crore needs 6-digit HSN.' : 'Turnover up to Rs 5 crore needs at least 4-digit HSN.') + ' Example: ' + shortHsn.slice(0, 3).map(function (x) { return x.hsn; }).join(', ') + '.', null, 'Correct HSN in books and in GSTR-1 table 12 practice from now on.', '17');
+    var nTurn = T._meta.n5;
+    add('info', 'GSTR-9', nTurn > 50000000 ? 'Turnover is above Rs 5 crore: GSTR-9 and a self-certified 9C are needed' : (nTurn > 20000000 ? 'Turnover is above Rs 2 crore: GSTR-9 is needed' : 'Turnover is within the Rs 2 crore GSTR-9 exemption for this GSTIN'), 'Thresholds are on aggregate turnover across all GSTINs of the PAN, so check the other GSTINs. Exemption up to Rs 2 crore is under Notification 15/2025-CT. Due date 31 Dec 2026 unless extended.', null, 'Confirm aggregate turnover for the PAN.', '');
+    add('info', 'GSTR-9', 'Not built in this tool: GSTR-9 Tables 10 to 16 and 18, Part V and 9C Tables 14 and 16', 'Tables 10, 11 (prior-year changes), 12, 13 (ITC reversed / availed in the next FY) and 15, 16, 18 (optional) are not computed. 4K/4L amendments, 5H to 5L notes and SEZ / deemed export rows are not read from the JSON.', null, 'Fill these from the portal or your working.', '10-16,18');
+    // ledger checks
+    if (ledgers.credit && ledgers.credit.closing && Math.abs(ledgers.credit.closing.total) > tol) add('info', 'Ledgers', 'Credit ledger has a closing balance', 'Portal credit ledger closing is ' + inr(ledgers.credit.closing.total) + '.', ledgers.credit.closing.total, 'Compare with the GST input balance in the books.', '');
+    if (ctx.inputs && ctx.inputs.booksGstInput != null && ledgers.credit && ledgers.credit.closing) { var dif = ctx.inputs.booksGstInput - ledgers.credit.closing.total; if (Math.abs(dif) > tol) add('medium', 'Ledgers', 'GST input in books differs from the portal credit ledger', 'Books ' + inr(ctx.inputs.booksGstInput) + ', portal ' + inr(ledgers.credit.closing.total) + '.', dif, 'Reverse or explain the balance before the audit is signed.', '9C 12'); }
+    var sev = { high: 0, medium: 1, low: 2, info: 3 };
+    ex.sort(function (a, b) { return sev[a.sev] - sev[b.sev] || Math.abs(b.amount || 0) - Math.abs(a.amount || 0); });
+    return ex;
+  };
+
+
+  // ---- Mode 1 additions: classification (a)-(d), law reference, deadline, DATA NEEDED, exposure ----
+  var CLS = {
+    a: 'Correct in GSTR-9 / declare in next-year return (Tables 10-14) within the cut-off',
+    b: 'Pay voluntarily by DRC-03 (tax + interest) before filing GSTR-9',
+    c: 'Cannot be corrected - keep documents and defence ready',
+    d: 'Reverse ITC (or reclaim where allowed)',
+    n: 'DATA NEEDED - cannot be classified yet'
+  };
+  A.CLS = CLS;
+  A.DUE_9 = '2026-12-31';   // GSTR-9/9C due date FY 2025-26 : VERIFY on portal
+  A.DUE_16_4 = '2026-11-30';
+  A.classify = function (e) {
+    var t = (e.title || '') + ' ' + (e.area || ''), c = 'c', law = '', by = 'Before filing GSTR-9/9C', why = '';
+    var neg = e.amount != null && e.amount < 0;
+    if (/missing|empty \(draft/i.test(t) || /incomplete/i.test(t)) { c = 'n'; law = 'Rule 80 CGST Rules (annual return from filed data)'; why = 'Input file not received.'; }
+    else if (/GSTR-1 and GSTR-3B differ/i.test(t)) { c = neg ? 'b' : 'a'; law = 'Sec 37, 39, 50; Rule 88B; GSTR-9 Tables 4, 9, 10-11'; why = neg ? 'GSTR-3B liability is lower than GSTR-1: tax may be short paid.' : 'GSTR-3B is higher than GSTR-1: excess is shown in GSTR-9, no refund through GSTR-9.'; by = neg ? 'Before GSTR-9 is filed (interest runs daily)' : by; }
+    else if (/differs from the sales register|Invoice-level differences|Tally output/i.test(t)) { c = 'a'; law = 'Sec 34 / Sec 37; GSTR-9 Tables 10-11; Notif. on time limit for 10/11 (31 Dec 2026 or return date) VERIFY'; why = 'Books and filed return differ. Find the invoice behind the gap.'; }
+    else if (/Reverse charge value/i.test(t)) { c = 'a'; law = 'Sec 9(3)/9(4); GSTR-9 Table 4G, 6C/6D'; why = 'Check RCM working.'; }
+    else if (/invoices have a GSTIN|tax type may not match|rate that needs|more than once|series/i.test(t)) { c = 'c'; law = 'Sec 31, 12/13, 10 IGST (place of supply); Rule 46'; why = 'Documentation or data quality point.'; if (/more than once/.test(t)) { c = 'a'; law = 'Sec 34; GSTR-9 Table 10-11'; } }
+    else if (/booked but not in GSTR-2B/i.test(t)) { c = 'd'; law = 'Sec 16(2)(aa), 38; Rule 36(4) as applicable; Sec 50(3)'; why = 'ITC claimed without supplier-reported invoice.'; by = 'Before filing GSTR-9; reverse in 3B / DRC-03'; }
+    else if (/in GSTR-2B but not in the books/i.test(t)) { c = 'd'; law = 'Sec 16(4): claim by 30 Nov 2026 or annual return date, earlier - VERIFY'; why = 'Eligible ITC not claimed yet.'; by = '30 Nov 2026 (VERIFY) or earlier'; }
+    else if (/different tax amount/i.test(t)) { c = 'd'; law = 'Sec 16(2)(aa), 38; Rule 36(4)'; why = 'Claim cannot exceed supplier-reported tax.'; }
+    else if (/ITC not available/i.test(t)) { c = 'd'; law = 'Sec 16(2)(aa), Sec 17(5), Rule 38'; why = 'Check that blocked/ineligible credit was not claimed.'; }
+    else if (/matched only on supplier/i.test(t)) { c = 'a'; law = 'Rule 36(1); books hygiene'; why = 'Same document, number format differs.'; }
+    else if (/3B ITC differs from 2B/i.test(t)) { c = neg ? 'a' : 'd'; law = 'Sec 16(2)(aa); Rule 36(4); GSTR-9 Table 6, 8'; why = neg ? '3B claimed less than 2B: balance can be claimed within Sec 16(4) limit.' : '3B claimed more than 2B: excess must be reversed or supported.'; by = neg ? '30 Nov 2026 (VERIFY)' : by; }
+    else if (/6A1|earlier-year/i.test(t)) { c = 'c'; law = 'GSTR-9 Table 6A1, 8C; Sec 16(4)'; why = 'Confirm claim was within Sec 16(4) limit.'; }
+    else if (/\(9C row 5R\)|\(9C row 7G\)|\(9C row 9R\)/i.test(t)) { c = 'c'; law = 'GSTR-9C Table 5 / 7 / 9 reconciliation; Sec 35(5) as amended'; why = 'Reconciling item must be explained with documents.'; if (/9R/.test(t)) { c = neg ? 'b' : 'c'; } }
+    else if (/\(9C row 12F\)/i.test(t)) { c = 'c'; law = 'GSTR-9C Table 12; Sec 16, 17(5), Rule 42/43'; why = 'Books ITC and GSTR-9 ITC differ. Explain, reverse or reclaim.'; }
+    else if (/Table 4B is derived net/i.test(t)) { c = 'n'; law = 'GSTR-9 Table 4B/4I (gross, no netting from FY 2021-22)'; why = 'Invoice-level GSTR-1 JSON needed.'; }
+    else if (/HSN/i.test(t)) { c = 'a'; law = 'Notif. 78/2020-CT (HSN digits); GSTR-9 Table 17'; why = 'Fix before filing.'; }
+    else if (/Credit ledger has|GST input in books differs/i.test(t)) { c = 'c'; law = 'Sec 49; Rule 85-86'; why = 'Reconcile ledgers.'; }
+    else if (e.sev === 'info') { c = '-'; law = ''; }
+    e.cls = c; e.clsText = c === '-' ? '' : CLS[c]; e.law = law; e.by = by; e.why = why;
+    // tax at stake (only for items that can create tax / interest exposure)
+    var opp = /not in the books|GSTR-3B and GSTR-3B/.test(e.title) || (/3B ITC differs/.test(e.title) && neg) || /^(in GSTR-2B)/.test(e.title);
+    e.taxAtStake = (c === 'b' || c === 'd') && !opp && e.amount != null ? Math.abs(e.amount) : null;
+    return e;
+  };
+
+  // DATA NEEDED checklist: things the engine cannot see from uploaded files
+  A.dataNeeded = function (ctx, T, monthly) {
+    var inp = ctx.inputs || {}, l = [];
+    function need(k, label, why) { l.push({ key: k, have: !!inp[k] || inp[k] === 0, label: label, why: why }); }
+    need('imsDone', 'IMS action status (accepted / rejected / pending) for each month', 'Rule 36(4) / IMS - ITC on pending or rejected invoices is at risk. DATA NEEDED');
+    need('einvChecked', 'E-invoice and e-way bill data compared with GSTR-1', 'Sec 31, Rule 48 - unmatched e-invoices create audit queries. DATA NEEDED');
+    need('aisChecked', '26AS / AIS / TIS turnover compared', 'Department compares AIS with GST turnover. DATA NEEDED');
+    need('rule37Done', 'Payment dates of supplier invoices (180-day check)', 'Sec 16(2) 2nd proviso, Rule 37 - reverse ITC if not paid in 180 days. DATA NEEDED');
+    need('rule37aDone', 'Supplier tax-payment status (Rule 37A)', 'Sec 16(2)(c), Rule 37A - supplier did not pay tax by 30 Sep: reverse, reclaim later. DATA NEEDED');
+    need('suppliersChecked', 'Cancelled / non-filing supplier check', 'Sec 16(2)(c), Sec 29 - ITC from cancelled-retrospectively suppliers at risk. DATA NEEDED');
+    need('s17_5Done', 'Blocked credit review (Sec 17(5)) of the purchase ledger', 'Motor vehicles, food, club, works contract, gifts etc. DATA NEEDED');
+    need('rule42Done', 'Rule 42 / 43 working (exempt supplies, capital goods)', 'Common credit apportionment; Table 7C/7D. DATA NEEDED');
+    need('s16_4Done', 'Section 16(4) ageing of FY 2025-26 invoices', 'Last date 30 Nov 2026 or annual return date, whichever is earlier - VERIFY on portal');
+    need('tbBooks', 'Audited books / trial balance (for 9C)', 'Needed for 9C Tables 5, 7, 9, 12');
+    return l;
+  };
+
+  // ---- Interest, penalty and late fee : rates are VERIFY items ----
+  var RATES = { int_delay: 18, int_wrongItc: 24, pen_pct: 10, pen_min: 10000, fraud_pct: 100, fraud_pre: 15, fraud_60n: 25, fraud_60o: 50 };
+  A.RATES = RATES;
+  function dd(a, b) { return Math.max(0, Math.round((new Date(b) - new Date(a)) / 86400000)); }
+  A.exposure = function (ctx, ex) {
+    var inp = ctx.inputs || {};
+    var pay = inp.payDate || new Date().toISOString().slice(0, 10);
+    var out = { payDate: pay, payDateAssumed: !inp.payDate, rows: [], tot: { tax: 0, intVol: 0, penNotice: 0, penFraud: 0, voluntary: 0, noticeNoPay: 0, fraudVol: 0 }, rates: RATES, dataNeeded: [] };
+    ex.forEach(function (e) {
+      if (!e.taxAtStake) return;
+      var rate = e.cls === 'd' ? RATES.int_wrongItc : RATES.int_delay;
+      var from = null;
+      if (/^\d{4}-\d{2}$/.test(e.ref || '')) { var y = +e.ref.slice(0, 4), m = +e.ref.slice(5, 7); var ny = m === 12 ? y + 1 : y, nm = m === 12 ? 1 : m + 1; from = ny + '-' + String(nm).padStart(2, '0') + '-20'; }
+      var days = from ? dd(from, pay) : null;
+      var tax = e.taxAtStake, interest = days == null ? null : r2(tax * rate / 100 * days / 365);
+      var penN = r2(Math.max(tax * RATES.pen_pct / 100, RATES.pen_min));
+      var row = { id: e.id, title: e.title, cls: e.cls, tax: r2(tax), rate: rate, from: from, days: days, interest: interest, penalty: penN,
+        voluntary: interest == null ? null : r2(tax + interest), afterNotice: interest == null ? null : r2(tax + interest + penN),
+        fraud100: interest == null ? null : r2(tax + interest + tax), fraudVol15: interest == null ? null : r2(tax + interest + tax * RATES.fraud_pre / 100) };
+      out.rows.push(row);
+      out.tot.tax += tax; out.tot.penNotice += penN;
+      if (interest != null) { out.tot.intVol += interest; } else out.dataNeeded.push(e.id + ': month of the item not known, interest start date DATA NEEDED');
+    });
+    ['tax', 'intVol', 'penNotice'].forEach(function (k) { out.tot[k] = r2(out.tot[k]); });
+    out.tot.voluntary = r2(out.tot.tax + out.tot.intVol);
+    out.tot.afterNotice = r2(out.tot.tax + out.tot.intVol + out.tot.penNotice);
+    out.tot.fraud = r2(out.tot.tax + out.tot.intVol + out.tot.tax);
+    return out;
+  };
+
+  A.lateFee = function (ctx, T) {
+    var inp = ctx.inputs || {}, n5 = T._meta && T._meta.n5 || 0;
+    var tier = n5 <= 50000000 ? { perDay: 50, capPct: 0.04, label: 'up to Rs 5 crore (Notif. 07/2023-CT)' } : (n5 <= 200000000 ? { perDay: 100, capPct: 0.04, label: 'Rs 5 to 20 crore (Notif. 07/2023-CT)' } : { perDay: 200, capPct: 0.5, label: 'above Rs 20 crore (Sec 47(2))' });
+    var r = { due: A.DUE_9, dueNote: 'Due date 31 Dec 2026 as last seen - CONFIRM on the portal / latest notification', turnover: n5, tier: tier.label, perDay: tier.perDay, cap: r2(n5 * tier.capPct / 100), fileDate: inp.r9FileDate || null, days: null, fee: null, note: 'Charged once for GSTR-9 and 9C together (Circular 246/03/2025) - VERIFY' };
+    if (inp.r9FileDate) { r.days = dd(A.DUE_9, inp.r9FileDate); r.fee = r2(Math.min(r.days * tier.perDay, r.cap)); }
+    else r.note = 'Filing date DATA NEEDED. ' + r.note;
+    return r;
+  };
+
+  A.run = function (ctx) {
+    ctx.tol = ctx.tol == null ? 10 : ctx.tol;
+    var monthly = A.monthly(ctx);
+    var itcm = A.itcMatch(ctx);
+    var sales = A.salesChecks(ctx);
+    var ledgers = A.ledgerChecks(ctx);
+    var T = A.gstr9(ctx, monthly, itcm, sales, ledgers);
+    var exc = A.exceptions(ctx, monthly, itcm, sales, ledgers, T).map(A.classify);
+    var expo = A.exposure(ctx, exc), late = A.lateFee(ctx, T), dn = A.dataNeeded(ctx, T, monthly);
+    var rk = exc.some(function (e) { return e.sev === 'high'; }) ? 'HIGH' : (exc.some(function (e) { return e.sev === 'medium'; }) ? 'MEDIUM' : 'LOW');
+    return { risk: rk, exposure: expo, lateFee: late, dataNeeded: dn, fy: ctx.fy, monthly: monthly, itc: itcm, sales: sales, ledgers: ledgers, gstr9: T, exceptions: exc, generatedAt: new Date().toISOString() };
+  };
+
+  if (typeof module !== 'undefined' && module.exports) module.exports = A; else root.GSTA = A;
+})(typeof window !== 'undefined' ? window : this);
+</script>
+<script>
+(function () {
+'use strict';
+var P = GSTP, A = GSTA;
+var $root = document.getElementById('root'), $who = document.getElementById('who');
+var S = { db: null, user: null, assets: null, downloads: null, uid: null, canWrite: true, clients: [], cid: null, fy: '2025-26', year: null, result: null, tab: 'summary', files: [], raw: {}, mem: emptyMem(), busy: '', msg: '', err: '', filter: 'open', itcList: 'onlyBooks', saving: false, loaded: false, sess: null, gateErr: '' };
+var FYS = ['2022-23', '2023-24', '2024-25', '2025-26', '2026-27'];
+var TABS = [['summary', 'Exceptions'], ['expo', 'Exposure & DRC-03'], ['chk', 'Checklist'], ['g9', 'GSTR-9'], ['g9c', 'GSTR-9C bridge'], ['itc', 'ITC match'], ['month', 'Month by month'], ['sales', 'Sales checks'], ['data', 'Files & inputs']];
+var STATES = {'01':'Jammu & Kashmir','02':'Himachal Pradesh','03':'Punjab','04':'Chandigarh','05':'Uttarakhand','06':'Haryana','07':'Delhi','08':'Rajasthan','09':'Uttar Pradesh','10':'Bihar','11':'Sikkim','12':'Arunachal Pradesh','13':'Nagaland','14':'Manipur','15':'Mizoram','16':'Tripura','17':'Meghalaya','18':'Assam','19':'West Bengal','20':'Jharkhand','21':'Odisha','22':'Chhattisgarh','23':'Madhya Pradesh','24':'Gujarat','26':'Dadra & Nagar Haveli and Daman & Diu','27':'Maharashtra','29':'Karnataka','30':'Goa','31':'Lakshadweep','32':'Kerala','33':'Tamil Nadu','34':'Puducherry','35':'Andaman & Nicobar','36':'Telangana','37':'Andhra Pradesh','38':'Ladakh','97':'Other Territory'};
+var ROLES = ['GST executive', 'Accountant', 'Senior', 'Partner'];
+var MANUAL_ROWS = [['4D','Table 4D SEZ with tax'],['4E','Table 4E Deemed exports'],['4F','Table 4F Advances (tax paid, invoice not issued) - negative if adjusted'],['4G1','Table 4G1 e-commerce operator s.9(5)'],['4I','Table 4I Credit notes'],['4J','Table 4J Debit notes'],['4K','Table 4K Supplies amended (+)'],['4L','Table 4L Supplies amended (-)'],['5A','Table 5A Exports without tax'],['5B','Table 5B SEZ without tax'],['5C','Table 5C RCM supplies'],['5H','Table 5H Credit notes (exempt/nil)'],['5I','Table 5I Debit notes (exempt/nil)'],['5J','Table 5J Supplies amended (+)'],['5K','Table 5K Supplies amended (-)'],['6K','Table 6K'],['6L','Table 6L'],['6M','Table 6M'],['6N','Table 6N'],['7A','Table 7A Rule 37 reversal'],['7A1','Table 7A1 Rule 37A reversal'],['7A2','Table 7A2 Rule 38'],['7B','Table 7B Rule 39'],['7C','Table 7C Rule 42'],['7D','Table 7D Rule 43'],['7E','Table 7E Sec 17(5)'],['7F','Table 7F TRAN-I'],['7G','Table 7G TRAN-II'],['7H','Table 7H Other']];
+var DATE_FIELDS = [['payDate', 'Date you expect to pay DRC-03 (YYYY-MM-DD). Blank = today, shown as an assumption'], ['r9FileDate', 'Date you expect to file GSTR-9 (YYYY-MM-DD) for late-fee check']];
+var INPUT_FIELDS = [
+  ['fsTurnover', '9C 5A: Audited turnover (revenue from operations)'], ['unbilledBeg', '9C 5B (+): Unbilled revenue, opening'], ['advEnd', '9C 5C (+): Unadjusted advances, closing'], ['deemed', '9C 5D (+): Deemed supply, Schedule I'],
+  ['cnAfterYE', '9C 5E (-): Credit notes issued after year end, in annual return'], ['tradeDisc', '9C 5F (+): Trade discounts not allowed under sec 15'], ['unbilledEnd', '9C 5H (-): Unbilled revenue, closing'], ['advBeg', '9C 5I (-): Unadjusted advances, opening'],
+  ['cnNotIn9', '9C 5J (+): Credit notes in accounts, not permissible under GST'], ['sezDta', '9C 5K (-): SEZ units to DTA adjustments'], ['sec15', '9C 5M (+/-): Section 15 valuation adjustments'], ['forex', '9C 5N (+/-): Foreign exchange adjustments'], ['otherAdj', '9C 5O (+/-): Other adjustments'],
+  ['itcRevBooks', '9C 12A: ITC reversed in books (net off)'], ['itcPrevBooked', '9C 12B (+): ITC booked earlier, claimed this FY'], ['booksGstInput', 'GST input balance per books at year end'],
+  ['b2Later_i', '8A(b) IGST: next-FY Apr-Oct 2B, this-FY invoices'], ['b2Later_c', '8A(b) CGST'], ['b2Later_s', '8A(b) SGST'],
+  ['claimedLater_i', '8C IGST: first availed next FY (3B, to 30 Nov)'], ['claimedLater_c', '8C CGST'], ['claimedLater_s', '8C SGST'], ['sec95Ecom', '9C 7D1: tax on supplies where e-commerce operator pays, s.9(5)'], ['tol', 'Tolerance for differences (Rs)']
+];
+
+function emptyMem() { return { r1: {}, tb: {}, b2: {}, cash: null, credit: null, outward: null, itc: null, tally: {}, gstin: '' }; }
+function h(tag, attrs) {
+  var e = document.createElement(tag); attrs = attrs || {};
+  Object.keys(attrs).forEach(function (k) { var v = attrs[k]; if (v == null || v === false) return; if (k === 'class') e.className = v; else if (k === 'text') e.textContent = v; else if (k.slice(0, 2) === 'on') e.addEventListener(k.slice(2), v); else if (k === 'value') e.value = v; else e.setAttribute(k, v === true ? '' : v); });
+  for (var i = 2; i < arguments.length; i++) { var c = arguments[i]; if (c == null || c === false) continue; if (Array.isArray(c)) c.forEach(function (x) { if (x != null) e.appendChild(typeof x === 'string' ? document.createTextNode(x) : x); }); else e.appendChild(typeof c === 'string' || typeof c === 'number' ? document.createTextNode(String(c)) : c); }
+  return e;
+}
+function money(x, dash) { if (x == null || isNaN(x)) return ''; if (dash && Math.abs(x) < 0.005) return '-'; return Number(x).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+function tryJ(f, d) { try { return f(); } catch (e) { return d; } }
+function ls(k, v) { try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) { return null; } }
+function slug(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'client'; }
+function hash(s) { var x = 5381; for (var i = 0; i < s.length; i++) x = ((x << 5) + x + s.charCodeAt(i)) | 0; return (x >>> 0).toString(36); }
+
+/* ---------------- file reading and classification ---------------- */
+function readBuf(f) { return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(r.result); }; r.onerror = function () { rej(r.error); }; r.readAsArrayBuffer(f); }); }
+function readTxt(f) { return new Promise(function (res, rej) { var r = new FileReader(); r.onload = function () { res(r.result); }; r.onerror = function () { rej(r.error); }; r.readAsText(f); }); }
+function sheetRows(ws) { return XLSX.utils.sheet_to_json(ws, { header: 1, raw: true, defval: null, blankrows: false }); }
+function cellText(rows, n) { var o = []; for (var i = 0; i < Math.min(rows.length, n); i++) (rows[i] || []).forEach(function (c) { if (c != null) o.push(String(c).toLowerCase()); }); return o.join(' | '); }
+
+async function classify(file, buf) {
+  var name = file.name, low = name.toLowerCase(), info = { name: name, size: file.size, kind: '', ym: '', status: 'ok', note: '' };
+  try {
+    if (/\.json$/.test(low)) {
+      var j = JSON.parse(new TextDecoder().decode(buf));
+      if (j && j.gstin && S.sess && String(j.gstin).toUpperCase() !== S.sess.gstin) { info.status = 'err'; info.kind = 'GSTR-1'; info.note = 'REFUSED: this file is for GSTIN ' + j.gstin + ' but this session is for ' + S.sess.gstin + '. Two GSTINs are never mixed in one session.'; return info; }
+      if (j && j.gstin && (j.fp || j.hsn || j.b2b || j.b2cs)) { var r1 = P.parseR1(j); S.mem.r1[r1.ym] = r1; S.mem.gstin = S.mem.gstin || j.gstin; info.kind = 'GSTR-1'; info.ym = r1.ym; if (r1.draft) { info.status = 'warn'; info.note = 'Looks empty (draft). Download the filed GSTR-1.'; } return info; }
+      info.status = 'skip'; info.note = 'JSON not recognised as GSTR-1'; return info;
+    }
+    if (/\.csv$/.test(low)) {
+      var txt = new TextDecoder().decode(buf), head = txt.slice(0, 200).toLowerCase();
+      if (head.indexOf('cash ledger') >= 0) { S.mem.cash = P.parseCashLedger(txt); info.kind = 'Cash ledger'; info.note = S.mem.cash.entries.length + ' entries'; return info; }
+      if (head.indexOf('credit ledger') >= 0) { S.mem.credit = P.parseCreditLedger(txt); info.kind = 'Credit ledger'; info.note = S.mem.credit.entries.length + ' entries'; return info; }
+      info.status = 'skip'; info.note = 'CSV not recognised'; return info;
+    }
+    if (/\.(xlsx|xls)$/.test(low)) {
+      var wb = XLSX.read(buf, { type: 'array', cellDates: true });
+      var names = wb.SheetNames;
+      if (names.indexOf('ITC Available') >= 0 && names.indexOf('B2B') >= 0) {
+        var sh = {}; names.forEach(function (n) { sh[n] = sheetRows(wb.Sheets[n]); });
+        var b = P.parse2B(sh), m = low.match(/(\d{2})(\d{4})_/); var ym = m ? m[2] + '-' + m[1] : '';
+        if (!ym) { info.status = 'warn'; info.note = 'Could not read the month from the file name (expected MMYYYY_...)'; }
+        else S.mem.b2[ym] = b; info.kind = 'GSTR-2B'; info.ym = ym; if (!b.ok) { info.status = 'warn'; info.note = 'Layout not understood'; } return info;
+      }
+      var first = sheetRows(wb.Sheets[names[0]]);
+      var top = cellText(first, 4);
+      if (top.indexOf('gstr-3b') >= 0) { var t = P.parse3B(first); if (t.ok && t.ym) { S.mem.tb[t.ym] = t; info.kind = 'GSTR-3B'; info.ym = t.ym; } else { info.kind = 'GSTR-3B'; info.status = 'warn'; info.note = 'Could not read period'; } return info; }
+      var hdr = cellText(first, 6);
+      if (hdr.indexOf('gstin') >= 0 && hdr.indexOf('invoice no') >= 0 && hdr.indexOf('taxable') >= 0) {
+        if (hdr.indexOf('reason') >= 0 || hdr.indexOf('invoice value') >= 0) { S.mem.itc = P.parseItcRegister(first); info.kind = 'Purchase / ITC register'; info.note = S.mem.itc.rows.length + ' rows'; }
+        else { S.mem.outward = P.parseOutward(first); info.kind = 'Sales register'; info.note = S.mem.outward.rows.length + ' rows'; }
+        return info;
+      }
+      var got = 0; names.forEach(function (n) { var led = P.parseTallyLedger(sheetRows(wb.Sheets[n])); if (led.ok) { S.mem.tally[n] = led; got++; } });
+      if (got) { info.kind = 'Tally ledger'; info.note = got + ' ledger sheet(s)'; return info; }
+      info.status = 'skip'; info.note = 'Excel layout not recognised'; return info;
+    }
+    info.status = 'skip'; info.note = 'Unsupported file type'; return info;
+  } catch (e) { info.status = 'err'; info.note = 'Could not read: ' + (e && e.message || e); return info; }
+}
+
+async function ingest(list) {
+  var files = Array.prototype.slice.call(list).filter(function (f) { return !/^\./.test(f.name) && !/login/i.test(f.name); });
+  var skipped = Array.prototype.slice.call(list).length - files.length;
+  S.busy = 'Reading ' + files.length + ' files…'; render();
+  for (var i = 0; i < files.length; i++) {
+    var f = files[i]; S.busy = 'Reading ' + (i + 1) + ' / ' + files.length + ': ' + f.name; renderBusy();
+    var buf = await readBuf(f); var info = await classify(f, buf);
+    var key = info.name; S.raw[key] = f;
+    S.files = S.files.filter(function (x) { return x.name !== key; }); S.files.push(info);
+  }
+  S.busy = ''; S.msg = files.length + ' files read.' + (skipped ? ' ' + skipped + ' skipped (hidden files and anything named login).' : ''); S.err = '';
+  if (!S.year || !S.year.client) { /* nothing */ }
+  render();
+}
+function renderBusy() { var b = document.getElementById('busy'); if (b) b.textContent = S.busy; }
+
+/* ---------------- analysis ---------------- */
+function buildCtx() {
+  var y = (S.year && S.year.inputs) || {}; var inp = {};
+  INPUT_FIELDS.forEach(function (f) { if (y[f[0]] !== '' && y[f[0]] != null) inp[f[0]] = Number(y[f[0]]); });
+  DATE_FIELDS.forEach(function (f) { if (/^\d{4}-\d{2}-\d{2}$/.test(String(y[f[0]] || ''))) inp[f[0]] = y[f[0]]; });
+  Object.keys(y.chk || {}).forEach(function (k) { if (y.chk[k]) inp[k] = 1; });
+  if (y.manual) inp.manual = y.manual;
+  if (inp.b2Later_i != null || inp.b2Later_c != null || inp.b2Later_s != null) inp.b2Later = { i: inp.b2Later_i || 0, c: inp.b2Later_c || 0, s: inp.b2Later_s || 0 };
+  if (inp.claimedLater_i != null || inp.claimedLater_c != null || inp.claimedLater_s != null) inp.claimedLater = { i: inp.claimedLater_i || 0, c: inp.claimedLater_c || 0, s: inp.claimedLater_s || 0 };
+  var c = S.cid && S.clients.filter(function (x) { return x.id === S.cid; })[0];
+  return { fy: S.fy, tol: inp.tol != null ? inp.tol : 10, client: { gstin: (S.sess && S.sess.gstin) || (c && c.gstin) || S.mem.gstin || '' }, inputs: inp, r1: S.mem.r1, tb: S.mem.tb, b2: S.mem.b2, cash: S.mem.cash, credit: S.mem.credit, outward: S.mem.outward, itc: S.mem.itc, tally: S.mem.tally };
+}
+function haveMem() { return Object.keys(S.mem.r1).length + Object.keys(S.mem.tb).length + Object.keys(S.mem.b2).length > 0 || S.mem.outward || S.mem.itc; }
+async function runAnalysis(save) {
+  if (!haveMem()) { S.err = 'No files are loaded in this session. Add the files again, or use "Load stored files".'; render(); return; }
+  S.busy = 'Calculating…'; render(); await new Promise(function (r) { setTimeout(r, 30); });
+  try { S.result = A.run(buildCtx()); S.msg = 'Done. ' + S.result.exceptions.length + ' points to review.'; S.err = ''; S.tab = 'summary'; }
+  catch (e) { S.err = 'Calculation failed: ' + (e && e.message || e); S.busy = ''; render(); return; }
+  S.busy = ''; render();
+  if (save !== false) await saveAll();
+}
+
+/* ---------------- persistence ---------------- */
+function yearPath() { return 'clients/' + S.cid + '/years/' + S.fy; }
+function capList(obj, n) { var o = {}; Object.keys(obj).forEach(function (k) { o[k] = Array.isArray(obj[k]) ? obj[k].slice(0, n) : obj[k]; }); return o; }
+function fit(o) { var n = 150; for (;;) { var c = capList(o, n); if (JSON.stringify(c).length <= 230000 || n <= 2) return c; n = Math.floor(n / 2); } }
+function slim(R) {
+  var inv = {}; Object.keys(R.sales.invoiceMatch).forEach(function (m) { var x = R.sales.invoiceMatch[m]; inv[m] = { matched: x.matched, counts: x.counts, onlyR1: x.onlyR1.slice(0, 60), onlyBooks: x.onlyBooks.slice(0, 60), mismatch: x.mismatch.slice(0, 60), gstinDiff: x.gstinDiff.slice(0, 30) }; });
+  var g9 = Object.assign({}, R.gstr9); var hsn = g9['17']; delete g9['17'];
+  var itcSum = Object.assign({}, R.itc); delete itcSum.lists;
+  var salesSum = { series: R.sales.series, rateWise: R.sales.rateWise, r1Docs: R.sales.r1Docs, counts: { gstinBad: R.sales.gstinBad.length, taxType: R.sales.taxType.length, rate: R.sales.rate.length, dup: R.sales.dup.length } };
+  return {
+    core: { fy: R.fy, generatedAt: R.generatedAt, monthly: R.monthly, itc: itcSum, sales: salesSum, ledgers: R.ledgers, gstr9: g9, exceptions: R.exceptions, risk: R.risk, exposure: R.exposure, lateFee: R.lateFee, dataNeeded: R.dataNeeded },
+    itcLists: fit(R.itc.lists),
+    salesLists: { gstinBad: R.sales.gstinBad.slice(0, 100), taxType: R.sales.taxType.slice(0, 100), rate: R.sales.rate.slice(0, 100), dup: R.sales.dup.slice(0, 100), invoiceMatch: inv },
+    hsn: { rows: (hsn && hsn.hsn || []).slice(0, 600) }
+  };
+}
+function merge(core, itcLists, salesLists, hsn) {
+  var R = core; R.itc = Object.assign({}, core.itc, { lists: itcLists || {} });
+  R.sales = Object.assign({}, core.sales, salesLists || {}, { gstinBad: (salesLists && salesLists.gstinBad) || [], taxType: (salesLists && salesLists.taxType) || [], rate: (salesLists && salesLists.rate) || [], dup: (salesLists && salesLists.dup) || [], invoiceMatch: (salesLists && salesLists.invoiceMatch) || {} });
+  R.gstr9['17'] = { title: 'Table 17: HSN-wise summary of outward supplies', hsn: (hsn && hsn.rows) || [] };
+  return R;
+}
+async function saveAll() {
+  if (!S.db || !S.canWrite || !S.cid || !S.result) return;
+  S.saving = true; S.busy = 'Saving results…'; render();
+  try {
+    var sl = slim(S.result), base = S.db.doc(yearPath());
+    var meta = { fy: S.fy, updatedAt: new Date().toISOString(), updatedBy: S.uid || '', inputs: (S.year && S.year.inputs) || {}, exStatus: (S.year && S.year.exStatus) || {}, files: (S.year && S.year.files) || [], summary: summarise(S.result) };
+    await base.set(meta);
+    await S.db.doc(yearPath() + '/parts/core').set({ json: JSON.stringify(sl.core) });
+    await S.db.doc(yearPath() + '/parts/itcLists').set({ json: JSON.stringify(sl.itcLists) });
+    await S.db.doc(yearPath() + '/parts/salesLists').set({ json: JSON.stringify(sl.salesLists) });
+    await S.db.doc(yearPath() + '/parts/hsn').set({ json: JSON.stringify(sl.hsn) });
+    S.year = Object.assign({}, S.year || {}, meta);
+    S.msg = 'Results saved for ' + S.fy + '.'; S.err = '';
+  } catch (e) { S.err = 'Could not save results: ' + (e && e.message || e); }
+  S.saving = false; S.busy = ''; render();
+}
+function summarise(R) {
+  var c = {}; R.exceptions.forEach(function (e) { c[e.sev] = (c[e.sev] || 0) + 1; });
+  return { counts: c, unrecTurnover: R.gstr9.c.unrecTurnover, unrecItc: R.gstr9.c.unrecItc, n: R.exceptions.length };
+}
+async function storeFiles() {
+  if (!S.assets) { S.err = 'File storage is not available for your access level (needs Editor, or Contributor if enabled).'; render(); return; }
+  var idx = ((S.year && S.year.files) || []).slice(); var names = {}; idx.forEach(function (x) { names[x.name] = x; });
+  var todo = S.files.filter(function (f) { return S.raw[f.name] && f.status !== 'skip' && f.status !== 'err'; }), fail = 0;
+  for (var i = 0; i < todo.length; i++) {
+    var f = todo[i]; S.busy = 'Storing file ' + (i + 1) + ' / ' + todo.length + ': ' + f.name; renderBusy();
+    try { var up = await S.assets.upload(S.raw[f.name]); names[f.name] = { name: f.name, kind: f.kind, ym: f.ym, id: up.id, url: up.url, size: f.size }; }
+    catch (e) { fail++; S.err = 'Could not store ' + f.name + ': ' + (e && (e.message || e.code) || e); }
+  }
+  idx = Object.keys(names).map(function (k) { return names[k]; });
+  S.year = Object.assign({}, S.year || {}, { files: idx });
+  try { if (S.db && S.canWrite) await S.db.doc(yearPath()).update({ files: idx }); } catch (e) { S.err = 'File list not saved: ' + (e && e.message || e); }
+  S.busy = ''; S.msg = (todo.length - fail) + ' file(s) stored.' + (fail ? ' ' + fail + ' failed.' : ''); render();
+}
+async function loadStored() {
+  var idx = (S.year && S.year.files) || []; if (!idx.length) { S.err = 'No stored files for this year.'; render(); return; }
+  S.mem = emptyMem(); S.files = [];
+  for (var i = 0; i < idx.length; i++) {
+    var x = idx[i]; S.busy = 'Loading stored file ' + (i + 1) + ' / ' + idx.length; renderBusy();
+    try { var resp = await fetch(x.url || ('/_blob/' + x.id)); if (!resp.ok) throw new Error('HTTP ' + resp.status); var buf = await resp.arrayBuffer(); var f = new File([buf], x.name); S.raw[x.name] = f; var info = await classify(f, buf); S.files.push(info); }
+    catch (e) { S.files.push({ name: x.name, kind: x.kind, ym: x.ym, status: 'err', note: 'Could not load stored copy: ' + (e && e.message || e) }); }
+  }
+  S.busy = ''; S.msg = 'Stored files loaded.'; render();
+}
+async function loadYear() {
+  S.year = { inputs: {}, exStatus: {}, files: [] }; S.result = null; S.mem = emptyMem(); S.files = []; S.raw = {}; S.loaded = false;
+  if (!S.db || !S.cid) { render(); return; }
+  try {
+    var d = await S.db.doc(yearPath()).get();
+    if (d.exists) {
+      S.year = Object.assign({ inputs: {}, exStatus: {}, files: [] }, d.data());
+      var ps = await Promise.all(['core', 'itcLists', 'salesLists', 'hsn'].map(function (k) { return S.db.doc(yearPath() + '/parts/' + k).get(); }));
+      if (ps[0].exists) { var P0 = tryJ(function () { return JSON.parse(ps[0].data().json); }, null); if (P0) S.result = merge(P0, ps[1].exists ? tryJ(function () { return JSON.parse(ps[1].data().json); }, {}) : {}, ps[2].exists ? tryJ(function () { return JSON.parse(ps[2].data().json); }, {}) : {}, ps[3].exists ? tryJ(function () { return JSON.parse(ps[3].data().json); }, {}) : {}); }
+    }
+  } catch (e) { S.err = 'Could not open saved data: ' + (e && e.message || e); }
+  S.loaded = true; render();
+}
+async function saveInputs() {
+  if (!S.db || !S.canWrite) return;
+  try { await S.db.doc(yearPath()).set(Object.assign({}, S.year, { fy: S.fy, updatedAt: new Date().toISOString(), updatedBy: S.uid || '' })); S.msg = 'Inputs saved.'; }
+  catch (e) { S.err = 'Could not save inputs: ' + (e && e.message || e); }
+  render();
+}
+async function createClient(name, gstin) {
+  name = name.trim(); gstin = gstin.trim().toUpperCase(); if (!name) return;
+  var id = slug(name) + '-' + hash(name + gstin).slice(0, 4);
+  try { await S.db.doc('clients/' + id).set({ name: name, gstin: gstin, createdBy: S.uid || '', createdAt: new Date().toISOString() }); S.cid = id; ls('gst.cid', id); await loadYear(); }
+  catch (e) { S.err = 'Could not create client: ' + (e && e.message || e); render(); }
+}
+
+/* ---------------- views ---------------- */
+function tbl(head, rows, o) {
+  o = o || {}; var t = h('table'); var tr = h('tr'); head.forEach(function (c, i) { tr.appendChild(h('th', { class: (o.num && o.num.indexOf(i) >= 0) ? 'n' : '', text: c })); });
+  t.appendChild(h('thead', {}, tr)); var tb = h('tbody');
+  rows.forEach(function (r) { var cls = r._cls || ''; var row = h('tr', { class: cls }); r.cells.forEach(function (c, i) { var td = h('td', { class: (o.num && o.num.indexOf(i) >= 0) ? 'n' : '' }); if (c instanceof Node) td.appendChild(c); else td.textContent = c == null ? '' : c; row.appendChild(td); }); tb.appendChild(row); });
+  t.appendChild(tb); return h('div', { class: 'scroll' }, t);
+}
+function chip(st) { return h('span', { class: 'chip ' + st, text: st }); }
+function kpi(label, val, bad) { return h('div', { class: 'kpi' + (bad ? ' bad' : '') }, h('b', { text: val }), h('span', { text: label })); }
+
+function viewSummary() {
+  var R = S.result; if (!R) return empty();
+  var sm = summarise(R), ex = R.exceptions, st = (S.year && S.year.exStatus) || {};
+  var wrap = h('div', { class: 'card' });
+  wrap.appendChild(h('div', { class: 'grid' }, kpi('High priority', String(sm.counts.high || 0), (sm.counts.high || 0) > 0), kpi('Medium', String(sm.counts.medium || 0)), kpi('Turnover gap (books vs GSTR-9), Rs', money(sm.unrecTurnover), Math.abs(sm.unrecTurnover) > 10), kpi('ITC gap (books vs GSTR-9), Rs', money(sm.unrecItc), Math.abs(sm.unrecItc) > 10)));
+  var cc = {}; ex.forEach(function (e) { cc[e.cls] = (cc[e.cls] || 0) + 1; });
+  var xs = R.exposure ? R.exposure.tot : null;
+  wrap.insertBefore(h('div', { class: 'grid', style: 'margin-bottom:10px' }, kpi('Overall risk rating (draft)', R.risk || '-', R.risk === 'HIGH'), kpi('(a) correct in return', String(cc.a || 0)), kpi('(b) pay by DRC-03', String(cc.b || 0), (cc.b || 0) > 0), kpi('(c) support and defend', String(cc.c || 0)), kpi('(d) reverse / reclaim ITC', String(cc.d || 0), (cc.d || 0) > 0), kpi('DATA NEEDED items', String(cc.n || 0), (cc.n || 0) > 0), kpi('Tax at stake, Rs', xs ? money(xs.tax) : 'DATA NEEDED'), kpi('Pay now (tax + interest), Rs', xs ? money(xs.voluntary) : '')), wrap.firstChild);
+  var f = h('div', { class: 'bar', style: 'margin:12px 0 4px' }, h('span', { class: 'note', text: 'Show:' }));
+  [['open', 'To do'], ['all', 'All'], ['done', 'Closed']].forEach(function (x) { f.appendChild(h('button', { class: S.filter === x[0] ? 'pri' : '', text: x[1], onclick: function () { S.filter = x[0]; render(); } })); });
+  wrap.appendChild(f);
+  var shown = 0;
+  ex.forEach(function (e) {
+    var key = hash(e.area + '|' + e.ref + '|' + e.title.replace(/[\d,.\-]+/g, '#')), s = st[key] || { st: 'open', note: '' }, closed = s.st !== 'open';
+    if (S.filter === 'open' && closed) return; if (S.filter === 'done' && !closed) return; shown++;
+    var sel = h('select', { disabled: !S.canWrite }); [['open', 'Open'], ['explained', 'Explained'], ['fixed', 'Fixed / will fix'], ['ignore', 'Not an issue']].forEach(function (o) { var op = h('option', { value: o[0], text: o[1] }); if (o[0] === s.st) op.selected = true; sel.appendChild(op); });
+    var note = h('input', { type: 'text', placeholder: 'Reason or action taken', value: s.note || '', disabled: !S.canWrite, style: 'flex:1;min-width:160px' });
+    var commit = function () { S.year.exStatus = S.year.exStatus || {}; S.year.exStatus[key] = { st: sel.value, note: note.value, by: S.uid || '', at: new Date().toISOString() }; if (S.db && S.canWrite) S.db.doc(yearPath()).update({ exStatus: S.year.exStatus }).catch(function (er) { S.err = 'Status not saved: ' + (er && er.message || er); render(); }); };
+    sel.addEventListener('change', function () { commit(); render(); }); note.addEventListener('change', commit);
+    wrap.appendChild(h('div', { class: 'ex' + (closed ? ' done' : '') }, h('div', {}, h('span', { class: 'sev ' + e.sev, text: e.sev })),
+      h('div', {}, h('div', { class: 't', text: e.title + (/^\d{4}-\d{2}$/.test(e.ref) ? ' (' + A.monthLabel(e.ref) + ')' : '') }), h('div', { class: 'd', text: e.detail + (e.amount != null ? '  Amount: Rs ' + money(e.amount) : '') }), e.action ? h('div', { class: 'a', text: 'Action: ' + e.action }) : null, e.cls && e.cls !== '-' ? h('div', { class: 'note' }, h('b', { text: 'Class (' + e.cls.toUpperCase() + '): ' }), e.clsText + '. ' + (e.why || '')) : null, e.law ? h('div', { class: 'note', text: 'Section / rule: ' + e.law + (e.by ? '   |   By when: ' + e.by : '') }) : null, e.table ? h('div', { class: 'note', text: 'Affects: ' + e.table }) : null),
+      h('div', { class: 'ctl' }, sel, note)));
+  });
+  if (!shown) wrap.appendChild(h('p', { class: 'note', text: 'Nothing in this list.' }));
+  var outer = h('div', { class: 'wrap' }, wrap, closingBlock());
+  return outer;
+}
+function empty() { return h('div', { class: 'card' }, h('p', { text: 'No results yet for ' + S.fy + '. Open "Files & inputs", add the files and press Calculate.' })); }
+
+function vrow(r) { var v = r.v; return { _cls: r.status === 'computed' ? 'sub' : '', cells: [r.id, h('span', {}, r.label, r.note ? h('div', { class: 'note', text: r.note }) : null), money(v.tx, true), money(v.i, true), money(v.c, true), money(v.s, true), chip(r.status), r.src] }; }
+function viewG9() {
+  var R = S.result; if (!R) return empty(); var T = R.gstr9, box = h('div', { class: 'wrap' });
+  box.appendChild(h('div', { class: 'msg', text: 'Rules used: GSTN FAQ on GSTR-9/9C (FY 2024-25, v6 of 15-Oct-2025) and the ICAI technical guides. FY 2025-26 due date 31-Dec-2026 unless extended; exempt up to Rs 2 crore aggregate turnover; 9C is self-certified above Rs 5 crore; ITC for the FY can be claimed up to 30-Nov or the filing date, whichever is earlier. Tables 10 to 16 and 18 are not built.' }));
+  box.appendChild(h('div', { class: 'msg', text: 'Draft only. Figures are built from the uploaded filed returns. Compare each table with the auto-populated GSTR-9 on the portal before filing. Status: auto = read straight from a file, derived = built from a rule or split, computed = sum of rows above, input = entered by you, missing = needs a file.' }));
+  ['4', '5', '6', '7', '8'].forEach(function (k) { var c = h('div', { class: 'card' }, h('h2', { text: T[k].title })); c.appendChild(tbl(['Pt', 'Description', 'Taxable', 'IGST', 'CGST', 'SGST', 'Status', 'Source'], T[k].rows.map(vrow), { num: [2, 3, 4, 5] })); box.appendChild(c); });
+  var c9 = h('div', { class: 'card' }, h('h2', { text: T['9'].title }));
+  c9.appendChild(tbl(['Head', 'Tax payable', 'Paid in cash', 'Paid via IGST credit', 'Paid via CGST credit', 'Paid via SGST credit'], T['9'].rows9.map(function (r) { return { cells: [r.label, money(r.payable, true), money(r.cash, true), money(r.itcI, true), money(r.itcC, true), money(r.itcS, true)] }; }), { num: [1, 2, 3, 4, 5] }));
+  box.appendChild(c9);
+  var hs = (T['17'] && T['17'].hsn) || []; var c17 = h('div', { class: 'card' }, h('h2', { text: T['17'].title + ' (' + hs.length + ' lines)' }));
+  c17.appendChild(tbl(['HSN', 'Rate %', 'UQC', 'Quantity', 'Taxable', 'IGST', 'CGST', 'SGST'], hs.slice(0, 80).map(function (x) { return { cells: [x.hsn, x.rt, x.uqc, money(x.qty, true), money(x.tx), money(x.i, true), money(x.c, true), money(x.s, true)] }; }), { num: [3, 4, 5, 6, 7] }));
+  box.appendChild(c17); return box;
+}
+function viewG9C() {
+  var R = S.result; if (!R) return empty(); var c = R.gstr9.c, box = h('div', { class: 'wrap' });
+  var t1 = h('div', { class: 'card' }, h('h2', { text: '9C Table 5: turnover, audited accounts to GSTR-9' }));
+  t1.appendChild(tbl(['Pt', 'Description', 'Amount (Rs)', 'Status', 'Source'], c.turnover.map(function (r) { return { _cls: r.status === 'computed' ? 'sub' : '', cells: [r.id, h('span', {}, r.label, r.note ? h('div', { class: 'note', text: r.note }) : null), money(r.v, true), chip(r.status), r.src] }; }), { num: [2] }));
+  box.appendChild(t1);
+  var rowsOf = function (title, list) { var cc = h('div', { class: 'card' }, h('h2', { text: title })); cc.appendChild(tbl(['Pt', 'Description', 'Amount (Rs)', 'Status', 'Source'], list.map(function (r) { return { _cls: r.status === 'computed' ? 'sub' : '', cells: [r.id, h('span', {}, r.label, r.note ? h('div', { class: 'note', text: r.note }) : null), money(r.v, true), chip(r.status), r.src] }; }), { num: [2] })); return cc; };
+  box.appendChild(rowsOf('9C Table 7: taxable turnover', c.taxable || []));
+  box.appendChild(rowsOf('9C Table 9: tax payable against tax paid', c.pay || []));
+  var t2 = h('div', { class: 'card' }, h('h2', { text: 'Rate-wise taxable value: GSTR-1 against sales register (support for 9C Table 9)' }));
+  t2.appendChild(tbl(['Rate %', 'GSTR-1 taxable', 'GSTR-1 tax', 'Books taxable', 'Books tax', 'Diff taxable', 'Diff tax'], c.rate.map(function (r) { return { cells: [r.rate, money(r.r1.tx, true), money(r.r1.tax, true), money(r.books.tx, true), money(r.books.tax, true), money(r.dTx, true), money(r.dTax, true)] }; }), { num: [1, 2, 3, 4, 5, 6] }));
+  t2.appendChild(h('p', { class: 'note', text: 'The register rate is taken from the invoice tax divided by taxable value and rounded to the nearest slab, so small differences can come from rounding.' }));
+  box.appendChild(t2);
+  var t3 = h('div', { class: 'card' }, h('h2', { text: '9C Table 12: ITC, books to GSTR-9 Table 7J' }));
+  t3.appendChild(tbl(['Pt', 'Description', 'Amount (Rs)', 'Status', 'Source'], c.itc.map(function (r) { return { _cls: r.status === 'computed' ? 'sub' : '', cells: [r.id, h('span', {}, r.label, r.note ? h('div', { class: 'note', text: r.note }) : null), money(r.v, true), chip(r.status), r.src] }; }), { num: [2] }));
+  box.appendChild(t3);
+  var by = {}; R.exceptions.forEach(function (e) { if (!e.table) return; e.table.split(',').forEach(function (t) { t = t.trim(); (by[t] = by[t] || []).push(e); }); });
+  var t4 = h('div', { class: 'card' }, h('h2', { text: 'Edit GSTR-9 first, so 9C follows' }));
+  var keys = Object.keys(by).sort(); if (!keys.length) t4.appendChild(h('p', { class: 'note', text: 'No table needs an edit.' }));
+  keys.forEach(function (k) { t4.appendChild(h('div', { class: 'ex' }, h('div', { class: 'mono', text: 'Table ' + k }), h('div', {}, by[k].map(function (e) { return h('div', {}, h('b', { text: e.title + ': ' }), e.action || ''); })))); });
+  box.appendChild(t4); return box;
+}
+function viewITC() {
+  var R = S.result; if (!R) return empty(); var I = R.itc, t = I.totals, box = h('div', { class: 'card' });
+  box.appendChild(h('h2', { text: 'Books ITC register against GSTR-2B (credit notes netted)' }));
+  box.appendChild(tbl(['Result', 'Docs', 'IGST', 'CGST', 'SGST'], [
+    { cells: ['Matched', t.matched.n, money(t.matched.i), money(t.matched.c), money(t.matched.s)] },
+    { cells: ['Invoice number differs (matched on supplier + tax)', t.numberMismatch.n, money(t.numberMismatch.i), money(t.numberMismatch.c), money(t.numberMismatch.s)] },
+    { cells: ['Amount differs', t.mismatch.n, money(t.mismatch.dI) + ' (diff)', money(t.mismatch.dC) + ' (diff)', money(t.mismatch.dS) + ' (diff)'] },
+    { cells: ['In books, not in 2B', t.onlyBooks.n, money(t.onlyBooks.i), money(t.onlyBooks.c), money(t.onlyBooks.s)] },
+    { cells: ['In 2B, not in books', t.only2b.n, money(t.only2b.i), money(t.only2b.c), money(t.only2b.s)] },
+    { cells: ['2B says ITC not available', t.ineligible.n, money(t.ineligible.i), money(t.ineligible.c), money(t.ineligible.s)] }], { num: [1, 2, 3, 4] }));
+  var tabs = h('div', { class: 'bar', style: 'margin:14px 0 6px' });
+  [['onlyBooks', 'In books only'], ['only2b', 'In 2B only'], ['mismatch', 'Amount differs'], ['numberMismatch', 'Number differs'], ['ineligible', 'Not available']].forEach(function (x) { tabs.appendChild(h('button', { class: S.itcList === x[0] ? 'pri' : '', text: x[1] + ' (' + (I.listSizes[x[0]] || 0) + ')', onclick: function () { S.itcList = x[0]; render(); } })); });
+  box.appendChild(tabs);
+  var L = (I.lists && I.lists[S.itcList]) || [], k = S.itcList, shown = L.slice(0, 150);
+  if (k === 'mismatch') box.appendChild(tbl(['GSTIN', 'Invoice', 'Date', 'Books IGST/CGST', '2B IGST/CGST', 'Diff'], shown.map(function (x) { return { cells: [x.g, x.inv, x.d, money(x.booksTax.i) + ' / ' + money(x.booksTax.c), money(x.b2Tax.i) + ' / ' + money(x.b2Tax.c), money(x.diff.i) + ' / ' + money(x.diff.c)] }; }), { num: [3, 4, 5] }));
+  else if (k === 'numberMismatch') box.appendChild(tbl(['GSTIN', 'Party', 'Books invoice', '2B invoice', 'Date', 'IGST', 'CGST'], shown.map(function (x) { return { cells: [x.g, x.p, x.booksInv, x.b2Inv, x.d, money(x.i, true), money(x.c, true)] }; }), { num: [5, 6] }));
+  else box.appendChild(tbl(['GSTIN', 'Party', 'Invoice', 'Date', k === 'onlyBooks' ? 'Month' : '2B period', 'IGST', 'CGST', 'SGST', ''], shown.map(function (x) { return { cells: [x.g, x.p || x.name || '', x.inv, x.d, x.per || (x.d || '').slice(0, 7), money(x.i, true), money(x.c, true), money(x.s, true), x.reason || (x.cap ? 'capital goods' : '') || (x.isCn ? 'credit note' : '')] }; }), { num: [5, 6, 7] }));
+  if ((I.listSizes[k] || 0) > shown.length) box.appendChild(h('p', { class: 'note', text: 'Showing the biggest ' + shown.length + ' of ' + I.listSizes[k] + ' (largest tax first). Use Export for the saved list.' }));
+  return box;
+}
+function viewMonth() {
+  var R = S.result; if (!R) return empty(); var box = h('div', { class: 'card' }, h('h2', { text: 'Month by month: GSTR-1, GSTR-3B, books and GSTR-2B' }));
+  box.appendChild(tbl(['Month', 'GSTR-1 taxable', 'GSTR-3B taxable', 'Register taxable', '1 vs 3B', '3B vs books', '3B 4A(5) CGST', '2B net CGST', 'Diff', 'Books ITC CGST', 'Flags'],
+    R.monthly.map(function (m) { var d = m.d || {}; return { cells: [m.label, m.r1.have ? money(m.r1.declared.tx) : 'missing', m.tb.have ? money(m.tb.a.tx) : 'missing', money(m.reg.tx), d.r1_tb ? money(d.r1_tb.tx, true) : '', d.tb_reg ? money(d.tb_reg.tx, true) : '', m.tb.have ? money(m.tb.a5.c) : '', m.b2.have ? money(m.b2.c) : 'missing', d.itc_tb_b2 ? money(d.itc_tb_b2.c, true) : '', money(m.itcreg.c), m.flags.join(', ')] }; }), { num: [1, 2, 3, 4, 5, 6, 7, 8, 9] }));
+  box.appendChild(h('p', { class: 'note', text: 'GSTR-1 taxable is the HSN summary when present. GSTR-2B is net of Part B credit notes. Differences within the tolerance still show here but are not raised as exceptions.' }));
+  return box;
+}
+function viewSales() {
+  var R = S.result; if (!R) return empty(); var s = R.sales, box = h('div', { class: 'wrap' });
+  var c1 = h('div', { class: 'card' }, h('h2', { text: 'Sales register checks' }));
+  c1.appendChild(tbl(['Check', 'Count'], [{ cells: ['GSTIN in wrong format', (s.counts && s.counts.gstinBad) || s.gstinBad.length] }, { cells: ['Tax type may not match buyer state', (s.counts && s.counts.taxType) || s.taxType.length] }, { cells: ['Rate needs a look', (s.counts && s.counts.rate) || s.rate.length] }, { cells: ['Duplicate invoice numbers', (s.counts && s.counts.dup) || s.dup.length] }], { num: [1] }));
+  box.appendChild(c1);
+  var c2 = h('div', { class: 'card' }, h('h2', { text: 'Invoice series' })); c2.appendChild(tbl(['Series', 'From', 'To', 'In books', 'Numbers missing', 'First missing'], s.series.map(function (q) { return { cells: [q.prefix, q.min, q.max, q.issuedInBooks, q.missingCount, (q.missing || []).slice(0, 12).join(', ')] }; }), { num: [1, 2, 3, 4] }));
+  c2.appendChild(h('p', { class: 'note', text: 'GSTR-1 table 13 shows ' + s.r1Docs.issued + ' invoices issued and ' + s.r1Docs.cancelled + ' cancelled.' })); box.appendChild(c2);
+  [['gstinBad', 'Invalid GSTIN', ['inv', 'd', 'g', 'p', 'tax']], ['taxType', 'Tax type vs state', ['inv', 'd', 'g', 'why']], ['rate', 'Rate review', ['inv', 'd', 'p', 'why']], ['dup', 'Duplicate invoice numbers', ['inv', 'd', 'd2', 'tx']]].forEach(function (x) {
+    var L = s[x[0]] || []; if (!L.length) return; var c = h('div', { class: 'card' }, h('h2', { text: x[1] + ' (first ' + Math.min(L.length, 60) + ')' }));
+    c.appendChild(tbl(x[2], L.slice(0, 60).map(function (r) { return { cells: x[2].map(function (f) { return typeof r[f] === 'number' ? money(r[f]) : r[f]; }) }; }))); box.appendChild(c);
+  });
+  Object.keys(s.invoiceMatch || {}).forEach(function (m) { var im = s.invoiceMatch[m]; var c = h('div', { class: 'card' }, h('h2', { text: 'GSTR-1 invoices against register: ' + A.monthLabel(m) }), h('p', { text: (im.counts ? im.counts.r1 : '') + ' invoices in GSTR-1, ' + (im.counts ? im.counts.books : '') + ' in register, ' + im.matched + ' match.' }));
+    if (im.onlyR1.length) c.appendChild(tbl(['Only in GSTR-1', 'GSTIN', 'Taxable', 'CGST'], im.onlyR1.slice(0, 40).map(function (r) { return { cells: [r.inv, r.g, money(r.tx), money(r.c)] }; }), { num: [2, 3] }));
+    if (im.onlyBooks.length) c.appendChild(tbl(['Only in register', 'GSTIN', 'Taxable', 'CGST'], im.onlyBooks.slice(0, 40).map(function (r) { return { cells: [r.inv, r.g, money(r.tx), money(r.c)] }; }), { num: [2, 3] }));
+    if (im.mismatch.length) c.appendChild(tbl(['Values differ', 'GSTIN', 'GSTR-1 taxable', 'Register taxable', 'Diff'], im.mismatch.slice(0, 40).map(function (r) { return { cells: [r.inv, r.g, money(r.r1.tx), money(r.books.tx), money(r.dTx)] }; }), { num: [2, 3, 4] }));
+    box.appendChild(c); });
+  return box;
+}
+function viewData() {
+  var box = h('div', { class: 'wrap' });
+  var drop = h('div', { class: 'drop' }, h('div', { text: 'Drop the files here, or choose them' }), h('div', { class: 'note', text: 'GSTR-1 JSON, GSTR-3B Excel, GSTR-2B Excel, cash and credit ledger CSV, sales register, ITC register, Tally ledgers. Do not include files that hold passwords.' }));
+  var inFiles = h('input', { type: 'file', multiple: true, style: 'margin-top:8px' }), inDir = h('input', { type: 'file', multiple: true, webkitdirectory: true, style: 'margin-top:8px' });
+  inFiles.addEventListener('change', function () { if (inFiles.files.length) ingest(inFiles.files); }); inDir.addEventListener('change', function () { if (inDir.files.length) ingest(inDir.files); });
+  drop.appendChild(h('div', {}, h('span', { class: 'note', text: 'Files: ' }), inFiles)); drop.appendChild(h('div', {}, h('span', { class: 'note', text: 'Whole folder: ' }), inDir));
+  drop.addEventListener('dragover', function (e) { e.preventDefault(); drop.classList.add('over'); }); drop.addEventListener('dragleave', function () { drop.classList.remove('over'); });
+  drop.addEventListener('drop', function (e) { e.preventDefault(); drop.classList.remove('over'); if (e.dataTransfer.files.length) ingest(e.dataTransfer.files); });
+  var c1 = h('div', { class: 'card' }, h('h2', { text: 'Files for ' + S.fy }), drop);
+  var months = A.fyMonths(S.fy), cov = h('div', { style: 'margin-top:10px' });
+  var rows = months.map(function (m) { return { cells: [A.monthLabel(m), S.mem.r1[m] ? (S.mem.r1[m].draft ? 'draft' : 'yes') : 'no', S.mem.tb[m] ? 'yes' : 'no', S.mem.b2[m] ? 'yes' : 'no'] }; });
+  c1.appendChild(h('div', { style: 'margin-top:10px' }, tbl(['Month', 'GSTR-1', 'GSTR-3B', 'GSTR-2B'], rows)));
+  c1.appendChild(h('p', { class: 'note', text: 'Also loaded: cash ledger ' + (S.mem.cash ? 'yes' : 'no') + ', credit ledger ' + (S.mem.credit ? 'yes' : 'no') + ', sales register ' + (S.mem.outward ? 'yes' : 'no') + ', ITC register ' + (S.mem.itc ? 'yes' : 'no') + ', Tally ledger sheets ' + Object.keys(S.mem.tally).length + '.' }));
+  if (S.files.length) c1.appendChild(tbl(['File', 'Read as', 'Month', 'Note'], S.files.map(function (f) { return { cells: [f.name, f.kind || '-', f.ym ? A.monthLabel(f.ym) : '', f.note] }; })));
+  var bar = h('div', { class: 'bar', style: 'margin-top:10px' },
+    h('button', { class: 'pri', text: 'Calculate', disabled: !!S.busy || !S.canWrite && false, onclick: function () { runAnalysis(true); } }),
+    h('button', { text: 'Store these files', disabled: !S.assets || !S.files.length || !!S.busy, onclick: storeFiles }),
+    h('button', { text: 'Load stored files', disabled: !(S.year && S.year.files && S.year.files.length) || !!S.busy, onclick: loadStored }));
+  c1.appendChild(bar); box.appendChild(c1);
+  var c2 = h('div', { class: 'card' }, h('h2', { text: 'Your inputs (audited figures and next-year data)' }));
+  var f = h('form', { class: 'inp' }); f.addEventListener('submit', function (e) { e.preventDefault(); });
+  INPUT_FIELDS.forEach(function (x) { var inp = h('input', { type: 'number', step: '0.01', value: (S.year.inputs[x[0]] != null ? S.year.inputs[x[0]] : ''), disabled: !S.canWrite }); inp.addEventListener('change', function () { S.year.inputs[x[0]] = inp.value === '' ? '' : Number(inp.value); }); f.appendChild(h('label', {}, x[1], inp)); });
+  c2.appendChild(f);
+  c2.appendChild(h('div', { class: 'bar', style: 'margin-top:10px' }, h('button', { text: 'Save inputs', disabled: !S.canWrite, onclick: saveInputs }), h('button', { class: 'pri', text: 'Save and recalculate', disabled: !S.canWrite || !haveMem(), onclick: async function () { await saveInputs(); await runAnalysis(true); } }), h('span', { class: 'note', text: haveMem() ? '' : 'Recalculation needs the files in this session. Use "Load stored files" first.' })));
+  box.appendChild(c2);
+  var c3 = h('div', { class: 'card' }, h('h2', { text: 'Dates for the exposure and late-fee workings' }));
+  var f3 = h('form', { class: 'inp' }); f3.addEventListener('submit', function (e) { e.preventDefault(); });
+  DATE_FIELDS.forEach(function (x) { var inp = h('input', { type: 'text', placeholder: 'YYYY-MM-DD', value: S.year.inputs[x[0]] || '', disabled: !S.canWrite }); inp.addEventListener('change', function () { S.year.inputs[x[0]] = inp.value.trim(); }); f3.appendChild(h('label', {}, x[1], inp)); });
+  c3.appendChild(f3); box.appendChild(c3);
+  var c4 = h('div', { class: 'card' }, h('h2', { text: 'Manual GSTR-9 entries (only for rows the filed returns cannot give)' }));
+  c4.appendChild(h('p', { class: 'note', text: 'Leave blank if not applicable. Whatever you type here is marked as input in the tables. Do not type an estimate: if you do not have the figure, leave it blank (shown as DATA NEEDED).' }));
+  S.year.inputs.manual = S.year.inputs.manual || {};
+  var rowsM = MANUAL_ROWS.map(function (x) { var id = x[0], cur = S.year.inputs.manual[id] || {}; var cells = [x[1]]; ['tx', 'i', 'c', 's'].forEach(function (k) { var inp = h('input', { type: 'number', step: '0.01', value: cur[k] != null ? cur[k] : '', disabled: !S.canWrite, style: 'width:110px' }); inp.addEventListener('change', function () { var o = S.year.inputs.manual[id] = S.year.inputs.manual[id] || {}; if (inp.value === '') delete o[k]; else o[k] = Number(inp.value); }); cells.push(inp); }); return { cells: cells }; });
+  c4.appendChild(tbl(['Row', 'Taxable value', 'IGST', 'CGST', 'SGST'], rowsM));
+  c4.appendChild(h('div', { class: 'bar', style: 'margin-top:10px' }, h('button', { text: 'Save inputs', disabled: !S.canWrite, onclick: saveInputs }), h('button', { class: 'pri', text: 'Save and recalculate', disabled: !S.canWrite || !haveMem(), onclick: async function () { await saveInputs(); await runAnalysis(true); } })));
+  box.appendChild(c4); box.appendChild(closingBlock()); return box;
+}
+
+/* ---------------- Mode 1 additions ---------------- */
+function stampText() {
+  var rv = (S.year && S.year.review) || {}, ss = S.sess || {};
+  return 'DRAFT - prepared by ' + (ss.name || '?') + ' (' + (ss.role || '?') + '). Reviewed by senior before filing: ' + (rv.done === 'Yes' ? 'Yes - ' + (rv.by || '') + ' (' + (rv.role || '') + ')' : 'No');
+}
+function viewStamp() {
+  var rv = (S.year && S.year.review) || {}, ss = S.sess || {}, isSenior = ss.role === 'Senior' || ss.role === 'Partner';
+  var sel = h('select', { disabled: !S.canWrite || !isSenior }); ['No', 'Yes'].forEach(function (v) { var o = h('option', { value: v, text: v }); if ((rv.done || 'No') === v) o.selected = true; sel.appendChild(o); });
+  sel.addEventListener('change', function () { S.year.review = { done: sel.value, by: ss.name, role: ss.role, at: new Date().toISOString() }; saveInputs(); });
+  return h('div', { class: 'card stamp' }, h('div', { class: 'bar' }, h('b', { text: stampText() }), h('span', { class: 'note', text: 'Reviewed by senior:' }), sel,
+    h('span', { class: 'note', text: isSenior ? 'You can mark this as reviewed only after checking it yourself.' : 'Only a Senior or Partner can mark this Yes. Maker and checker must be different people.' })),
+    h('div', { class: 'note', text: 'This is a working draft. It is not a final return and must not be filed without senior review. Mode 1: FY ' + S.fy + ' year-end vetting, strictly on filed data.' }));
+}
+function closingBlock() {
+  var R = S.result, a = [], d = [], r = [];
+  a.push('Filed GSTR-1 / 3B / 2B files are taken as correct and complete as uploaded. Nothing is assumed beyond them.');
+  a.push('Tolerance for differences: Rs ' + ((buildCtx().tol)) + '. Smaller gaps are not raised.');
+  a.push('Interest start date for an item is the 3B due date (20th of next month) of its month; payment date ' + (R && R.exposure ? R.exposure.payDate + (R.exposure.payDateAssumed ? ' (assumed = today; enter your date under Files & inputs)' : '') : 'DATA NEEDED') + '.');
+  a.push('Rates used in exposure (interest 18% / 24%, penalty 10% or Rs 10,000, fraud 100%, reductions 15/25/50%) are from secondary sources. VERIFY on the GST portal / latest notification.');
+  a.push('GSTR-9 due date taken as 31 Dec 2026. CONFIRM on the portal.');
+  a.push('6A1 (earlier-year ITC) uses the 2B date as a proxy. 9R and 12F sign orientation is not verified against the official 9C utility.');
+  a.push('GSTIN check is done only on GSTR-1 JSON. Other file types carry no reliable GSTIN, so the user must make sure they belong to this client.');
+  if (R && R.gstr9 && R.gstr9._meta && R.gstr9._meta.fullInvoiceMonths < (R.monthly || []).length) a.push('Tables 4B / 4I are derived net for ' + ((R.monthly || []).length - R.gstr9._meta.fullInvoiceMonths) + ' months (no invoice-level GSTR-1).');
+  var months = A.fyMonths(S.fy);
+  [['r1', 'GSTR-1'], ['tb', 'GSTR-3B'], ['b2', 'GSTR-2B']].forEach(function (x) { var miss = months.filter(function (m) { return !S.mem[x[0]][m]; }); if (miss.length && haveMem()) d.push(x[1] + ' not received for: ' + miss.map(A.monthLabel).join(', ') + '. DATA NEEDED'); });
+  if (!S.mem.cash) d.push('Cash ledger. DATA NEEDED'); if (!S.mem.credit) d.push('Credit ledger. DATA NEEDED'); if (!S.mem.outward) d.push('Sales register. DATA NEEDED'); if (!S.mem.itc) d.push('Purchase / ITC register. DATA NEEDED');
+  if (S.year && S.year.inputs && S.year.inputs.fsTurnover == null) d.push('Audited financials (9C 5A and the reconciling items). DATA NEEDED');
+  if (R && R.dataNeeded) R.dataNeeded.filter(function (x) { return !x.have; }).forEach(function (x) { d.push(x.label + '. DATA NEEDED'); });
+  if (R) {
+    var hi = R.exceptions.filter(function (e) { return e.sev === 'high'; }).length; if (hi) r.push(hi + ' high-priority points need a senior decision before anything is filed.');
+    var nb = R.exceptions.filter(function (e) { return e.cls === 'b'; }).length; if (nb) r.push(nb + ' points are class (b): DRC-03 payment. Confirm amount, head and date.');
+    var nd = R.exceptions.filter(function (e) { return e.cls === 'd'; }).length; if (nd) r.push(nd + ' points are class (d): ITC reversal or reclaim. Confirm with the purchase register and 2B.');
+    r.push('Confirm GSTR-9 / 9C due date, late-fee tier and section 74A time limits and penalty rates on the portal.');
+    r.push('Tables 10 to 16 and 18, Part V and 9C Tables 14 and 16 are not built here. Prepare them by hand.');
+    r.push('9C is self-certified by the taxpayer: senior to read each reconciling item and its document before sign-off.');
+  }
+  function list(t, L) { return h('div', {}, h('h3', { text: t }), L.length ? h('ul', {}, L.map(function (x) { return h('li', { text: x }); })) : h('p', { class: 'note', text: 'None.' })); }
+  return h('div', { class: 'card' }, h('h2', { text: 'Close-out of this output' }), list('(a) Assumptions made', a), list('(b) Data not received', d), list('(c) Points for senior review', r), h('p', { class: 'note', text: stampText() }));
+}
+function viewExpo() {
+  var R = S.result; if (!R) return empty(); var X = R.exposure, L = R.lateFee, box = h('div', { class: 'wrap' });
+  var c1 = h('div', { class: 'card' }, h('h2', { text: 'Section 74A / 50 exposure and DRC-03 computation (draft)' }));
+  c1.appendChild(h('p', { class: 'note', text: 'Only class (b) and (d) items with a known month are priced. Opportunities (unclaimed ITC) are not counted. Payment date used: ' + X.payDate + (X.payDateAssumed ? ' (assumed today)' : '') + '. All rates and time limits: VERIFY on the GST portal / latest notification (secondary sources).' }));
+  c1.appendChild(tbl(['Ref', 'Issue', 'Class', 'Tax', 'Int. rate %', 'Interest from', 'Days', 'Interest', 'Pay now (tax + interest)', 'If notice: + penalty', 'Fraud 100% case'],
+    X.rows.map(function (r) { return { cells: [r.id, r.title, r.cls.toUpperCase(), money(r.tax), r.rate, r.from || 'DATA NEEDED', r.days == null ? '' : r.days, r.interest == null ? 'DATA NEEDED' : money(r.interest), r.voluntary == null ? 'DATA NEEDED' : money(r.voluntary), r.afterNotice == null ? 'DATA NEEDED' : money(r.afterNotice), r.fraud100 == null ? 'DATA NEEDED' : money(r.fraud100)] }; }), { num: [3, 4, 6, 7, 8, 9, 10] }));
+  var t = X.tot;
+  c1.appendChild(h('div', { class: 'grid', style: 'margin-top:10px' }, kpi('Tax at stake', money(t.tax)), kpi('Option 1: pay before notice (tax + interest, no penalty)', money(t.voluntary)), kpi('Option 2: wait, order passed (tax + interest + 10% / Rs 10,000 penalty)', money(t.afterNotice), true), kpi('Option 3: fraud / suppression alleged (tax + interest + 100%)', money(t.fraud), true), kpi('Saving by paying voluntarily', money(t.afterNotice - t.voluntary))));
+  if (X.dataNeeded.length) c1.appendChild(h('div', { class: 'msg' }, 'Not priced: ' + X.dataNeeded.join(' | ')));
+  c1.appendChild(h('p', { class: 'note', text: 'Rule summary (VERIFY): s.74A applies from FY 2024-25. Notice within 42 months of the annual-return due date. Non-fraud penalty: 10% of tax or Rs 10,000, whichever is higher; nil if tax and interest are paid before notice or within 60 days of notice. Fraud: 100% of tax, reduced to 15% / 25% / 50% if paid before notice / within 60 days of notice / within 60 days of order. Interest s.50(1) 18%; s.50(3) 24% for ITC wrongly availed and utilised. DRC-03 head-wise split (IGST / CGST / SGST) is DATA NEEDED: take it from the invoice behind each item.' }));
+  box.appendChild(c1);
+  var c2 = h('div', { class: 'card' }, h('h2', { text: 'Late fee for GSTR-9 / 9C (section 47(2))' }));
+  c2.appendChild(tbl(['Item', 'Value'], [{ cells: ['Due date used', L.due + '  -  ' + L.dueNote] }, { cells: ['Aggregate turnover used (GSTR-9 5N)', money(L.turnover)] }, { cells: ['Slab', L.tier] }, { cells: ['Fee per day (CGST + SGST)', money(L.perDay)] }, { cells: ['Cap (% of turnover)', money(L.cap)] }, { cells: ['Expected filing date', L.fileDate || 'DATA NEEDED (enter under Files & inputs)'] }, { cells: ['Days late', L.days == null ? '' : L.days] }, { cells: ['Late fee', L.fee == null ? 'DATA NEEDED' : money(L.fee)] }]));
+  c2.appendChild(h('p', { class: 'note', text: L.note }));
+  box.appendChild(c2); box.appendChild(closingBlock()); return box;
+}
+function viewChk() {
+  var R = S.result; var box = h('div', { class: 'wrap' }), c = h('div', { class: 'card' }, h('h2', { text: 'Checks that need data from outside the uploaded files' }));
+  c.appendChild(h('p', { class: 'note', text: 'Tick a line only after the check is done and the working is kept in the file. Anything not ticked is shown as DATA NEEDED in the close-out. These do not change the numbers.' }));
+  var list = (R && R.dataNeeded) || A.dataNeeded({ inputs: {} }, { _meta: {} }, []);
+  S.year.chk = S.year.chk || {};
+  list.forEach(function (x) { var cb = h('input', { type: 'checkbox', disabled: !S.canWrite }); cb.checked = !!S.year.chk[x.key]; cb.addEventListener('change', function () { S.year.chk[x.key] = cb.checked; saveInputs(); }); c.appendChild(h('label', { class: 'row' }, cb, h('span', {}, h('b', { text: x.label }), h('div', { class: 'note', text: x.why })))); });
+  c.appendChild(h('p', { class: 'note', text: 'After ticking, press Calculate again so the close-out is refreshed.' }));
+  box.appendChild(c); box.appendChild(closingBlock()); return box;
+}
+function viewGate() {
+  var g = h('div', { class: 'card gate' }, h('h2', { text: 'Start a session' }), h('p', { class: 'note', text: 'One client and one GSTIN per session. To work on another client, start a new session; nothing is carried over.' }));
+  var f = {};
+  function field(label, el) { return h('label', {}, label, el); }
+  f.mode = h('select', {}, h('option', { value: '1', text: 'Mode 1 - FY year-end vetting of GSTR-9 / 9C (filed data)' }), h('option', { value: '2', text: 'Mode 2 - FY 2026-27 monthly compliance (not in this version yet)' }));
+  f.client = h('input', { type: 'text', list: 'clientlist', placeholder: 'Client name' }); var dl = h('datalist', { id: 'clientlist' }); S.clients.forEach(function (c) { dl.appendChild(h('option', { value: c.name })); });
+  f.gstin = h('input', { type: 'text', placeholder: '15-character GSTIN', maxlength: 15 });
+  f.state = h('select', {}, h('option', { value: '', text: 'Select state' })); Object.keys(STATES).forEach(function (k) { f.state.appendChild(h('option', { value: k, text: k + ' - ' + STATES[k] })); });
+  f.fy = h('select', {}); FYS.forEach(function (x) { var o = h('option', { value: x, text: 'FY ' + x }); if (x === '2025-26') o.selected = true; f.fy.appendChild(o); });
+  f.name = h('input', { type: 'text', placeholder: 'Your name', value: ls('gst.uname') || '' });
+  f.role = h('select', {}); ROLES.forEach(function (r) { var o = h('option', { value: r, text: r }); if (r === (ls('gst.urole') || '')) o.selected = true; f.role.appendChild(o); });
+  f.client.addEventListener('change', function () { var c = S.clients.filter(function (x) { return x.name === f.client.value; })[0]; if (c) { f.gstin.value = c.gstin || ''; if (c.gstin) f.state.value = c.gstin.slice(0, 2); } });
+  f.gstin.addEventListener('input', function () { f.gstin.value = f.gstin.value.toUpperCase(); if (f.gstin.value.length >= 2 && STATES[f.gstin.value.slice(0, 2)]) f.state.value = f.gstin.value.slice(0, 2); });
+  var form = h('form', { class: 'inp' }, field('Mode', f.mode), field('Client name', f.client), dl, field('GSTIN', f.gstin), field('State', f.state), field('Financial year', f.fy), field('Your name', f.name), field('Your role', f.role));
+  form.addEventListener('submit', function (e) { e.preventDefault(); });
+  var gv = S.gv; if (gv) { f.mode.value = gv.mode; f.client.value = gv.client; f.gstin.value = gv.gstin; f.state.value = gv.state; f.fy.value = gv.fy; f.name.value = gv.name; f.role.value = gv.role; }
+  g.appendChild(form);
+  if (S.gateErr) g.appendChild(h('div', { class: 'msg err', text: S.gateErr }));
+  g.appendChild(h('div', { class: 'bar', style: 'margin-top:10px' }, h('button', { class: 'pri', text: 'Start session', onclick: function () { startSession({ mode: f.mode.value, client: f.client.value.trim(), gstin: f.gstin.value.trim().toUpperCase(), state: f.state.value, fy: f.fy.value, name: f.name.value.trim(), role: f.role.value }); } })));
+  return g;
+}
+async function startSession(v) {
+  S.gv = v;
+  var miss = []; if (!v.client) miss.push('client name'); if (!v.gstin) miss.push('GSTIN'); if (!v.state) miss.push('state'); if (!v.name) miss.push('your name'); if (!v.role) miss.push('your role');
+  if (miss.length) { S.gateErr = 'Please fill: ' + miss.join(', ') + '.'; render(); return; }
+  if (v.mode !== '1') { S.gateErr = 'Mode 2 (monthly FY 2026-27) is the next build and is not in this version. Please choose Mode 1.'; render(); return; }
+  if (!/^\d{2}[A-Z]{5}\d{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(v.gstin)) { S.gateErr = 'GSTIN format is wrong. It must be 15 characters like 07AAAAA0000A1Z5.'; render(); return; }
+  if (v.gstin.slice(0, 2) !== v.state) { S.gateErr = 'GSTIN starts with state code ' + v.gstin.slice(0, 2) + ' (' + (STATES[v.gstin.slice(0, 2)] || 'unknown') + ') but you selected ' + v.state + ' - ' + STATES[v.state] + '. Please correct one of them.'; render(); return; }
+  var byName = S.clients.filter(function (c) { return c.name.toLowerCase() === v.client.toLowerCase(); })[0];
+  var byG = S.clients.filter(function (c) { return (c.gstin || '').toUpperCase() === v.gstin; })[0];
+  if (byName && byName.gstin && byName.gstin.toUpperCase() !== v.gstin) { S.gateErr = 'Client "' + byName.name + '" is saved with GSTIN ' + byName.gstin + ', not ' + v.gstin + '. Two GSTINs are not mixed under one client.'; render(); return; }
+  if (byG && byG.name.toLowerCase() !== v.client.toLowerCase()) { S.gateErr = 'GSTIN ' + v.gstin + ' is already saved under client "' + byG.name + '". Use that name.'; render(); return; }
+  S.gateErr = ''; S.mem = emptyMem(); S.files = []; S.raw = {}; S.result = null; S.msg = ''; S.err = ''; S.fy = v.fy; ls('gst.fy', v.fy); ls('gst.uname', v.name); ls('gst.urole', v.role);
+  S.sess = { mode: 1, name: v.name, role: v.role, gstin: v.gstin, state: v.state, fy: v.fy, client: v.client, at: new Date().toISOString() };
+  S.mem.gstin = v.gstin;
+  if (byName || byG) { S.cid = (byName || byG).id; ls('gst.cid', S.cid); await loadYear(); }
+  else if (S.db && S.canWrite) { await createClient(v.client, v.gstin); }
+  else { S.cid = null; S.year = { inputs: {}, exStatus: {}, files: [] }; }
+  S.tab = 'data'; render();
+}
+function endSession() { S.sess = null; S.mem = emptyMem(); S.files = []; S.raw = {}; S.result = null; S.cid = null; S.year = { inputs: {}, exStatus: {}, files: [] }; S.msg = ''; S.err = ''; render(); }
+
+function exportXlsx() {
+  var R = S.result; if (!R || !S.downloads) return;
+  var wb = XLSX.utils.book_new(); function add(n, aoa) { XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(aoa), n.slice(0, 31)); }
+  var st = (S.year && S.year.exStatus) || {};
+  var cov = [[stampText()], ['Client', S.sess.client], ['GSTIN', S.sess.gstin], ['State', (STATES[S.sess.state] || '') + ' (' + S.sess.state + ')'], ['FY', S.fy], ['Mode', 'Mode 1 - year-end vetting on filed data'], ['Prepared by', S.sess.name + ' (' + S.sess.role + ')'], ['Generated', new Date().toLocaleString('en-IN')], ['Overall risk (draft)', R.risk], ['Not final. Senior review required before filing.']];
+  add('Cover', cov);
+  add('Exceptions', [['Severity', 'Area', 'Point', 'Detail', 'Amount', 'Action', 'Affects', 'Class', 'Class meaning', 'Section / rule', 'By when', 'Status', 'Note']].concat(R.exceptions.map(function (e) { var s = st[hash(e.area + '|' + e.ref + '|' + e.title.replace(/[\d,.\-]+/g, '#'))] || {}; return [e.sev, e.area, e.title, e.detail, e.amount, e.action, e.table, (e.cls || '').toUpperCase(), e.clsText || '', e.law || '', e.by || '', s.st || 'open', s.note || '']; })));
+  var X = R.exposure, Lf = R.lateFee; add('Exposure DRC-03', [[stampText()], ['Payment date used', X.payDate + (X.payDateAssumed ? ' (assumed)' : '')], ['Rates are secondary-source: VERIFY on the GST portal / latest notification'], ['Ref', 'Issue', 'Class', 'Tax', 'Int rate %', 'Interest from', 'Days', 'Interest', 'Pay now', 'If notice + penalty', 'Fraud 100%']].concat(X.rows.map(function (r) { return [r.id, r.title, r.cls.toUpperCase(), r.tax, r.rate, r.from || 'DATA NEEDED', r.days, r.interest == null ? 'DATA NEEDED' : r.interest, r.voluntary == null ? 'DATA NEEDED' : r.voluntary, r.afterNotice == null ? 'DATA NEEDED' : r.afterNotice, r.fraud100 == null ? 'DATA NEEDED' : r.fraud100]; })).concat([[], ['Total', '', '', X.tot.tax, '', '', '', X.tot.intVol, X.tot.voluntary, X.tot.afterNotice, X.tot.fraud], [], ['Late fee'], ['Due date used', Lf.due + ' (' + Lf.dueNote + ')'], ['Slab', Lf.tier], ['Per day', Lf.perDay], ['Cap', Lf.cap], ['Filing date', Lf.fileDate || 'DATA NEEDED'], ['Days late', Lf.days], ['Late fee', Lf.fee == null ? 'DATA NEEDED' : Lf.fee]]));
+  (function () { var cb = closingBlock(); var rows = [[stampText()]]; Array.prototype.forEach.call(cb.querySelectorAll('h3, li'), function (n) { rows.push([n.textContent]); }); add('Close-out', rows); })();
+  var g = [['Pt', 'Description', 'Taxable', 'IGST', 'CGST', 'SGST', 'Status', 'Source', 'Note']]; ['4', '5', '6', '7', '8'].forEach(function (k) { g.push([R.gstr9[k].title]); R.gstr9[k].rows.forEach(function (r) { g.push([r.id, r.label, r.v.tx, r.v.i, r.v.c, r.v.s, r.status, r.src, r.note]); }); });
+  g.push(['Table 9']); R.gstr9['9'].rows9.forEach(function (r) { g.push([r.label, 'payable ' + r.payable, 'cash ' + r.cash, 'IGST credit ' + r.itcI, 'CGST credit ' + r.itcC, 'SGST credit ' + r.itcS]); });
+  add('GSTR-9', g);
+  var c = [['Pt', 'Description', 'Amount', 'Status', 'Source', 'Note']]; R.gstr9.c.turnover.concat(R.gstr9.c.itc).forEach(function (r) { c.push([r.id, r.label, r.v, r.status, r.src, r.note]); }); add('9C bridge', c);
+  add('Month', [['Month', 'R1 taxable', '3B taxable', 'Register taxable', '3B 4A5 CGST', '2B net CGST', 'Books ITC CGST', 'Flags']].concat(R.monthly.map(function (m) { return [m.label, m.r1.have ? m.r1.declared.tx : null, m.tb.have ? m.tb.a.tx : null, m.reg.tx, m.tb.have ? m.tb.a5.c : null, m.b2.have ? m.b2.c : null, m.itcreg.c, m.flags.join(', ')]; })));
+  var L = R.itc.lists || {}; [['onlyBooks', 'ITC books only'], ['only2b', 'ITC 2B only']].forEach(function (x) { add(x[1], [['GSTIN', 'Party', 'Invoice', 'Date', 'IGST', 'CGST', 'SGST']].concat((L[x[0]] || []).map(function (r) { return [r.g, r.p, r.inv, r.d, r.i, r.c, r.s]; }))); });
+  add('ITC amount differs', [['GSTIN', 'Invoice', 'Date', 'Books CGST', '2B CGST', 'Diff CGST', 'Diff IGST']].concat((L.mismatch || []).map(function (r) { return [r.g, r.inv, r.d, r.booksTax.c, r.b2Tax.c, r.diff.c, r.diff.i]; })));
+  var out = XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
+  var c0 = S.clients.filter(function (x) { return x.id === S.cid; })[0];
+  S.downloads.save({ filename: slug(c0 ? c0.name : 'client') + '_GSTR9_' + S.fy + '.xlsx', data: out }).then(function () { S.msg = 'Workbook ready.'; render(); }).catch(function (e) { S.err = 'Download did not go through: ' + (e && (e.message || e.code) || e); render(); });
+}
+
+/* ---------------- shell ---------------- */
+function render() {
+  $who.textContent = S.uid ? (S.canWrite ? 'signed in' : 'signed in, view only') : 'not signed in: results will not be saved';
+  var root = document.createElement('div'); root.style.cssText = 'display:flex;flex-direction:column;gap:14px';
+  if (S.msg) root.appendChild(h('div', { class: 'msg', text: S.msg })); if (S.err) root.appendChild(h('div', { class: 'msg err', text: S.err }));
+  if (S.busy) root.appendChild(h('div', { class: 'msg', id: 'busy', text: S.busy }));
+  if (!S.sess) { root.appendChild(viewGate()); $root.replaceChildren(root); return; }
+  var main = h('div', { class: 'wrap' });
+  var cur = { name: S.sess.client, gstin: S.sess.gstin };
+  var top = h('div', { class: 'card' }, h('div', { class: 'bar' }, h('b', { text: cur ? cur.name : 'Working without a saved client' }), cur && cur.gstin ? h('span', { class: 'mono note', text: cur.gstin }) : null,
+    (function () { var s = h('select'); FYS.forEach(function (f) { var o = h('option', { value: f, text: 'FY ' + f }); if (f === S.fy) o.selected = true; s.appendChild(o); }); s.addEventListener('change', function () { S.fy = s.value; S.sess.fy = S.fy; ls('gst.fy', S.fy); loadYear(); }); return s; })(),
+    S.year && S.year.updatedAt ? h('span', { class: 'note', text: 'Saved ' + new Date(S.year.updatedAt).toLocaleString('en-IN') }) : null,
+    h('span', { class: 'note', text: 'Mode 1 - ' + (STATES[S.sess.state] || '') + ' - ' + S.sess.name + ' (' + S.sess.role + ')' }),
+    h('button', { text: 'Export Excel', disabled: !S.result || !S.downloads, onclick: exportXlsx }), h('button', { text: 'End session / change client', onclick: endSession })));
+  main.appendChild(top); main.appendChild(viewStamp());
+  var tabs = h('div', { class: 'tabs' }); TABS.forEach(function (t) { tabs.appendChild(h('button', { class: S.tab === t[0] ? 'on' : '', text: t[1], onclick: function () { S.tab = t[0]; render(); } })); });
+  main.appendChild(tabs);
+  var views = { expo: viewExpo, chk: viewChk, summary: viewSummary, g9: viewG9, g9c: viewG9C, itc: viewITC, month: viewMonth, sales: viewSales, data: viewData };
+  main.appendChild(S.year ? views[S.tab]() : h('div', { class: 'card', text: 'Loading…' }));
+  root.appendChild(main);
+  $root.replaceChildren(root);
+}
+
+/* ---------------- start ---------------- */
+async function init() {
+  S.fy = ls('gst.fy') || '2025-26'; S.year = { inputs: {}, exStatus: {}, files: [] }; render();
+  var cl = window.claude; if (!cl) { S.err = 'Runs only inside Claude. Saving is off.'; render(); return; }
+  try { S.user = await cl.use('user'); } catch (e) { }
+  try { S.downloads = await cl.use('downloads'); } catch (e) { }
+  try { S.assets = await cl.use('assets'); } catch (e) { }
+  try { S.db = await cl.use('db'); } catch (e) { }
+  if (S.user) { try { S.uid = await S.user.id(); } catch (e) { } var cw = S.user.can && S.user.can('data.write'); S.canWrite = cw !== false; }
+  if (!S.db) { S.err = 'Saved data is off in this view (sign in to Claude with access to this page). You can still read files and calculate.'; }
+  else {
+    var first = true; S.db.collection('clients').onSnapshot(function (snap) {
+      S.clients = snap.docs.map(function (d) { return Object.assign({ id: d.id }, d.data()); }).sort(function (a, b) { return a.name < b.name ? -1 : 1; });
+      if (first) { first = false; var want = ls('gst.cid'); if (want && S.clients.some(function (c) { return c.id === want; })) { S.cid = want; loadYear(); return; } }
+      render();
+    }, function (e) { S.err = 'Could not read clients: ' + (e && e.message || e); render(); });
+  }
+  render();
+}
+init();
+})();
+
+</script>
